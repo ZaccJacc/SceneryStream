@@ -1,0 +1,150 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SceneryStream.MainWindow"
+        Title="SceneryStream"
+
+	    TransparencyLevelHint="AcrylicBlur"
+	    Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
+
+
+	
+	<Window.Styles>
+		<Style Selector="TabControl">
+			<Setter Property="TabStripPlacement" Value="Left"/>
+			<Setter Property="Margin" Value="0,35,0,0"/>
+		</Style>
+		<Style Selector="TabControl WrapPanel">
+			<Setter Property="Background" Value="#d4d6d9"/>
+		</Style>
+
+		<Style Selector="TabItem">
+			<Setter Property="FocusAdorner" Value="{x:Null}"/>
+			<Setter Property="Width" Value="200"/>
+			<Setter Property="FontSize" Value="21"/>
+			<Setter Property="Height" Value="34"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Background" Value="#d4d6d9"/>
+			<Setter Property="Foreground" Value="#94a0b0"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+		</Style>
+		
+		<Style Selector="TabItem:focus">
+			<Setter Property="Background" Value="#f0f0f0"/>
+			<Setter Property="Foreground" Value="#94a0b0"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+		
+
+		<Style Selector="TabItem:selected">
+			<Setter Property="Foreground" Value="#94a0b0"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+
+		<Style Selector="Label">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+		<Style Selector="FlyoutPresenter.FlyoutPresenter">
+			<Setter Property="Width" Value="450"/>
+		</Style>
+
+		<Style Selector="CheckBox">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+		<Style Selector="Button">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+	</Window.Styles>
+
+
+	<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+		<Grid>
+			<!--Acrylic background for the pretties-->
+			<Panel>
+				<ExperimentalAcrylicBorder IsHitTestVisible="False">
+					<ExperimentalAcrylicBorder.Material>
+						<ExperimentalAcrylicMaterial
+							BackgroundSource="Digger"
+							TintColor="#f0f0f0"
+							TintOpacity="0.8"
+							MaterialOpacity="0.5" />
+					</ExperimentalAcrylicBorder.Material>
+				</ExperimentalAcrylicBorder>
+			</Panel>
+			<!--Little rectangle to fix the gap at the top of the menubar-->
+			<Rectangle Width="200" Height="35" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+			<Canvas Margin="7,9,0,0">
+				<Image Source="/Assets/XLogo.png" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				<Label Content="Scenery Stream" Margin="21,-3,0,0" FontWeight="Bold" Foreground="#94a0b0"/>
+			</Canvas>
+			<!--Menubar at the side-->	
+			<TabControl x:Name="MenuTabs" SelectedIndex="0">
+				<TabItem x:Name="ServerConnection" Header="Connect">
+					<Canvas>
+						<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
+					</Canvas>
+				</TabItem>
+				<TabItem x:Name="Settings" Header="Preferences">
+					<Canvas x:Name="DrawingCanvas">
+						<!--Controller settings-->
+						<Label Content="Simulator Settings" FontSize="21" FontWeight="Medium" Margin="5,0,0,0"/>
+						<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" MinWidth="240" Margin="5,40,0,0"/>
+						<Button x:Name="Browse" Margin="246,40,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Click="HandleBrowser">
+							<Panel>
+								<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							</Panel>
+						</Button>
+						<Button x:Name="AcceptSimDir" Margin="284,40,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" CornerRadius="5">
+							<Panel>
+								<Image Source="/Assets/Tick.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							</Panel>
+						</Button>
+						<CheckBox x:Name="SceneryElsewhere_Check" IsChecked="False" IsDefault="False" Margin="5,85,0,0" PointerWheelChanged="FlyoutHandle_Pointer" Content="Using custom scenery locations" Click="UsingCustomLocations" Tag="0" FontSize="18"/>
+						<TextBox x:Name="OtherSceneryLocationField" Watermark="Other Scenery Directories" MinWidth="240" Margin="5,130,0,0" IsVisible="False"/>
+						<Button x:Name="BrowseCustom" Margin="246,130,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+							<Panel>
+								<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							</Panel>
+						</Button>
+						<Button x:Name="AddDirectory" Margin="284,130,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomDirectory">
+							<Panel>
+								<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+							</Panel>
+						</Button>
+						<ListBox x:Name="OtherDirectoryList" Margin="5,162,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+										<TextBlock Text="{Binding}"/>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+						<!--Divider-->
+						<Line StartPoint="450,0" EndPoint="450,1030" Stroke="Black" StrokeThickness="1" Opacity="0.6"/>
+						<!--Integration settings-->
+						<Label Content="Integration Settings" FontSize="21" FontWeight="Medium" Margin="490,0,0,0"/>
+						<CheckBox x:Name="MaintenanceUpdates" IsChecked="True" Margin="490,35,0,0" Content="Receive maintenance notifications in-sim" FontSize="18"/>
+						<Label Content="Popup Verbosity" FontSize="16" Margin="490,75,0,0"/>
+						<ComboBox x:Name="PopupVerbosity" MinWidth="250" Margin="615,75,0,0" SelectedIndex="0" >
+							<ComboBoxItem Content="Service updates"/>
+							<ComboBoxItem Content="Service warnings only"/>
+						</ComboBox>
+						<!--Controller config-->
+						<Line StartPoint="451,125" EndPoint="1690,125" Stroke="Black" StrokeThickness="1" Opacity="0.6"/>
+						<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="490,135,0,0"/>
+						<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" Margin="490,185,0,0" CornerRadius="5"/>
+					</Canvas>
+				</TabItem>
+			</TabControl>
+		</Grid>
+	</ScrollViewer>
+</Window>
