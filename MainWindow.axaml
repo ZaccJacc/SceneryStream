@@ -8,7 +8,8 @@
 
 	    TransparencyLevelHint="AcrylicBlur"
 	    Background="Transparent"
-		ExtendClientAreaToDecorationsHint="True">
+		ExtendClientAreaToDecorationsHint="True"
+		WindowState="Maximized">
 
 
 	
@@ -76,7 +77,7 @@
 				</ExperimentalAcrylicBorder>
 			</Panel>
 			<!--Little rectangle to fix the gap at the top of the menubar and have app title-->	
-			<Rectangle Width="210" Height="1920" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+			<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 			<Canvas Margin="17,17,0,0" Background="Transparent" PointerPressed="ThrowCredits" VerticalAlignment="Top" HorizontalAlignment="Left">
 				<Image Source="/Assets/XLogo.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				<Label Content="Scenery Stream" Margin="26,-1,0,0" FontWeight="Bold" Foreground="#94a0b0" FontSize="15"/>

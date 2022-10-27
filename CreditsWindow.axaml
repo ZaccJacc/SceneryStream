@@ -75,15 +75,20 @@
 					</ExperimentalAcrylicBorder.Material>
 				</ExperimentalAcrylicBorder>
 			</Panel>
-			<TextBlock Margin="90,90,0,0" FontFamily="Consolas" FontSize="11">
+			<Label Content="Developers" Margin="90,90,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium"/>
+			<Label Content="Croissant              Discord: ∙croissant∙#8308" Margin="90,120,0,0" FontSize="15"/>
+
+			<Label Content="Designers" Margin="90,155,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium"/>
+			<Label Content="Simleybob            Discord: Simleybob#6691" Margin="90,185,0,0" FontSize="15"/>
+			<Label Content="Croissant              Discord: ∙croissant∙#8308" Margin="90,210,0,0" FontSize="15"/>
+			<TextBlock Margin="90,470,0,0" FontFamily="Consolas" FontSize="11">
 Software copyright © XSS Group 2022
 Unauthorised redistribution, modification, or other usage of this software is a punishable offence.
 
-All associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the "X-Plane X Logo" are property of Laminar Research and copyright © X-Plane 2022.
+All Laminar Research associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the X-Plane X Logo are property of Laminar Research and copyright © X-Plane 2022.
 
-No orthophotos generated or hosted are owned by XSS group. All attribution goes to the independent service providers. They are redistributed under the nonprofit regulations of the source providers.
+No orthophotos generated or hosted are owned by XSS group. All attribution goes to the independent service providers.
 
-XSS Group is a nonprofit group - this governs our appropriate distribution of finance to the service providers.
 			</TextBlock>
 		</Grid>
 	</ScrollViewer>
