@@ -81,7 +81,7 @@
 			</Panel>
 			<!--Little rectangle to fix the gap at the top of the menubar and have app title-->
 			<Rectangle Width="200" Height="35" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-			<Canvas Margin="13,13,0,0" Background="Transparent">
+			<Canvas Margin="13,13,0,0" Background="Transparent" PointerPressed="ThrowCredits" VerticalAlignment="Top" HorizontalAlignment="Left">
 				<Image Source="/Assets/XLogo.png" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				<Label Content="Scenery Stream" Margin="21,-3,0,0" FontWeight="Bold" Foreground="#94a0b0"/>
 			</Canvas>
@@ -94,8 +94,8 @@
 				</TabItem>
 				<TabItem x:Name="Settings" Header="Preferences">
 					<Canvas x:Name="DrawingCanvas">
-						<!--Controller settings-->
-						<Label Content="Simulator Settings" FontSize="21" FontWeight="Medium" Margin="5,0,0,0"/>
+						<!--Scenery installation settings-->
+						<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5,0,0,0"/>
 						<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" MinWidth="240" Margin="5,45,0,0"/>
 						<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Click="HandleBrowser">
 							<Panel>
@@ -126,6 +126,10 @@
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
+						<!--Divider-->
+						<Line StartPoint="5,380" EndPoint="449,380" Stroke="Black" StrokeThickness="1" Opacity="0.6"/>
+						<!--Scenery scanning settings-->
+						<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5,400,0,0"/>
 						<!--Divider-->
 						<Line StartPoint="450,0" EndPoint="450,1030" Stroke="Black" StrokeThickness="1" Opacity="0.6"/>
 						<!--Integration settings-->

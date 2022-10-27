@@ -22,6 +22,7 @@ namespace SceneryStream
             paths = new ObservableCollection<string>();
         }
 
+
         public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)
         {
             FlyoutBase.ShowAttachedFlyout(sender as Control);
@@ -75,6 +76,12 @@ namespace SceneryStream
         public void HandleBrowser(object? sender, RoutedEventArgs e)
         {
             SimDirectory.Text = ClientSize.Height.ToString() + " " + ClientSize.Width.ToString();
+        }
+
+        public void ThrowCredits(object? sender, PointerPressedEventArgs e)
+        {
+            CreditsWindow credits = new CreditsWindow();
+            credits.Show();
         }
     }
 }

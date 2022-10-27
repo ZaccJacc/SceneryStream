@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SceneryStream.CreditsWindow"
+        Title="CreditsWindow"
+		
+		TransparencyLevelHint="AcrylicBlur"
+	    Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
+
+	<Window.Styles>
+		<Style Selector="TabControl">
+			<Setter Property="TabStripPlacement" Value="Left"/>
+			<Setter Property="Margin" Value="0,35,0,0"/>
+		</Style>
+		<Style Selector="TabControl WrapPanel">
+			<Setter Property="Background" Value="#d4d6d9"/>
+		</Style>
+
+		<Style Selector="TabItem">
+			<Setter Property="FocusAdorner" Value="{x:Null}"/>
+			<Setter Property="Width" Value="200"/>
+			<Setter Property="FontSize" Value="21"/>
+			<Setter Property="Height" Value="34"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Background" Value="#d4d6d9"/>
+			<Setter Property="Foreground" Value="#94a0b0"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+		</Style>
+
+		<Style Selector="TabItem:focus">
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+
+
+		<Style Selector="TabItem:selected">
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="Margin" Value="0 0 0 0"/>
+			<Setter Property="Padding" Value="10 0"/>
+		</Style>
+
+		<Style Selector="Label">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+		<Style Selector="FlyoutPresenter.FlyoutPresenter">
+			<Setter Property="Width" Value="450"/>
+		</Style>
+
+		<Style Selector="CheckBox">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+		<Style Selector="Button">
+			<Setter Property="FontFamily" Value="Abadi"/>
+		</Style>
+
+	</Window.Styles>
+
+	<ScrollViewer>
+		<Grid>
+			<Panel>
+				<ExperimentalAcrylicBorder IsHitTestVisible="False">
+					<ExperimentalAcrylicBorder.Material>
+						<ExperimentalAcrylicMaterial
+							BackgroundSource="Digger"
+							TintColor="#f0f0f0"
+							TintOpacity="0.8"
+							MaterialOpacity="0.5" />
+					</ExperimentalAcrylicBorder.Material>
+				</ExperimentalAcrylicBorder>
+			</Panel>
+			<Label Content="Placeholder for credits"/>
+		</Grid>
+	</ScrollViewer>
+</Window>
