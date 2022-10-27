@@ -13,10 +13,6 @@
 
 	
 	<Window.Styles>
-		<Style Selector="TabControl">
-			<Setter Property="TabStripPlacement" Value="Left"/>
-			<Setter Property="Margin" Value="0,35,0,0"/>
-		</Style>
 		<Style Selector="TabControl WrapPanel">
 			<Setter Property="Background" Value="#d4d6d9"/>
 		</Style>
@@ -79,14 +75,14 @@
 					</ExperimentalAcrylicBorder.Material>
 				</ExperimentalAcrylicBorder>
 			</Panel>
-			<!--Little rectangle to fix the gap at the top of the menubar and have app title-->
-			<Rectangle Width="200" Height="35" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-			<Canvas Margin="13,13,0,0" Background="Transparent" PointerPressed="ThrowCredits" VerticalAlignment="Top" HorizontalAlignment="Left">
-				<Image Source="/Assets/XLogo.png" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-				<Label Content="Scenery Stream" Margin="21,-3,0,0" FontWeight="Bold" Foreground="#94a0b0"/>
+			<!--Little rectangle to fix the gap at the top of the menubar and have app title-->	
+			<Rectangle Width="210" Height="1920" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+			<Canvas Margin="17,17,0,0" Background="Transparent" PointerPressed="ThrowCredits" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<Image Source="/Assets/XLogo.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				<Label Content="Scenery Stream" Margin="26,-1,0,0" FontWeight="Bold" Foreground="#94a0b0" FontSize="15"/>
 			</Canvas>
 			<!--Menubar at the side-->	
-			<TabControl x:Name="MenuTabs" SelectedIndex="0">
+			<TabControl x:Name="MenuTabs" SelectedIndex="0" TabStripPlacement="Left" Margin="10,45,0,0">
 				<TabItem x:Name="ServerConnection" Header="Connect">
 					<Canvas>
 						<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>

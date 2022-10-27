@@ -75,7 +75,16 @@
 					</ExperimentalAcrylicBorder.Material>
 				</ExperimentalAcrylicBorder>
 			</Panel>
-			<Label Content="Placeholder for credits"/>
+			<TextBlock Margin="90,90,0,0" FontFamily="Consolas" FontSize="11">
+Software copyright © XSS Group 2022
+Unauthorised redistribution, modification, or other usage of this software is a punishable offence.
+
+All associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the "X-Plane X Logo" are property of Laminar Research and copyright © X-Plane 2022.
+
+No orthophotos generated or hosted are owned by XSS group. All attribution goes to the independent service providers. They are redistributed under the nonprofit regulations of the source providers.
+
+XSS Group is a nonprofit group - this governs our appropriate distribution of finance to the service providers.
+			</TextBlock>
 		</Grid>
 	</ScrollViewer>
 </Window>
