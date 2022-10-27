@@ -32,13 +32,17 @@ namespace SceneryStream
             switch (((CheckBox)sender).Tag.ToString())
             {
                 case "0":
-                    OtherSceneryLocationField.IsVisible = true;
+                    OtherInstallationField.IsVisible = true;
                     BrowseCustom.IsVisible = true;
                     AddDirectory.IsVisible = true;
+                    if ((string)OtherDirectoryList.Tag == "1")
+                    {
+                        OtherDirectoryList.IsVisible = true;
+                    }
                     ((CheckBox)sender).Tag = 1;
                     break;
                 case "1":
-                    OtherSceneryLocationField.IsVisible = false;
+                    OtherInstallationField.IsVisible = false;
                     BrowseCustom.IsVisible = false;
                     OtherDirectoryList.IsVisible = false;
                     AddDirectory.IsVisible = false;
@@ -54,14 +58,18 @@ namespace SceneryStream
 
         public void LogCustomDirectory(object? sender, RoutedEventArgs args)
         {
-            OtherDirectoryList.IsVisible = true;
-            paths.Add(OtherSceneryLocationField.Text);
+            if ((string)OtherDirectoryList.Tag == "0")
+            {
+                OtherDirectoryList.Tag = "1";
+                OtherDirectoryList.IsVisible = true;
+            }
+            paths.Add(OtherInstallationField.Text);
             OtherDirectoryList.Items = paths;
         }
 
         public void RecallPathSelection(object? sender, SelectionChangedEventArgs e)
         {
-            OtherSceneryLocationField.Text = ((ListBox)sender).SelectedItem as string;
+            OtherInstallationField.Text = ((ListBox)sender).SelectedItem as string;
         }
 
         public void HandleBrowser(object? sender, RoutedEventArgs e)
