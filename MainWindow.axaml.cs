@@ -139,6 +139,7 @@ namespace SceneryStream
          * 
          * TODO:
          *      Program an effective mounting method (Test what has already been made in the localmachine section) and attempt to interface through this file and the primary UI logic to make the magic happen.
+         *      DON'T FORGET THAT YOU NEED TO AWAIT THE RESPONSE FROM THE PLATFORM CHECK!!!!!!
          */
     }
 }
