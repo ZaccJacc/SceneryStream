@@ -27,7 +27,7 @@ namespace SceneryStream.src
         private async Task<bool> VerifyLocalPlatform()
         {
             PlatformID system = Environment.OSVersion.Platform;
-            await Task.Delay(4000);
+            await Task.Delay(4000); //DON'T LEAVE THIS WHEN YOU ACTUALLY NEED TO DO IT!!!!
             Console.WriteLine(system);
             switch (system)
             {
