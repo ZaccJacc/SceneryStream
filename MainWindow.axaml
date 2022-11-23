@@ -84,11 +84,16 @@
 			</Canvas>
 			<!--Menubar at the side-->	
 			<TabControl x:Name="MenuTabs" SelectedIndex="0" TabStripPlacement="Left" Margin="10,45,0,0">
+				
+				<!--Connection page-->
 				<TabItem x:Name="ServerConnection" Header="Connect">
 					<Canvas>
+						<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Margin="5,150,0,0"/>
 						<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
 					</Canvas>
 				</TabItem>
+				
+				<!--Preferences page-->		
 				<TabItem x:Name="Settings" Header="Preferences">
 					<Canvas x:Name="DrawingCanvas">
 						<!--Scenery installation settings-->
