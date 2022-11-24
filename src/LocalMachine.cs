@@ -54,7 +54,7 @@ namespace SceneryStream.src
                 Console.WriteLine("[*] Initial server connection could not be made.\nVerify target socket in connection settings.");
             } else
             {
-                Task<bool> mount_location = PerformTargetLocationMounting(ADDRESS, "", true);
+                Task<bool> mount_location = PerformTargetLocationMounting(ADDRESS, "X", true);
 
                 bool mount_success = await mount_location;
                 if (mount_success)
@@ -65,8 +65,7 @@ namespace SceneryStream.src
             return true;
         }
 
-        //method overload for debug window property
-        private async Task<bool> PerformTargetLocationMounting(string address, string argv) 
+        private async Task<bool> PerformTargetLocationMounting(string address, string drive, bool debug_window)
         {
             try
             {
@@ -74,28 +73,7 @@ namespace SceneryStream.src
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.FileName = "net";
-                p.StartInfo.Arguments = $"{argv}";
-                p.Start();
-                p.WaitForExit();
-                //string output = p.StandardOutput.ReadToEnd();
-                p.Dispose();
-                return true;
-            }
-            catch
-            {
-                Console.WriteLine("[!] Untraced error");
-                return false;
-            }
-        }
-        private async Task<bool> PerformTargetLocationMounting(string address, string argv, bool debug_window)
-        {
-            try
-            {
-                Process p = new Process();
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.FileName = "net";
-                p.StartInfo.Arguments = $"{argv}";
+                p.StartInfo.Arguments = $"use {drive.ToUpper()}: \\\\{address}\\";
                 p.StartInfo.CreateNoWindow = !debug_window;
                 p.Start();
                 p.WaitForExit();
