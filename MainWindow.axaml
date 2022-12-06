@@ -90,6 +90,7 @@
 					<Canvas>
 						<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Margin="5,150,0,0"/>
 						<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
+						<TextBlock x:Name="ServerUpdate_block" Text="Placeholder updates" FontFamily="Abadi" FontSize="16"/>
 					</Canvas>
 				</TabItem>
 				
