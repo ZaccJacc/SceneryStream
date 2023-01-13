@@ -115,7 +115,7 @@ namespace Utility
                     {
                         try
                         {
-                            NetworkDrive.MapNetworkDrive(drive, address);
+                            NetworkDrive.MapNetworkDrive(drive, address); // add a way to see if it actually has done it right?
                             return true;
                         }
                         catch
