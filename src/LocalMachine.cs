@@ -109,34 +109,41 @@ namespace Utility
             internal static async Task<bool> PerformTargetLocationMounting(string address, string drive) //the only purpose of this method is to plinky plonk the actual moutning through an async task :p
             {
                 Console.WriteLine("[*] Attempting target mounting");
-               
-                return await Task.Run(async () =>
+                try
                 {
-                    try
+                    return await Task.Run(async () =>
                     {
-                        NetworkDrive.MapNetworkDrive(drive, address);
-                        return true;
-                    }
-                    catch
-                    {
-                        Console.WriteLine("[!] Untraced mounting error.");
-                        return false;
-                    }
-                /*Process p = new Process();
-                await Task.Delay(13000).ConfigureAwait(false);
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.FileName = "cmd";
-                p.StartInfo.Arguments = $"/K net use {drive.ToUpper()}: \\\\{address}"; //Might need some better formatting surrounding this address...
-                p.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                p.Start();
-                p.WaitForExit();
-                string output = p.StandardOutput.ReadToEnd();
-                Console.WriteLine(output);
-                p.Dispose();
-                Console.WriteLine("[|] Target mounting complete");
-                return true;*/
-                });//.WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
+                        try
+                        {
+                            NetworkDrive.MapNetworkDrive(drive, address);
+                            return true;
+                        }
+                        catch
+                        {
+                            Console.WriteLine("[!] Untraced mounting error.");
+                            return false;
+                        }
+                    /*Process p = new Process();
+                    await Task.Delay(13000).ConfigureAwait(false);
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.FileName = "cmd";
+                    p.StartInfo.Arguments = $"/K net use {drive.ToUpper()}: \\\\{address}"; //Might need some better formatting surrounding this address...
+                    p.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+                    p.Start();
+                    p.WaitForExit();
+                    string output = p.StandardOutput.ReadToEnd();
+                    Console.WriteLine(output);
+                    p.Dispose();
+                    Console.WriteLine("[|] Target mounting complete");
+                    return true;*/
+                    }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
+                }
+                catch(TimeoutException e)
+                {
+                    Console.WriteLine("[!] Drive mounting timed out!");
+                    return false;
+                }
 
             }
         }
