@@ -51,7 +51,7 @@ namespace SceneryStream.src
             {
                 using var cts = new CancellationTokenSource();
                 cts.CancelAfter(2000); //change this for release
-                Task<bool> attempt_mounting = Utility.Windows.System.PerformTargetLocationMounting(ADDRESS, "X", cts.Token);
+                Task<bool> attempt_mounting = Utility.Windows.System.PerformTargetLocationMounting(ADDRESS, "X", cts.Token, cts);
                 primary_connection_success = await attempt_mounting;
             }
             platform_authenticity = true;
@@ -108,7 +108,7 @@ namespace Utility
     {
         internal class System
         {
-            internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, CancellationToken ct)
+            internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, CancellationToken ct, CancellationTokenSource cts)
             {
                 Console.WriteLine("[*] Attempting target mounting");
                
@@ -118,13 +118,29 @@ namespace Utility
                     {
                         ct.ThrowIfCancellationRequested();
                         await Task.Delay(5000).ConfigureAwait(false);
-                        NetworkDrive.MapNetworkDrive(drive, address);
-                        Console.WriteLine("[@] Debug point A1");
-                        return true;
+
+                        bool thread_result = false;
+                        new Thread(async () =>
+                        {
+                            NetworkDrive.MapNetworkDrive(drive, address);
+                            Console.WriteLine("[@] Debug point A1");
+                            thread_result = true;
+                            try {cts.Cancel(); } catch { }
+                            
+                        }).Start();
+
+                        while (!cts.IsCancellationRequested)
+                        {
+                            ct.ThrowIfCancellationRequested();
+                        }
+                        cts.Cancel();
+                        Console.WriteLine("[@] Debug point A2");
+                        return thread_result;
                     }
                     catch
                     {
                         Console.WriteLine("[!] Untraced mounting error.");
+                        cts.Cancel();
                         return false;
                     }
                 /*Process p = new Process();
