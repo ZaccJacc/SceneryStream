@@ -52,7 +52,6 @@ namespace SceneryStream.src
                 Task<bool> attempt_mounting = Utility.Windows.System.PerformTargetLocationMounting(ADDRESS, "X");
                 primary_connection_success = await attempt_mounting;
             }
-            platform_authenticity = true;
         }
 
 
