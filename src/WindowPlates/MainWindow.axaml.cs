@@ -8,6 +8,8 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using System.Collections.ObjectModel;
 using SceneryStream.src;
+using System.Xml.Linq;
+using System.IO;
 
 
 namespace SceneryStream
@@ -18,6 +20,7 @@ namespace SceneryStream
                                              * objects that don't read through the list but instead use the whole thing as a source (ListBoxes) 
                                              * have to use this, because they need to be triggered to update the whole collection*/
         ObservableCollection<string> scenery_paths;
+        
 
         public MainWindow()
         {
@@ -80,6 +83,7 @@ namespace SceneryStream
         public void HandleBrowser(object? sender, RoutedEventArgs e)
         {
             SimDirectory.Text = ClientSize.Height.ToString() + " " + ClientSize.Width.ToString();
+            Utility.FileBrowser browser = new Utility.FileBrowser();
         }
 
         public void ThrowCredits(object? sender, PointerPressedEventArgs e)

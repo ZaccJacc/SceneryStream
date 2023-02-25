@@ -9,13 +9,14 @@ using System.Net.NetworkInformation;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace SceneryStream.src
 {
     public class LocalMachine
     {
         //vvvvvvvvvvvvvv//DEBUG VALUES//vvvvvvvvvvvvvv//
-        private const string ADDRESS = @"\\192.168.1.192\scenery";
+        private const string ADDRESS = @"\\192.168.1.192\Scenery";
         //^^^^^^^^^^^^^^//DEBUG VALUES//^^^^^^^^^^^^^^//
         private bool primary_connection_success;
         public bool Connected { get { return primary_connection_success; } }
@@ -97,8 +98,65 @@ namespace SceneryStream.src
 
 
 
+
 namespace Utility
 {
+    class FileBrowser
+    {
+
+        ObservableCollection<Node> Items { get; }
+        ObservableCollection<Node> SelectedItems { get; }
+        public string strFolder { get; set; }
+
+        public FileBrowser()
+        {
+            strFolder = @"C:"; // EDIT THIS FOR AN EXISTING FOLDER
+
+            Items = new ObservableCollection<Node>();
+
+            Node rootNode = new Node(strFolder);
+            rootNode.Subfolders = GetSubfolders(strFolder);
+
+            Items.Add(rootNode);
+        }
+
+        public ObservableCollection<Node> GetSubfolders(string strPath)
+        {
+            ObservableCollection<Node> subfolders = new ObservableCollection<Node>();
+            string[] subdirs = Directory.GetDirectories(strPath, "*", SearchOption.TopDirectoryOnly);
+
+            foreach (string dir in subdirs)
+            {
+                Node thisnode = new Node(dir);
+
+                if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
+                {
+                    thisnode.Subfolders = new ObservableCollection<Node>();
+
+                    thisnode.Subfolders = GetSubfolders(dir);
+                }
+
+                subfolders.Add(thisnode);
+            }
+
+            return subfolders;
+        }
+
+        public class Node
+        {
+            public ObservableCollection<Node> Subfolders { get; set; }
+
+            public string strNodeText { get; }
+            public string strFullPath { get; }
+
+            public Node(string _strFullPath)
+            {
+                strFullPath = _strFullPath;
+                strNodeText = Path.GetFileName(_strFullPath);
+            }
+        }     
+    }
+
     namespace MacOS { }
     namespace Linux { }
     namespace Windows
@@ -115,7 +173,15 @@ namespace Utility
                         try
                         {
                             NetworkDrive.MapNetworkDrive(drive, address); // add a way to see if it actually has done it right?
-                            return true;
+                            if (NetworkDrive.IsDriveMapped("X"))
+                            {
+                                return true;
+                            } 
+                            else
+                            {
+                                return false;
+                            }
+                            
                         }
                         catch
                         {
