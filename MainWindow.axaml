@@ -88,9 +88,11 @@
 				<!--Connection page-->
 				<TabItem x:Name="ServerConnection" Header="Connect">
 					<Canvas>
-						<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Margin="5,150,0,0"/>
+						<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="5" Canvas.Top="150"/>
 						<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
-						<TextBlock x:Name="ServerUpdate_block" Text="Placeholder updates" FontFamily="Abadi" FontSize="16"/>
+						<Rectangle Fill="GhostWhite" Canvas.Right="20" Canvas.Top="20" Height="40" Width="40">
+						</Rectangle>
+						<TextBlock x:Name="ServerUpdate_block" Text="Placeholder updates" FontFamily="Abadi" FontSize="16" Canvas.Right="270" Canvas.Top="140" Background="GhostWhite" />
 					</Canvas>
 				</TabItem>
 				

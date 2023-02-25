@@ -15,7 +15,7 @@ namespace SceneryStream.src
     public class LocalMachine
     {
         //vvvvvvvvvvvvvv//DEBUG VALUES//vvvvvvvvvvvvvv//
-        private const string ADDRESS = @"192.168.1.230\zachary";
+        private const string ADDRESS = @"\\192.168.1.192\scenery";
         //^^^^^^^^^^^^^^//DEBUG VALUES//^^^^^^^^^^^^^^//
         private bool primary_connection_success;
         public bool Connected { get { return primary_connection_success; } }
@@ -45,7 +45,7 @@ namespace SceneryStream.src
             bool ping_success = await pingServer;
             if (!ping_success)
             {
-                Console.WriteLine("[!] Initial server connection could not be made.\nVerify target socket in connection settings."); //Replace with viewable output in final production
+                Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
             } 
             else
             {
@@ -72,7 +72,7 @@ namespace SceneryStream.src
         private static async Task<bool> AttemptAddressPing(string address)
         {
             string[] brokenaddress = address.Split("\\");
-            address = brokenaddress[0];
+            address = brokenaddress[2];
                 try
                 {
                     PingReply reply = new Ping().Send(address, 1000);
@@ -124,7 +124,6 @@ namespace Utility
                             return false;
                         }
                     /*Process p = new Process();
-                    await Task.Delay(13000).ConfigureAwait(false);
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardOutput = true;
                     p.StartInfo.FileName = "cmd";
@@ -139,7 +138,7 @@ namespace Utility
                     return true;*/
                     }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
                 }
-                catch(TimeoutException e)
+                catch (TimeoutException)
                 {
                     Console.WriteLine("[!] Drive mounting timed out!");
                     return false;

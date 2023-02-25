@@ -33,6 +33,10 @@ namespace SceneryStream
                 {
                     Console.WriteLine("[!] Drive connection unsuccessful");
                 }
+                if(ServiceInstance.Connected && ServiceInstance.Platform_Verified) 
+                {
+                    Console.WriteLine("[#] Application initialisation success!");
+                }
             }
 
             base.OnFrameworkInitializationCompleted();
