@@ -188,19 +188,6 @@ namespace Utility
                             Console.WriteLine("[!] Untraced mounting error.");
                             return false;
                         }
-                    /*Process p = new Process();
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.FileName = "cmd";
-                    p.StartInfo.Arguments = $"/K net use {drive.ToUpper()}: \\\\{address}"; //Might need some better formatting surrounding this address...
-                    p.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                    p.Start();
-                    p.WaitForExit();
-                    string output = p.StandardOutput.ReadToEnd();
-                    Console.WriteLine(output);
-                    p.Dispose();
-                    Console.WriteLine("[|] Target mounting complete");
-                    return true;*/
                     }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
                 }
                 catch (TimeoutException)

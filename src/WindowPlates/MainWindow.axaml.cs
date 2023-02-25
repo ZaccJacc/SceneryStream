@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using SceneryStream.src;
 using System.Xml.Linq;
 using System.IO;
-
+using SceneryStream.src.WindowPlates;
 
 namespace SceneryStream
 {
@@ -83,7 +83,8 @@ namespace SceneryStream
         public void HandleBrowser(object? sender, RoutedEventArgs e)
         {
             SimDirectory.Text = ClientSize.Height.ToString() + " " + ClientSize.Width.ToString();
-            Utility.FileBrowser browser = new Utility.FileBrowser();
+            FileBrowser fileBrowser = new FileBrowser();
+            fileBrowser.Show();
         }
 
         public void ThrowCredits(object? sender, PointerPressedEventArgs e)

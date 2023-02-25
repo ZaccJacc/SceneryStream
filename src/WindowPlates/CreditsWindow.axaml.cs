@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace SceneryStream
+namespace SceneryStream.src.WindowPlates
 {
     public partial class CreditsWindow : Window
     {
@@ -9,6 +9,5 @@ namespace SceneryStream
             InitializeComponent();
         }
 
-        
     }
 }
