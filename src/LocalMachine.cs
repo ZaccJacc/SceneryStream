@@ -110,7 +110,7 @@ namespace Utility
 
         public FileBrowser()
         {
-            strFolder = @"C:"; // EDIT THIS FOR AN EXISTING FOLDER
+            strFolder = @"A:"; // EDIT THIS FOR AN EXISTING FOLDER
 
             Items = new ObservableCollection<Node>();
 
@@ -129,12 +129,16 @@ namespace Utility
             {
                 Node thisnode = new Node(dir);
 
-                if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
+                try
                 {
-                    thisnode.Subfolders = new ObservableCollection<Node>();
+                    if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
+                    {
+                        thisnode.Subfolders = new ObservableCollection<Node>();
 
-                    thisnode.Subfolders = GetSubfolders(dir);
-                }
+                        thisnode.Subfolders = GetSubfolders(dir);
+                    }
+                } catch (Exception e) { }
+                
 
                 subfolders.Add(thisnode);
             }
