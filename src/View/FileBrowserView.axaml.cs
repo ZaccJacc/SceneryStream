@@ -1,10 +1,10 @@
 using Avalonia.Controls;
 
-namespace SceneryStream.src.WindowPlates
+namespace SceneryStream.src.View
 {
-    public partial class FileBrowser : Window
+    public partial class FileBrowserView : Window
     {
-        public FileBrowser()
+        public FileBrowserView()
         {
             InitializeComponent();
             Utility.FileBrowser browser = new Utility.FileBrowser();

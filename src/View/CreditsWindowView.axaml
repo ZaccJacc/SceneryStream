@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="SceneryStream.src.View.CreditsWindow"
+        Title="CreditsWindow"
+		
+		TransparencyLevelHint="AcrylicBlur"
+	    Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
+
+	<ScrollViewer>
+		<Grid>
+			<Panel>
+				<ExperimentalAcrylicBorder IsHitTestVisible="False">
+					<ExperimentalAcrylicBorder.Material>
+						<ExperimentalAcrylicMaterial
+							BackgroundSource="Digger"
+							TintColor="#f0f0f0"
+							TintOpacity="0.8"
+							MaterialOpacity="0.5" />
+					</ExperimentalAcrylicBorder.Material>
+				</ExperimentalAcrylicBorder>
+			</Panel>
+			<Label Content="Developed and Designed by" Margin="90,90,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium"/>
+			<Label Content="Croissant		Simleybob" Margin="90,120,0,0" FontSize="15"/>
+			<!---->
+			<TextBlock Margin="90,470,0,0" FontFamily="Consolas" FontSize="11">
+Software copyright © XSS 2022-23
+Unauthorised redistribution, modification, or other usage of this software is a punishable offence.
+
+X-SceneryStream was made for XSS Group by CTDevelopments. All software attributions go to the CTDevelopments team.
+
+All Laminar Research associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the X-Plane X Logo are property of Laminar Research and copyright © X-Plane 2023.
+
+No orthophotos generated or hosted are owned by XSS group. All attribution goes to the independent service providers.
+
+			</TextBlock>
+		</Grid>
+	</ScrollViewer>
+</Window>

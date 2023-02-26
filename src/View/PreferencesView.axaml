@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="SceneryStream.src.View.PreferencesView"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel">
+
+	<UserControl.DataContext>
+		<viewModel:PreferencesViewModel/>
+	</UserControl.DataContext>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="480"/>
+			<ColumnDefinition Width="auto"/>
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="400"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+
+
+			<!--Scenery installation settings-->
+			<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+				<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240"/>
+				<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5">
+					<Panel>
+						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<Button x:Name="AcceptSimDir" Margin="284,45,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" CornerRadius="5">
+					<Panel>
+						<Image Source="/Assets/Tick.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,90,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
+				<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,135,0,0" IsVisible="False"/>
+				<Button x:Name="BrowseCustom" Margin="246,135,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+					<Panel>
+						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<Button x:Name="AddDirectory" Margin="284,135,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomInstallationDirectory">
+					<Panel>
+						<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<ListBox x:Name="OtherInstallationList" Margin="5,167,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}"/>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</Canvas>
+			<!--Scenery scanning settings-->
+			<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+				<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery addons to prevent installation conflict."/>
+				<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
+				<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}"/>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+				<Button x:Name="BrowseCustomScenery" Margin="246,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+					<Panel>
+						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<Button x:Name="AddDirectoryScenery" Margin="284,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomSceneryDirectory">
+					<Panel>
+						<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					</Panel>
+				</Button>
+			</Canvas>
+			<!--Integration settings-->
+			<Canvas Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Label Content="Integration Settings" FontSize="21" FontWeight="Medium" Grid.Column="1" Margin="5 5"/>
+				<CheckBox x:Name="MaintenanceUpdates" IsChecked="True" Content="Receive maintenance notifications in-sim" FontSize="18" Margin="5 45"/>
+				<Label Content="Popup Verbosity" FontSize="16" Margin="5 90"/>
+				<ComboBox x:Name="PopupVerbosity" MinWidth="250" SelectedIndex="0" Margin="5 125" >
+					<ComboBoxItem Content="Service updates"/>
+					<ComboBoxItem Content="Service warnings only"/>
+				</ComboBox>
+			</Canvas>
+			<!--Controller config-->
+			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Tag="{Binding PreferenceFile}" Command="{Binding _testCommand}" Margin="5 45"/>
+			</Canvas>
+	</Grid>
+
+</UserControl>

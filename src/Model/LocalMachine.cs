@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Collections.ObjectModel;
 
-namespace SceneryStream.src
+namespace SceneryStream.src.Model
 {
     public class LocalMachine
     {
@@ -47,7 +47,7 @@ namespace SceneryStream.src
             if (!ping_success)
             {
                 Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
-            } 
+            }
             else
             {
                 Task<bool> attempt_mounting = Utility.Windows.System.PerformTargetLocationMounting(ADDRESS, "X");
@@ -73,26 +73,26 @@ namespace SceneryStream.src
         {
             string[] brokenaddress = address.Split("\\");
             address = brokenaddress[2];
-                try
+            try
+            {
+                PingReply reply = new Ping().Send(address, 1000);
+                if (reply != null)
                 {
-                    PingReply reply = new Ping().Send(address, 1000);
-                    if (reply != null)
-                    {
-                        Console.WriteLine("[*] Ping Results \n\tStatus :  " + reply.Status + " \n\t Time : " + reply.RoundtripTime.ToString() + " \n\t Address : " + reply.Address); //DBUG
-                    }
-                    
-                    return true;
+                    Console.WriteLine("[*] Ping Results \n\tStatus :  " + reply.Status + " \n\t Time : " + reply.RoundtripTime.ToString() + " \n\t Address : " + reply.Address); //DBUG
                 }
-                catch
-                {
-                    Console.WriteLine("[!] Untraced connection error."); //DBUG
-                    return false;
-                }
+
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("[!] Untraced connection error."); //DBUG
+                return false;
+            }
         }
 
-        
 
-        
+
+
     }
 }
 
@@ -137,8 +137,9 @@ namespace Utility
 
                         thisnode.Subfolders = GetSubfolders(dir);
                     }
-                } catch (Exception e) { }
-                
+                }
+                catch (Exception e) { }
+
 
                 subfolders.Add(thisnode);
             }
@@ -158,7 +159,7 @@ namespace Utility
                 strFullPath = _strFullPath;
                 strNodeText = Path.GetFileName(_strFullPath);
             }
-        }     
+        }
     }
 
     namespace MacOS { }
@@ -180,12 +181,12 @@ namespace Utility
                             if (NetworkDrive.IsDriveMapped("X"))
                             {
                                 return true;
-                            } 
+                            }
                             else
                             {
                                 return false;
                             }
-                            
+
                         }
                         catch
                         {

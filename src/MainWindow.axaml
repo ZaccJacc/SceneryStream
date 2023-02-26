@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="SceneryStream.src.MainWindow"
+        Title="SceneryStream"
+		
+		xmlns:views="clr-namespace:SceneryStream.src.View"
+
+	    TransparencyLevelHint="AcrylicBlur"
+	    Background="Transparent"
+		ExtendClientAreaToDecorationsHint="False"
+		WindowState="Maximized">
+
+
+	<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+		<Grid>
+			<!--Acrylic background for the pretties-->
+			<Panel>
+				<ExperimentalAcrylicBorder IsHitTestVisible="False">
+					<ExperimentalAcrylicBorder.Material>
+						<ExperimentalAcrylicMaterial
+							BackgroundSource="Digger"
+							TintColor="#f0f0f0"
+							TintOpacity="0.8"
+							MaterialOpacity="0.5" />
+					</ExperimentalAcrylicBorder.Material>
+				</ExperimentalAcrylicBorder>
+			</Panel>
+			<!--Little rectangle to fix the gap at the top of the menubar and have app title-->	
+			<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+			<Canvas Margin="17,17,0,0" Background="Transparent" PointerPressed="ThrowCredits" VerticalAlignment="Top" HorizontalAlignment="Left">
+				<Image Source="/Assets/XLogo.png" Height="25" Width="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				<Label Content="Scenery Stream" Margin="26,-1,0,0" FontWeight="Bold" Foreground="#94a0b0" FontSize="15"/>
+			</Canvas>
+			<!--Menubar at the side-->	
+			<TabControl x:Name="MenuTabs" SelectedIndex="0" TabStripPlacement="Left" Margin="10,45,0,0">
+				<!--Home Page-->
+				<TabItem x:Name="HomePage" Header="Home">
+					<Grid>
+						<views:HomePageView x:Name="HomePageViewControl"/>
+					</Grid>
+				</TabItem>
+				<!--Connection page-->
+				<TabItem x:Name="ServerConnection" Header="Connect">
+					<Grid>
+						<views:ConnectionView x:Name="ConnectionViewControl"/>
+					</Grid>
+				</TabItem>
+				
+				<!--Preferences page-->		
+				<TabItem x:Name="Settings" Header="Preferences">
+					<Grid>
+						<views:PreferencesView x:Name="PreferencesViewControl"/>
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</Grid>
+	</ScrollViewer>
+</Window>

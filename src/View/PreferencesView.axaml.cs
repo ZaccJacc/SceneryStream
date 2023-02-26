@@ -1,38 +1,34 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
-using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
+using SceneryStream.src.ViewModel;
+using System;
 using System.Collections.ObjectModel;
-using SceneryStream.src;
-using System.Xml.Linq;
 using System.IO;
-using SceneryStream.src.WindowPlates;
+using System.Threading.Tasks;
 
-namespace SceneryStream
+namespace SceneryStream.src.View
 {
-    public partial class MainWindow : Window
+    public partial class PreferencesView : UserControl
     {
+
         ObservableCollection<string> paths; /*Observable Collections send a notification when their contents are updated. This means 
                                              * objects that don't read through the list but instead use the whole thing as a source (ListBoxes) 
                                              * have to use this, because they need to be triggered to update the whole collection*/
         ObservableCollection<string> scenery_paths;
-        
 
-        public MainWindow()
+
+        public PreferencesView()
         {
             InitializeComponent();
             paths = new ObservableCollection<string>();
             scenery_paths = new ObservableCollection<string>();
         }
 
-
-        public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)
+        public void loadPreferences(object? sender, RoutedEventArgs args)
         {
-            FlyoutBase.ShowAttachedFlyout(sender as Control);
+            Console.WriteLine(Directory.GetCurrentDirectory(), ((Button)sender).Tag.ToString());
+            _ = new Model.PreferencesModel().loadPreferences(Path.Combine(Directory.GetCurrentDirectory(), ((Button)sender).Tag.ToString()));
         }
 
         public void UsingMoreInstallations(object? sender, RoutedEventArgs args)
@@ -57,11 +53,11 @@ namespace SceneryStream
                     ((CheckBox)sender).Tag = 0;
                     break;
 
-                    default:
+                default:
                     break;
 
             }
-            
+
         }
 
         public void LogCustomInstallationDirectory(object? sender, RoutedEventArgs args)
@@ -80,18 +76,19 @@ namespace SceneryStream
             OtherInstallationField.Text = ((ListBox)sender).SelectedItem as string;
         }
 
-        public void HandleBrowser(object? sender, RoutedEventArgs e)
+        /// <summary>
+        /// Create a new select folder dialog
+        /// </summary>
+        /// <returns>A string representing the absolute path of the target directory</returns>
+        public string HandleBrowser(object? sender, RoutedEventArgs e)
         {
-            SimDirectory.Text = ClientSize.Height.ToString() + " " + ClientSize.Width.ToString();
-            FileBrowser fileBrowser = new FileBrowser();
-            fileBrowser.Show();
+            OpenFolderDialog openFolderDialog = new OpenFolderDialog();
+            string? path = openFolderDialog.ShowAsync(new FileBrowserView()).ToString();
+            //Find a a way to set the directory field in the view model from here i dont remember how.
+            return path;
         }
 
-        public void ThrowCredits(object? sender, PointerPressedEventArgs e)
-        {
-            CreditsWindow credits = new CreditsWindow();
-            credits.Show();
-        }
+        
 
         public void UsingCustomLocations(object? sender, RoutedEventArgs args)
         {
@@ -132,19 +129,5 @@ namespace SceneryStream
             scenery_paths.Add(OtherDirectoryField.Text);
             OtherDirectoryList.Items = scenery_paths;
         }
-
-
-        //Platform-dependent operations below - Here be dragons!
-        
-        /*
-         * Once the connections page has been completed, or at least the design for it, begin to program the backend to make test connections and receive a hosted piece of data as a handshake gesture
-         * of sorts... this kind of thing might take a while now because the tesing is reliant on the whole app running at once, but testing versions of the code will have to be built in then re-written
-         * before the actual service goes out. Try to keep the only thing being changed before release the location of inserting values (e.g. a backend constant rather than typing the actual address)
-         * but make sure the premise works first.
-         * 
-         * TODO:
-         *      Program an effective mounting method (Test what has already been made in the localmachine section) and attempt to interface through this file and the primary UI logic to make the magic happen.
-         *      DON'T FORGET THAT YOU NEED TO AWAIT THE RESPONSE FROM THE PLATFORM CHECK!!!!!!
-         */
     }
 }

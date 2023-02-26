@@ -33,13 +33,24 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="ReactiveUI" Version="18.4.22" />
+    <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
    </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="src\View\CreditsWindowView.axaml.cs">
+      <DependentUpon>CreditsWindowView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="src\View\FileBrowserView.axaml.cs">
+      <DependentUpon>FileBrowserView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="src\View\HomePageView.axaml.cs">
+      <DependentUpon>HomePageView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

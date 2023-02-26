@@ -3,8 +3,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using System;
 using System.Threading.Tasks;
-using SceneryStream.src;
 using System.Diagnostics;
+using SceneryStream.src.Model;
+using SceneryStream.src;
 
 namespace SceneryStream
 {
