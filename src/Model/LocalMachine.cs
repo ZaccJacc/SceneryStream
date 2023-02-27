@@ -24,6 +24,9 @@ namespace SceneryStream.src.Model
         private bool platform_authenticity;
         public bool Platform_Verified { get { return platform_authenticity; } }
 
+        private PlatformID platform;
+        public PlatformID Platform { get { return platform;  } }
+
 
         /// <summary>
         /// System used for platform verification and non-user-controlled functionality.
@@ -38,10 +41,12 @@ namespace SceneryStream.src.Model
         public async Task BuildServiceAuthenticity()
         {
             Console.WriteLine("[*] Verifying local platform");
-            Task<bool> verifyPlatform = VerifyLocalPlatform();
+            Task<(bool, PlatformID)> platformData = VerifyLocalPlatform();
             Task<bool> pingServer = AttemptAddressPing(ADDRESS);
 
-            platform_authenticity = await verifyPlatform;
+            (bool, PlatformID) platformdata = await platformData;
+            platform_authenticity = platformdata.Item1;
+            platform = platformdata.Item2;
 
             bool ping_success = await pingServer;
             if (!ping_success)
@@ -56,16 +61,16 @@ namespace SceneryStream.src.Model
         }
 
 
-        private static async Task<bool> VerifyLocalPlatform() //this is throwing a warning - but don't be concerned, it means the contents ot this method will run sync. but that is fine.
+        private static async Task<(bool, PlatformID)> VerifyLocalPlatform()
         {
             PlatformID system = Environment.OSVersion.Platform;
             Console.WriteLine("[*] System platform: " + system); //DEBUG
             switch (system)
             {
                 case PlatformID.Win32NT:
-                    return true;
+                    return (true, system);
                 default:
-                    return false;
+                    return (false, system);
             }
         }
 

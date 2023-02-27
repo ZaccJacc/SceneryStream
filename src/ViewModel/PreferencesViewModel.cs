@@ -27,14 +27,16 @@ namespace SceneryStream.src.ViewModel
 
         //--//
         public ReactiveCommand<Unit, Unit> TestCommand { get; }
+        public ReactiveCommand<string, string> ProduceWindowsBrowser { get;  }
         //--//
 
         public PreferencesViewModel()
         {
-            TestCommand = ReactiveCommand.Create(_testCommand);
+            TestCommand = ReactiveCommand.Create(testCommand);
+            ProduceWindowsBrowser = ReactiveCommand.Create<string, string>(produceWindowsBrowser);
         }
 
-        void _testCommand()
+        private void testCommand()
         {
             Console.WriteLine("Hello World!");
         }
@@ -44,6 +46,14 @@ namespace SceneryStream.src.ViewModel
             var command = ReactiveCommand.Create(() => Console.WriteLine("ReactiveCommand invoked"));
             FileBrowserView fileBrowser = new FileBrowserView();
             fileBrowser.Show();
+        }
+
+        private string produceWindowsBrowser(string callback)
+        {
+            OpenFolderDialog openFolderDialog = new OpenFolderDialog();
+            string? path = openFolderDialog.ShowAsync(new FileBrowserView()).ToString();
+            //Find a a way to set the directory field in the view model from here i dont remember how.
+            return path;
         }
 
     }

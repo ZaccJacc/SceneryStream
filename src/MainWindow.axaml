@@ -7,7 +7,7 @@
         Title="SceneryStream"
 		
 		xmlns:views="clr-namespace:SceneryStream.src.View"
-
+		
 	    TransparencyLevelHint="AcrylicBlur"
 	    Background="Transparent"
 		ExtendClientAreaToDecorationsHint="False"

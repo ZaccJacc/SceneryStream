@@ -13,7 +13,7 @@
 
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="480"/>
+			<ColumnDefinition Width="400"/>
 			<ColumnDefinition Width="auto"/>
 		</Grid.ColumnDefinitions>
 
@@ -93,7 +93,8 @@
 			<!--Controller config-->
 			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Tag="{Binding PreferenceFile}" Command="{Binding _testCommand}" Margin="5 45"/>
+				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Tag="{Binding PreferenceFile}" Command="{Binding ProduceWindowsBrowser}" Margin="5 45"/>
+				<Label DataContext="{Binding LocalMachine}" Content="{Binding ADDRESS}" Margin="5 120"/>
 			</Canvas>
 	</Grid>
 
