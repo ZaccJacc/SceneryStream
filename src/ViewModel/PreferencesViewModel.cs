@@ -13,10 +13,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SceneryStream.src.ViewModel
 {
-    internal class PreferencesViewModel
+    internal class PreferencesViewModel : INotifyPropertyChanged
     {
         
         public string? PreferencesFile { get; set; }
@@ -25,15 +27,30 @@ namespace SceneryStream.src.ViewModel
         public string? SimDirectory { get; set; }
         private string? _simDirectory;
 
+        private string bindingTest = "hello world";
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public string Platform
+        {
+            get { return App.ServiceInstance.Platform.ToString(); }
+        }
+
         //--//
         public ReactiveCommand<Unit, Unit> TestCommand { get; }
-        public ReactiveCommand<string, string> ProduceWindowsBrowser { get;  }
+        public ReactiveCommand<string, Unit> ProduceBrowser { get;  }
         //--//
 
         public PreferencesViewModel()
         {
             TestCommand = ReactiveCommand.Create(testCommand);
-            ProduceWindowsBrowser = ReactiveCommand.Create<string, string>(produceWindowsBrowser);
+            ProduceBrowser = ReactiveCommand.Create<string>(produceBrowser);
         }
 
         private void testCommand()
@@ -48,12 +65,25 @@ namespace SceneryStream.src.ViewModel
             fileBrowser.Show();
         }
 
-        private string produceWindowsBrowser(string callback)
+        private void produceBrowser(string callback)
         {
-            OpenFolderDialog openFolderDialog = new OpenFolderDialog();
-            string? path = openFolderDialog.ShowAsync(new FileBrowserView()).ToString();
-            //Find a a way to set the directory field in the view model from here i dont remember how.
-            return path;
+            switch (Platform)
+            {
+                case "Win32NT":
+                    switch (callback)
+                    {
+                        case "ConfigFile":
+                            _preferencesFile = new OpenFolderDialog().ShowAsync().ToString();
+                            break;
+                    }
+                    break;
+
+                default:
+                    _preferencesFile = new OpenFolderDialog().ShowAsync(new Window()).ToString();
+                    break;
+            }
+            Console.WriteLine(_preferencesFile);
+   
         }
 
     }

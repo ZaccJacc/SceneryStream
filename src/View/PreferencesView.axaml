@@ -93,8 +93,7 @@
 			<!--Controller config-->
 			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Tag="{Binding PreferenceFile}" Command="{Binding ProduceWindowsBrowser}" Margin="5 45"/>
-				<Label DataContext="{Binding LocalMachine}" Content="{Binding ADDRESS}" Margin="5 120"/>
+				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding ProduceBrowser}" CommandParameter="ConfigFile" Margin="5 45"/>
 			</Canvas>
 	</Grid>
 
