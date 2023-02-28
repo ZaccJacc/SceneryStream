@@ -73,18 +73,26 @@ namespace SceneryStream.src.ViewModel
                     OpenFileDialog fileDialog = new OpenFileDialog();
                     fileDialog.Title = "Select Application Configuration File";
                     string[] filePath = await fileDialog.ShowAsync(new Window());
-                    foreach (string s in filePath)
+                    try
                     {
-                        _preferencesFile += s;
+                        foreach (string s in filePath) //this doesn't work because the browser keeps returning a null path before something has been chosen
+                        {
+                            _preferencesFile += s;
+                        }
+                        break;
                     }
-                    break;
+                    catch (NullReferenceException)
+                    {
+                        Console.WriteLine("No path selected");
+                        break;
+                    }
+                    
 
                 case "SimDirectory":
                     OpenFolderDialog simDialog = new OpenFolderDialog();
                     _simDirectory = await simDialog.ShowAsync(new Window());
                     break;
             }
-            Console.WriteLine(_preferencesFile);
         }
 
     }
