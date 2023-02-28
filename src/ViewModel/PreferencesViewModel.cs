@@ -50,7 +50,7 @@ namespace SceneryStream.src.ViewModel
         public PreferencesViewModel()
         {
             TestCommand = ReactiveCommand.Create(testCommand);
-            ProduceBrowser = ReactiveCommand.Create<string>(produceBrowser);
+            ProduceBrowser = ReactiveCommand.CreateFromTask<string>(produceBrowser);
         }
 
         private void testCommand()
@@ -65,25 +65,26 @@ namespace SceneryStream.src.ViewModel
             fileBrowser.Show();
         }
 
-        private void produceBrowser(string callback)
+        private async Task produceBrowser(string callback)
         {
-            switch (Platform)
+            switch (callback)
             {
-                case "Win32NT":
-                    switch (callback)
+                case "ConfigFile":
+                    OpenFileDialog fileDialog = new OpenFileDialog();
+                    fileDialog.Title = "Select Application Configuration File";
+                    string[] filePath = await fileDialog.ShowAsync(new Window());
+                    foreach (string s in filePath)
                     {
-                        case "ConfigFile":
-                            _preferencesFile = new OpenFolderDialog().ShowAsync().ToString();
-                            break;
+                        _preferencesFile += s;
                     }
                     break;
 
-                default:
-                    _preferencesFile = new OpenFolderDialog().ShowAsync(new Window()).ToString();
+                case "SimDirectory":
+                    OpenFolderDialog simDialog = new OpenFolderDialog();
+                    _simDirectory = await simDialog.ShowAsync(new Window());
                     break;
             }
             Console.WriteLine(_preferencesFile);
-   
         }
 
     }
