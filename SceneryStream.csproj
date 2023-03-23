@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="Assets\Chain.png" />
     <None Remove="Assets\Folder.png" />
     <None Remove="Assets\Plus.png" />
     <None Remove="Assets\Tick.png" />
@@ -17,6 +18,7 @@
     <None Remove="Assets\Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Assets\Chain.png" />
     <AvaloniaResource Include="Assets\Folder.png" />
     <AvaloniaResource Include="Assets\Plus.png" />
     <AvaloniaResource Include="Assets\Tick.png" />

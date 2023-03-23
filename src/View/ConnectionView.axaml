@@ -2,20 +2,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.ConnectionView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel">
-
+	
+	<UserControl.DataContext>
+		<viewModel:ConnectionViewModel/>
+	</UserControl.DataContext>
 
 
 	<Grid>
 		<Canvas>
-			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="5" Canvas.Top="150"/>
+			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="72" Canvas.Top="150" Text="{Binding ConnectionAddress}"/>
+			<ComboBox x:Name="TargetDrive" Canvas.Left="5" Canvas.Top="150" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi">
+				<ComboBoxItem Content="A:"/>
+				<ComboBoxItem Content="B:"/>
+				<ComboBoxItem Content="C:"/>
+				<ComboBoxItem Content="D:"/>
+				<ComboBoxItem Content="E:"/>
+				<ComboBoxItem Content="F:"/>
+				<ComboBoxItem Content="G:"/>
+				<ComboBoxItem Content="H:"/>
+				<ComboBoxItem Content="I:"/>
+				<ComboBoxItem Content="J:"/>
+				<ComboBoxItem Content="K:"/>
+				<ComboBoxItem Content="L:"/>
+				<ComboBoxItem Content="M:"/>
+				<ComboBoxItem Content="N:"/>
+				<ComboBoxItem Content="O:"/>
+				<ComboBoxItem Content="P:"/>
+				<ComboBoxItem Content="Q:"/>
+				<ComboBoxItem Content="R:"/>
+				<ComboBoxItem Content="S:"/>
+				<ComboBoxItem Content="T:"/>
+				<ComboBoxItem Content="U:"/>
+				<ComboBoxItem Content="V:"/>
+				<ComboBoxItem Content="W:"/>
+				<ComboBoxItem Content="X:"/>
+				<ComboBoxItem Content="Y:"/>
+				<ComboBoxItem Content="Z:"/>
+			</ComboBox>
 			<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
-			<Rectangle Fill="GhostWhite" Canvas.Right="20" Canvas.Top="20" Height="40" Width="40">
-			</Rectangle>
 			<TextBlock x:Name="ServerUpdate_block" Text="Placeholder updates" FontFamily="Abadi" FontSize="16" Canvas.Right="270" Canvas.Top="140" Background="GhostWhite" />
+			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Canvas.Left="425" Canvas.Top="150">
+				<Panel>
+					<Image Source="/Assets/Chain.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
 		</Canvas>
 	</Grid>
 	

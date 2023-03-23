@@ -25,11 +25,7 @@ namespace SceneryStream.src.View
             scenery_paths = new ObservableCollection<string>();
         }
 
-        public void loadPreferences(object? sender, RoutedEventArgs args)
-        {
-            Console.WriteLine(Directory.GetCurrentDirectory(), ((Button)sender).Tag.ToString());
-            _ = new Model.PreferencesModel().loadPreferences(Path.Combine(Directory.GetCurrentDirectory(), ((Button)sender).Tag.ToString()));
-        }
+       
 
         public void UsingMoreInstallations(object? sender, RoutedEventArgs args)
         {

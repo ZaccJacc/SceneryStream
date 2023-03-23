@@ -10,14 +10,13 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
+using Tmds.DBus;
 
 namespace SceneryStream.src.Model
 {
     public class LocalMachine
     {
-        //vvvvvvvvvvvvvv//DEBUG VALUES//vvvvvvvvvvvvvv//
-        private const string ADDRESS = @"\\192.168.1.192\Scenery";
-        //^^^^^^^^^^^^^^//DEBUG VALUES//^^^^^^^^^^^^^^//
         private bool primary_connection_success;
         public bool Connected { get { return primary_connection_success; } }
 
@@ -41,23 +40,36 @@ namespace SceneryStream.src.Model
         public async Task BuildServiceAuthenticity()
         {
             Console.WriteLine("[*] Verifying local platform");
-            Task<(bool, PlatformID)> platformData = VerifyLocalPlatform();
-            Task<bool> pingServer = AttemptAddressPing(ADDRESS);
-
-            (bool, PlatformID) platformdata = await platformData;
-            platform_authenticity = platformdata.Item1;
-            platform = platformdata.Item2;
-
-            bool ping_success = await pingServer;
-            if (!ping_success)
+            new Thread(async () =>
             {
-                Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
-            }
-            else
+                Task<(bool, PlatformID)> platformData = VerifyLocalPlatform();
+                (bool, PlatformID) platformdata = await platformData;
+                platform_authenticity = platformdata.Item1;
+                platform = platformdata.Item2;
+            }).Start();
+            try
             {
-                Task<bool> attempt_mounting = Utility.Windows.System.PerformTargetLocationMounting(ADDRESS, "X");
-                primary_connection_success = await attempt_mounting;
-            }
+                Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
+                Console.WriteLine("[*] Preferences file found.");
+                Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(Preferences.PreferencesFile);
+                if (await loadPreferenceSuccess)
+                {
+                    Task<bool> pingServer = AttemptAddressPing(Preferences.ServerAddress);
+                    if (!await pingServer)
+                    {
+                        Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
+                    }
+                    else
+                    {
+                        Task<bool> attempt_mounting = Utility.Windows.Local.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+                        primary_connection_success = await attempt_mounting;
+                    }
+                }
+
+            } catch (FileNotFoundException)
+            {
+                Console.WriteLine("[!] Could not locate preferences/target file.");
+            } 
         }
 
 
@@ -165,13 +177,44 @@ namespace Utility
                 strNodeText = Path.GetFileName(_strFullPath);
             }
         }
+
+        internal static async Task<object?> produceBrowser(string callback)
+        {
+            switch (callback)
+            {
+                case "File":
+                    OpenFileDialog fileDialog = new OpenFileDialog();
+                    fileDialog.Title = "Select File";
+                    string[]? filePath = await fileDialog.ShowAsync(new Window());
+                    try
+                    {
+                        string resultFile = "";
+                        foreach (string s in filePath) //this doesn't work because the browser keeps returning a null path before something has been chosen
+                        {
+                            resultFile += s;
+                        }
+                        return resultFile;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Console.WriteLine("No path selected");
+                        return "";
+                    }
+
+
+                case "Directory":
+                    OpenFolderDialog simDialog = new OpenFolderDialog();
+                    return await simDialog.ShowAsync(new Window());
+            }
+            return "";
+        }
     }
 
     namespace MacOS { }
     namespace Linux { }
     namespace Windows
     {
-        internal class System
+        internal class Local
         {
             internal static async Task<bool> PerformTargetLocationMounting(string address, string drive) //the only purpose of this method is to plinky plonk the actual moutning through an async task :p
             {

@@ -28,16 +28,16 @@ namespace SceneryStream
                 await platformbuild;
                 if (!ServiceInstance.Platform_Verified)
                 {
-                    Console.WriteLine("[!] Unable to complete platform verification");
+                    Console.WriteLine("[!] Unable to complete platform verification.");
                 }
                 if (!ServiceInstance.Connected)
                 {
-                    Console.WriteLine("[!] Drive connection unsuccessful");
+                    Console.WriteLine("[!] Drive connection unsuccessful.");
                 }
                 if(ServiceInstance.Connected && ServiceInstance.Platform_Verified) 
                 {
-                    Console.WriteLine("[#] Application initialisation success!");
-                }
+                    Console.WriteLine("[#] Automatic initialisation success!");
+                } 
             }
 
             base.OnFrameworkInitializationCompleted();

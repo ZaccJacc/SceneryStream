@@ -11,20 +11,34 @@ using SceneryStream.src;
 using System.Xml.Linq;
 using System.IO;
 using SceneryStream.src.View;
+using System.ComponentModel;
+using SceneryStream.src.Model;
+using System;
+using System.Diagnostics;
 
 namespace SceneryStream.src
 {
     public partial class MainWindow : Window
     {
-        
-        
+
+        protected override async void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (Preferences.SimDirectory != null && Preferences.ServerAddress != null && Preferences.DriveLetter != null)
+            {
+                await PreferencesModel.savePreferences();
+            }
+            else
+            {
+                Console.WriteLine("[!] Preferences file incomplete - will not autosave.");
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             
         }
-
 
         public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)
         {

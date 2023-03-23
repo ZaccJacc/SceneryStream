@@ -15,22 +15,15 @@ using System.Windows;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace SceneryStream.src.ViewModel
 {
     internal class PreferencesViewModel : INotifyPropertyChanged
     {
         
-        public string? PreferencesFile { get; set; }
-        private string? _preferencesFile;
-
-        public string? SimDirectory { get; set; }
-        private string? _simDirectory;
-
-        private string bindingTest = "hello world";
-
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -42,22 +35,23 @@ namespace SceneryStream.src.ViewModel
             get { return App.ServiceInstance.Platform.ToString(); }
         }
 
-        //--//
-        public ReactiveCommand<Unit, Unit> TestCommand { get; }
-        public ReactiveCommand<string, Unit> ProduceBrowser { get;  }
-        //--//
+        public PreferencesViewModel() { }
 
-        public PreferencesViewModel()
+        public string? SimDirectory
         {
-            TestCommand = ReactiveCommand.Create(testCommand);
-            ProduceBrowser = ReactiveCommand.CreateFromTask<string>(produceBrowser);
+            get
+            {
+                return Preferences.SimDirectory;
+            }
+            set
+            {
+                Preferences.SimDirectory = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private void testCommand()
-        {
-            Console.WriteLine("Hello World!");
-        }
 
+        //-//
         public static void popup(object? sender, RoutedEventArgs e)
         {
             var command = ReactiveCommand.Create(() => Console.WriteLine("ReactiveCommand invoked"));
@@ -65,35 +59,18 @@ namespace SceneryStream.src.ViewModel
             fileBrowser.Show();
         }
 
-        private async Task produceBrowser(string callback)
+        public async void loadPreferences()
         {
-            switch (callback)
+            string prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
+            if (prefFile != "" && prefFile != null)
             {
-                case "ConfigFile":
-                    OpenFileDialog fileDialog = new OpenFileDialog();
-                    fileDialog.Title = "Select Application Configuration File";
-                    string[] filePath = await fileDialog.ShowAsync(new Window());
-                    try
-                    {
-                        foreach (string s in filePath) //this doesn't work because the browser keeps returning a null path before something has been chosen
-                        {
-                            _preferencesFile += s;
-                        }
-                        break;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Console.WriteLine("No path selected");
-                        break;
-                    }
-                    
-
-                case "SimDirectory":
-                    OpenFolderDialog simDialog = new OpenFolderDialog();
-                    _simDirectory = await simDialog.ShowAsync(new Window());
-                    break;
+                PreferencesModel.loadPreferences(prefFile);
             }
         }
 
+        public async void selectSimDirectory(string install_type)
+        {
+            SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+        }
     }
 }
