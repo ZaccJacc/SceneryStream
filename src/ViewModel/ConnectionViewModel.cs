@@ -23,7 +23,6 @@ namespace SceneryStream.src.ViewModel
             set
             {
                 Preferences.ServerAddress = value;
-                Console.WriteLine(Preferences.ServerAddress);
             }
         }
 
@@ -43,7 +42,18 @@ namespace SceneryStream.src.ViewModel
             set
             {
                 Preferences.DriveLetter = ((char)(value + 65)).ToString();
-                Console.WriteLine(Preferences.DriveLetter);
+            }
+        }
+
+        internal async void makeConnection()
+        {
+            if(Preferences.ServerAddress!=null&&Preferences.DriveLetter!=null) 
+            {
+                await Utility.Windows.Local.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+            }
+            else
+            {
+                Console.WriteLine("[!] Cannot make connection without location and drive.");
             }
         }
         
