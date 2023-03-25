@@ -7,7 +7,7 @@
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel">
 
-	<Grid ShowGridLines="True">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="300"/>
 			<ColumnDefinition Width="auto"/>
@@ -20,15 +20,10 @@
 			<RowDefinition Height="300"/>
 		</Grid.RowDefinitions>
 
-		<Panel Grid.Column="0" Grid.Row="0">
-			<Button Content="ButtonA"/>
-			<TextBlock Text="Hello World"/>
-		</Panel>
-
-		<Panel Grid.Column="1" Grid.Row="2">
-			<TextBox Height="60" Width="60" Watermark="Enter Text"/>
-			<Label Content="Labeltest"/>
-		</Panel>
+		<Canvas>
+			<Label Content="Homepage currently in development. Please see connection and preferences." FontSize="21" FontFamily="Abadi" Width="900" Margin="5"/>
+		</Canvas>
+			
 	</Grid>
 
 </UserControl>

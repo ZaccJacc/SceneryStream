@@ -14,8 +14,10 @@
 
 	<Grid>
 		<Canvas>
-			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="72" Canvas.Top="150" Text="{Binding ConnectionAddress}"/>
-			<ComboBox x:Name="TargetDrive" Canvas.Left="5" Canvas.Top="150" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi">
+			<TextBlock Text="Scenery Location" Canvas.Top="125" Canvas.Left="90" FontSize="18" FontFamily="Abadi"/>
+			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="87" Canvas.Top="150" Text="{Binding ConnectionAddress}"/>
+			<TextBlock Text="Drive" Canvas.Top="125" Canvas.Left="22" FontSize="18" FontFamily="Abadi"/>
+			<ComboBox x:Name="TargetDrive" Canvas.Left="20" Canvas.Top="150" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi">
 				<ComboBoxItem Content="A:"/>
 				<ComboBoxItem Content="B:"/>
 				<ComboBoxItem Content="C:"/>
@@ -43,13 +45,14 @@
 				<ComboBoxItem Content="Y:"/>
 				<ComboBoxItem Content="Z:"/>
 			</ComboBox>
-			<TextBlock Text="Placeholder - Server connection page in progress" FontFamily="Lucida Sans" FontSize="14"/>
-			<TextBlock x:Name="ServerUpdate_block" Text="Placeholder updates" FontFamily="Abadi" FontSize="16" Canvas.Right="270" Canvas.Top="140" Background="GhostWhite" />
-			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Canvas.Left="425" Canvas.Top="150">
+			<TextBlock Text="Server Updates" Canvas.Top="224" Canvas.Left="22" FontSize="18" FontFamily="Abadi"/>
+			<TextBox x:Name="ServerUpdate_block" MinHeight="600" Width="350" Text="Placeholder updates - this box will contain information about the updates to the servers and the app." AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Canvas.Left="20" Canvas.Top="250" IsReadOnly="True" TextWrapping="Wrap"/>
+			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Canvas.Left="440" Canvas.Top="150" Command="{Binding makeConnection}">
 				<Panel>
 					<Image Source="/Assets/Chain.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
+			<Label Content="Idk what to put here yet but this page feels really empty" FontFamily="Abadi" FontSize="18" Canvas.Right="250" Canvas.Top="300"/>
 		</Canvas>
 	</Grid>
 	
