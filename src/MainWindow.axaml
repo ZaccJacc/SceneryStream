@@ -42,13 +42,6 @@
 						<views:HomePageView x:Name="HomePageViewControl"/>
 					</Grid>
 				</TabItem>
-				<!--Connection page-->
-				<TabItem x:Name="ServerConnection" Header="Connect">
-					<Grid>
-						<views:ConnectionView x:Name="ConnectionViewControl"/>
-					</Grid>
-				</TabItem>
-				
 				<!--Preferences page-->		
 				<TabItem x:Name="Settings" Header="Preferences">
 					<Grid>

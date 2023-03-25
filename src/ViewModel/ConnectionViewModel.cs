@@ -26,24 +26,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public int? DriveIndex
-        {
-            get
-            {
-                if (Preferences.DriveLetter != null)
-                {
-                    return Preferences.DriveLetter[0] - 65;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            set
-            {
-                Preferences.DriveLetter = ((char)(value + 65)).ToString();
-            }
-        }
+        
 
         internal async void makeConnection()
         {
