@@ -32,7 +32,7 @@ namespace SceneryStream.src.ViewModel
         {
             if(Preferences.ServerAddress!=null&&Preferences.DriveLetter!=null) 
             {
-                await Utility.Windows.Local.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+                await Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
             }
             else
             {

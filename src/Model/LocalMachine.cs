@@ -61,8 +61,19 @@ namespace SceneryStream.src.Model
                     }
                     else
                     {
-                        Task<bool> attempt_mounting = Utility.Windows.Local.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
-                        primary_connection_success = await attempt_mounting;
+                        switch (platform)
+                        {
+                            case PlatformID.Win32NT:
+                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+                                primary_connection_success = await attempt_mounting;
+                                break;
+
+                            case PlatformID.Unix:
+                                Console.WriteLine("[!] Drive mounting is currently only available on Windows.");
+                                break;
+                        }
+                        
+                       
                     }
                 }
 
@@ -210,12 +221,38 @@ namespace Utility
         }
     }
 
-    namespace MacOS { }
-    namespace Linux { }
-    namespace Windows
+    class Unix
     {
-        internal class Local
+        internal static async Task<bool> PerformTargetLocationMounting(string address, string drive)
         {
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            if (Directory.Exists($"/mnt/{drive}"))
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = $"{projectDirectory}/src/Script/Unmount.sh",
+                    Arguments = $"{drive}"
+                });
+            }
+            try
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo()
+                {
+                    FileName = $"{projectDirectory}/src/Script/Mount.sh",
+                    Arguments = $"{address} {drive}"
+                };
+                Process process = Process.Start(processStartInfo);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+    }
+    class Windows
+    {
             internal static async Task<bool> PerformTargetLocationMounting(string address, string drive) //the only purpose of this method is to plinky plonk the actual moutning through an async task :p
             {
                 Console.WriteLine("[*] Attempting target mounting");
@@ -313,55 +350,54 @@ namespace Utility
             private static extern int WNetCancelConnection2
                 (string sLocalName, uint iFlags, int iForce);
 
-            public static void MapNetworkDrive(string sDriveLetter, string sNetworkPath)
+        public static void MapNetworkDrive(string sDriveLetter, string sNetworkPath)
+        {
+            //Checks if the last character is \ as this causes error on mapping a drive.
+            if (sNetworkPath.Substring(sNetworkPath.Length - 1, 1) == @"\")
             {
-                //Checks if the last character is \ as this causes error on mapping a drive.
-                if (sNetworkPath.Substring(sNetworkPath.Length - 1, 1) == @"\")
-                {
-                    sNetworkPath = sNetworkPath.Substring(0, sNetworkPath.Length - 1);
-                }
-
-                NETRESOURCE oNetworkResource = new NETRESOURCE()
-                {
-                    oResourceType = ResourceType.RESOURCETYPE_DISK,
-                    sLocalName = sDriveLetter + ":",
-                    sRemoteName = sNetworkPath
-                };
-
-                //If Drive is already mapped disconnect the current 
-                //mapping before adding the new mapping
-                if (IsDriveMapped(sDriveLetter))
-                {
-                    DisconnectNetworkDrive(sDriveLetter, true);
-                }
-
-                WNetAddConnection2(ref oNetworkResource, null, null, 0);
+                sNetworkPath = sNetworkPath.Substring(0, sNetworkPath.Length - 1);
             }
 
-            public static int DisconnectNetworkDrive(string sDriveLetter, bool bForceDisconnect)
+            NETRESOURCE oNetworkResource = new NETRESOURCE()
             {
-                if (bForceDisconnect)
-                {
-                    return WNetCancelConnection2(sDriveLetter + ":", 0, 1);
-                }
-                else
-                {
-                    return WNetCancelConnection2(sDriveLetter + ":", 0, 0);
-                }
+                oResourceType = ResourceType.RESOURCETYPE_DISK,
+                sLocalName = sDriveLetter + ":",
+                sRemoteName = sNetworkPath
+            };
+
+            //If Drive is already mapped disconnect the current 
+            //mapping before adding the new mapping
+            if (IsDriveMapped(sDriveLetter))
+            {
+                DisconnectNetworkDrive(sDriveLetter, true);
             }
 
-            public static bool IsDriveMapped(string sDriveLetter)
+            WNetAddConnection2(ref oNetworkResource, null, null, 0);
+        }
+
+        public static int DisconnectNetworkDrive(string sDriveLetter, bool bForceDisconnect)
+        {
+            if (bForceDisconnect)
             {
-                string[] DriveList = Environment.GetLogicalDrives();
-                for (int i = 0; i < DriveList.Length; i++)
-                {
-                    if (sDriveLetter + ":\\" == DriveList[i].ToString())
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return WNetCancelConnection2(sDriveLetter + ":", 0, 1);
             }
+            else
+            {
+                return WNetCancelConnection2(sDriveLetter + ":", 0, 0);
+            }
+        }
+
+        public static bool IsDriveMapped(string sDriveLetter)
+        {
+            string[] DriveList = Environment.GetLogicalDrives();
+            for (int i = 0; i < DriveList.Length; i++)
+            {
+                if (sDriveLetter + ":\\" == DriveList[i].ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
