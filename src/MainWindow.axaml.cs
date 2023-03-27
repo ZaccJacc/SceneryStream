@@ -24,14 +24,15 @@ namespace SceneryStream.src
         protected override async void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-            if (Preferences.SimDirectory != null && Preferences.ServerAddress != null && Preferences.DriveLetter != null)
+            /*if (Preferences.SimDirectory != null && Preferences.ServerAddress != null && Preferences.DriveLetter != null)
             {
                 await PreferencesModel.savePreferences();
             }
             else
             {
                 Console.WriteLine("[!] Preferences file incomplete - will not autosave.");
-            }
+            }*/
+            await PreferencesModel.savePreferences();
         }
 
         public MainWindow()

@@ -40,25 +40,24 @@ namespace SceneryStream.src.Model
                         {
                             foreach (string line in lines)
                             {
-                                
                                 switch (line[0])
                                 {
                                     case 'A':
-                                        if (!line.Substring(2).Contains("\\"))
+                                        if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
                                         {
-                                            throw new Exception();
+                                            throw new Exception(line);
                                         }
                                         Preferences.ServerAddress = line.Substring(2);
-                                        Console.WriteLine(line);
+                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                         break;
 
                                     case 'S':
-                                        if (!line.Substring(2).Contains("\\"))
+                                        if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
                                         {
-                                            throw new Exception();
+                                            throw new Exception(line);
                                         }
                                         Preferences.SimDirectory = line.Substring(2);
-                                        Console.WriteLine(line);
+                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                         break;
 
                                     case 'M':
@@ -66,7 +65,7 @@ namespace SceneryStream.src.Model
                                         string[] split = line.Split(':');
                                         if (!split[1].Contains("True") && !split[1].Contains("False"))
                                         {
-                                            throw new Exception();
+                                            throw new Exception(line);
                                         }
                                         Preferences.MultipleSims = split[1].Equals("True") ? true : false;
                                         break;
@@ -74,10 +73,10 @@ namespace SceneryStream.src.Model
                                     case 'D':
                                         if (line.Length < 2)
                                         {
-                                            throw new Exception();
+                                            throw new Exception(line);
                                         }
                                         Preferences.DriveLetter = line[2].ToString();
-                                        Console.WriteLine(line);
+                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                         break;
                                 }
                             }
@@ -90,9 +89,9 @@ namespace SceneryStream.src.Model
                             throw new Exception();
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        Console.WriteLine("[!] Preferences file incomplete! Will not load.");
+                        Console.WriteLine($"[!] Preferences file incomplete or improperly formatted! Could not load value {ex.Message}\n\t=> Preferences loading terminated.");
                         return false;
                     }
                 }
@@ -111,8 +110,8 @@ namespace SceneryStream.src.Model
             try
             {
                 string[] lines = new string[4];
-                lines[0] = $"A-{Preferences.ServerAddress}";
-                lines[1] = $"S-{Preferences.SimDirectory}"; //Add this binding to the right window so the preferences can autosave.
+                lines[0] = Preferences.ServerAddress != null ? $"A-{Preferences.ServerAddress}" : $"A-{null}";
+                lines[1] = Preferences.SimDirectory != null ? $"S-{Preferences.SimDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
                 lines[2] = $"D-{Preferences.DriveLetter}";
                 lines[3] = $"M-Multisim:{Preferences.MultipleSims}";
                 if(Preferences.PreferencesFile != null && File.Exists(Preferences.PreferencesFile)) 

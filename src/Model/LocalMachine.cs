@@ -99,8 +99,16 @@ namespace SceneryStream.src.Model
 
         private static async Task<bool> AttemptAddressPing(string address)
         {
-            string[] brokenaddress = address.Split("\\");
-            address = brokenaddress[2];
+            try
+            {
+                string[] brokenaddress = address.Split("\\");
+                address = brokenaddress[2];
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"[!] Server address is not formatted correctly!\nAddress: {address}");
+            }
+            
             try
             {
                 PingReply reply = new Ping().Send(address, 1000);
