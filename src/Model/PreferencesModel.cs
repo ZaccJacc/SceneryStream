@@ -26,7 +26,7 @@ namespace SceneryStream.src.Model
     {
         public PreferencesModel() {}
 
-        public static async Task<bool> loadPreferences(string fileName)
+        public static async Task<bool> loadPreferences(string fileName) //Still requires the error detection method to be changed from terminating because of an exception, to setting a flag variable that is checked after so other values can be loaded.
         {
             Preferences.PreferencesFile = fileName;
             return await Task.Run(() =>
