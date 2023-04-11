@@ -1,1 +1,0 @@
-net use %~1: %~2 password /USER:Guest

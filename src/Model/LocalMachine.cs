@@ -104,7 +104,7 @@ namespace SceneryStream.src.Model
             }
             catch (Exception)
             {
-                Console.WriteLine($"[!] Server address is not formatted correctly!\nAddress: {address}");
+                Console.WriteLine($"[!] Server address is not formatted correctly!\n\t=> Address: {address}");
             }
 
             try
@@ -430,8 +430,8 @@ namespace Utility
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = false,
-                    FileName = $"{projectDirectory}/src/Script/WinMount.cmd",
-                    Arguments = $"{drive} {address}"
+                    FileName = $"net",
+                    Arguments = $"use {drive}: {address} password /USER:Guest"
                 };
                 process.Start();
                 process.WaitForExit();
@@ -451,7 +451,6 @@ namespace Utility
 
         internal static void RemoveDriveByConsole(string drive)
         {
-            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
             Process process = new Process();
             try
             {
@@ -460,8 +459,8 @@ namespace Utility
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = false,
-                    FileName = $"{projectDirectory}/src/Script/WinUnmount.cmd",
-                    Arguments = $"{drive}"
+                    FileName = $"net",
+                    Arguments = $"use {drive}: /delete"
                 };
 
                 process.Start();

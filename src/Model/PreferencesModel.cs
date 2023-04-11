@@ -29,66 +29,73 @@ namespace SceneryStream.src.Model
                 try
                 {
                     string[] lines = File.ReadAllLines(fileName);
+                    bool PropertiesIncomplete = false;
                     try
                     {
-                        if (lines.Length >= 3)
+                        foreach (string line in lines)
                         {
-                            foreach (string line in lines)
+                            switch (line[0])
                             {
-                                switch (line[0])
-                                {
-                                    case 'A':
-                                        if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
-                                        {
-                                            throw new Exception(line);
-                                        }
-                                        Preferences.ServerAddress = line.Substring(2);
-                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                case 'A':
+                                    if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
+                                    }
+                                    Preferences.ServerAddress = line.Substring(2);
+                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    break;
 
-                                    case 'S':
-                                        if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
-                                        {
-                                            throw new Exception(line);
-                                        }
-                                        Preferences.SimDirectory = line.Substring(2);
-                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                case 'S':
+                                    if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
+                                    }
+                                    Preferences.SimDirectory = line.Substring(2);
+                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    break;
 
-                                    case 'M':
+                                case 'M':
 
-                                        string[] split = line.Split(':');
-                                        if (!split[1].Contains("True") && !split[1].Contains("False"))
-                                        {
-                                            throw new Exception(line);
-                                        }
-                                        Preferences.MultipleSims = split[1].Equals("True") ? true : false;
+                                    string[] split = line.Split(':');
+                                    if (!split[1].Contains("True") && !split[1].Contains("False"))
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
+                                    }
+                                    Preferences.MultipleSims = split[1].Equals("True") ? true : false;
+                                    break;
 
-                                    case 'D':
-                                        if (line.Length < 2)
-                                        {
-                                            throw new Exception(line);
-                                        }
-                                        Preferences.DriveLetter = line[2].ToString();
-                                        Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                case 'D':
+                                    if (line.Length < 2)
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
-                                }
+                                    }
+                                    Preferences.DriveLetter = line[2].ToString();
+                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    break;
                             }
-                            Preferences.PreferencesFile = Preferences.PreferencesFile == null ? "Preferences.setup" : Preferences.PreferencesFile;
-                            Console.WriteLine(Path.GetFullPath(Preferences.PreferencesFile));
-                            return true;
                         }
-                        else
+                        Preferences.PreferencesFile = Preferences.PreferencesFile == null ? "Preferences.setup" : Preferences.PreferencesFile;
+                        Console.WriteLine(Path.GetFullPath(Preferences.PreferencesFile));
+                        if (PropertiesIncomplete)
                         {
-                            throw new Exception();
+                            Console.WriteLine("[*] Preferences value is not fully formatted.\n\t=> Did not disrupt loading.");
                         }
+                        return true;
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[!] Preferences file incomplete or improperly formatted! Could not load value {ex.Message}\n\t=> Preferences loading terminated.");
+                        Console.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated.");
                         return false;
                     }
+                    
                 }
                 catch (FileNotFoundException)
                 {
