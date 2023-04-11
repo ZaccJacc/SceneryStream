@@ -12,6 +12,8 @@ using System.IO;
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Tmds.DBus;
+using System.Drawing;
+using System.Net;
 
 namespace SceneryStream.src.Model
 {
@@ -64,7 +66,7 @@ namespace SceneryStream.src.Model
                         switch (platform)
                         {
                             case PlatformID.Win32NT:
-                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter, 0);
                                 primary_connection_success = await attempt_mounting;
                                 break;
 
@@ -261,7 +263,7 @@ namespace Utility
     }
     class Windows
     {
-            internal static async Task<bool> PerformTargetLocationMounting(string address, string drive) //the only purpose of this method is to plinky plonk the actual moutning through an async task :p
+            internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, int processType)
             {
                 Console.WriteLine("[*] Attempting target mounting");
                 try
@@ -270,16 +272,19 @@ namespace Utility
                     {
                         try
                         {
-                            NetworkDrive.MapNetworkDrive(drive, address); // add a way to see if it actually has done it right?
-                            if (NetworkDrive.IsDriveMapped("X"))
+                            switch (processType)
                             {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
+                                case 1:
+                                    NetworkDrive.MapNetworkDrive(drive, address);
+                                    Console.WriteLine("Directories: " + Directory.GetDirectories("X"));
+                                    return NetworkDrive.IsDriveMapped(drive);
 
+
+                                default:
+                                    return NetworkDrive.MapDriveByConsole(drive, address);
+
+                            }
+                            
                         }
                         catch
                         {
@@ -299,6 +304,7 @@ namespace Utility
 
         public class NetworkDrive //Code sourced from StackOverflow (obviously) from users Mario and Mat
         {
+
             private enum ResourceScope
             {
                 RESOURCE_CONNECTED = 1,
@@ -349,7 +355,7 @@ namespace Utility
                 public string sComments;
                 public string sProvider;
             }
-            [DllImport("mpr.dll")]
+            [DllImport("mpr.dll", EntryPoint = "WNetAddConnection2", CallingConvention = CallingConvention.Winapi)]
             private static extern int WNetAddConnection2
                 (ref NETRESOURCE oNetworkResource, string sPassword,
                 string sUserName, int iFlags);
@@ -406,6 +412,77 @@ namespace Utility
                 }
             }
             return false;
+        }
+
+
+
+
+        internal static bool MapDriveByConsole(string drive, string address)
+        {
+            if(Environment.GetLogicalDrives().Contains(drive))
+            {
+                RemoveDriveByConsole(drive);
+            }
+
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            Process process = new Process();
+            string output;
+            try
+            {
+                process.StartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = false,
+                    FileName = $"{projectDirectory}/src/Script/WinMount.cmd",
+                    Arguments = $"{drive} {address}"
+                };
+                process.Start();
+                process.WaitForExit();
+                output = process.StandardOutput.ReadToEnd();
+                process.Dispose();
+                return output.Contains("success");
+            } 
+            catch(Exception ex)
+            {
+                process.Dispose();
+                Console.WriteLine(ex.Message);
+                return false;
+
+            }
+            
+        }
+
+        internal static void RemoveDriveByConsole(string drive)
+        {
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            Process process = new Process();
+            try
+            {
+                process.StartInfo = new ProcessStartInfo()
+                {
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = false,
+                    FileName = $"{projectDirectory}/src/Script/WinUnmount.cmd",
+                    Arguments = $"{drive}"
+                };
+
+                process.Start();
+                process.WaitForExit();
+                string output = process.StandardOutput.ReadToEnd();
+                if(!output.Contains("success"))
+                {
+                    Console.WriteLine("[!] Could not remove mounted drive!");
+                }
+                process.Dispose();
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine($"[!] {ex.Message}");
+                process.Dispose();
+            }
+            
         }
     }
 }

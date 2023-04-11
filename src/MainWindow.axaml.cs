@@ -15,6 +15,7 @@ using System.ComponentModel;
 using SceneryStream.src.Model;
 using System;
 using System.Diagnostics;
+using Utility;
 
 namespace SceneryStream.src
 {
@@ -33,6 +34,12 @@ namespace SceneryStream.src
                 Console.WriteLine("[!] Preferences file incomplete - will not autosave.");
             }*/
             await PreferencesModel.savePreferences();
+            try
+            {
+                NetworkDrive.RemoveDriveByConsole(Preferences.DriveLetter);
+            }
+            catch (Exception) { }
+            
         }
 
         public MainWindow()
@@ -61,9 +68,6 @@ namespace SceneryStream.src
          * before the actual service goes out. Try to keep the only thing being changed before release the location of inserting values (e.g. a backend constant rather than typing the actual address)
          * but make sure the premise works first.
          * 
-         * TODO:
-         *      Program an effective mounting method (Test what has already been made in the localmachine section) and attempt to interface through this file and the primary UI logic to make the magic happen.
-         *      DON'T FORGET THAT YOU NEED TO AWAIT THE RESPONSE FROM THE PLATFORM CHECK!!!!!!
          */
     }
 }

@@ -1,20 +1,24 @@
 ﻿using SceneryStream.src.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.IO;
+using System.Collections.ObjectModel;
+using Avalonia.Controls;
+using Tmds.DBus;
+using Utility;
 
 namespace SceneryStream.src.ViewModel
 {
     internal class ConnectionViewModel
     {
-        public string? ConnectionAddress 
+        public string? ConnectionAddress
         {
             get
             {
@@ -26,19 +30,26 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        
+
 
         internal async void makeConnection()
         {
-            if(Preferences.ServerAddress!=null&&Preferences.DriveLetter!=null) 
+            if (Preferences.ServerAddress != null && Preferences.DriveLetter != null)
             {
-                await Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter);
+                await Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter, 0);
             }
             else
             {
                 Console.WriteLine("[!] Cannot make connection without location and drive.");
             }
         }
+
+        internal void ForceConnection()
+        {
+            NetworkDrive.MapNetworkDrive("X", "\\\\86.141.55.2\\Scenery");
+            Console.WriteLine(NetworkDrive.IsDriveMapped("X"));
+        } 
         
     }
 }
+       
