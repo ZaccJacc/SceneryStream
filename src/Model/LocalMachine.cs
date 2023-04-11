@@ -415,12 +415,13 @@ namespace Utility
 
         internal static bool MapDriveByConsole(string drive, string address)
         {
-            if (Environment.GetLogicalDrives().Contains(drive))
+            foreach(string s in Environment.GetLogicalDrives())
             {
-                RemoveDriveByConsole(drive);
+                if (s.ToUpper().Equals(drive.ToUpper())){
+                    RemoveDriveByConsole(drive);
+                }
             }
 
-            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
             Process process = new Process();
             string output;
             try
