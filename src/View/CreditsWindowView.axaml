@@ -24,17 +24,19 @@
 				</ExperimentalAcrylicBorder>
 			</Panel>
 			<Label Content="Developed and Designed by" Margin="90,90,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium"/>
-			<Label Content="Croissant		Simleybob" Margin="90,120,0,0" FontSize="15"/>
+			<Label Content="Croissant	and	Simleybob" Margin="90,120,0,0" FontSize="15"/>
 			<!---->
-			<TextBlock Margin="90,470,0,0" FontFamily="Consolas" FontSize="11">
+			<TextBlock Margin="90,470,0,0" FontFamily="Consolas" FontSize="15">
 Software copyright © XSS 2022-23
-Unauthorised redistribution, modification, or other usage of this software is a punishable offence.
+				
+Unauthorised redistribution, modification, or other usage of this software is a punishable offence. Please contact the team directly to report this or ask for authorisation for redistribtions and modifications.
 
-X-SceneryStream was made for XSS Group by CTDevelopments. All software attributions go to the CTDevelopments team.
+This 'X-Plane Scenery Streaming' (XSS) software was made for XSS Group by CTDevelopments. All software attributions go to the CTDevelopments team.
 
-All Laminar Research associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the X-Plane X Logo are property of Laminar Research and copyright © X-Plane 2023.
+All Laminar Research associated branding including "X-Plane" "X-Plane 11" "X-Plane 12" "X-Plane Flight Simulator" and the X-Plane Logo are property of Laminar Research, copyright © X-Plane 2023.
 
-No orthophotos generated or hosted are owned by XSS group. All attribution goes to the independent service providers.
+No orthophotos or scenery generated or hosted, are owned by the XSS group. All attribution goes to the individual service providers and contributors where relevant. 
+Please see the website for further information and for proof of permission from each service provider.  
 
 			</TextBlock>
 		</Grid>

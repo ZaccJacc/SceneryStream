@@ -113,8 +113,8 @@
 			<Canvas Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Integration Settings" FontSize="21" FontWeight="Medium" Grid.Column="1" Margin="5 5"/>
 				<CheckBox x:Name="MaintenanceUpdates" IsChecked="True" Content="Receive maintenance notifications in-sim" FontSize="18" Margin="5 45"/>
-				<Label Content="Popup Verbosity" FontSize="16" Margin="5 90"/>
-				<ComboBox x:Name="PopupVerbosity" MinWidth="250" SelectedIndex="0" Margin="5 125" >
+				<Label Content="Popup Type" FontSize="16" Margin="5 90"/>
+				<ComboBox x:Name="PopupType" MinWidth="250" SelectedIndex="0" Margin="5 125" >
 					<ComboBoxItem Content="Service updates"/>
 					<ComboBoxItem Content="Service warnings only"/>
 				</ComboBox>
