@@ -1,11 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using SceneryStream.src;
+using SceneryStream.src.Model;
 using System;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using SceneryStream.src.Model;
-using SceneryStream.src;
 
 namespace SceneryStream
 {
@@ -34,10 +33,10 @@ namespace SceneryStream
                 {
                     Console.WriteLine("[!] Drive connection unsuccessful.");
                 }
-                if(ServiceInstance.Connected && ServiceInstance.Platform_Verified) 
+                if (ServiceInstance.Connected && ServiceInstance.Platform_Verified)
                 {
                     Console.WriteLine("[#] Automatic initialisation success!");
-                } 
+                }
             }
 
             base.OnFrameworkInitializationCompleted();

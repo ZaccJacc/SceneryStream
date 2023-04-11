@@ -1,19 +1,14 @@
 ﻿#pragma warning disable CS1998
+using Avalonia.Controls;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.NetworkInformation;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Collections.ObjectModel;
-using Avalonia.Controls;
-using Tmds.DBus;
-using System.Drawing;
-using System.Net;
 
 namespace SceneryStream.src.Model
 {
@@ -26,7 +21,7 @@ namespace SceneryStream.src.Model
         public bool Platform_Verified { get { return platform_authenticity; } }
 
         private PlatformID platform;
-        public PlatformID Platform { get { return platform;  } }
+        public PlatformID Platform { get { return platform; } }
 
 
         /// <summary>
@@ -74,15 +69,16 @@ namespace SceneryStream.src.Model
                                 Console.WriteLine("[!] Drive mounting is currently only available on Windows.");
                                 break;
                         }
-                        
-                       
+
+
                     }
                 }
 
-            } catch (FileNotFoundException)
+            }
+            catch (FileNotFoundException)
             {
                 Console.WriteLine("[!] Could not locate preferences/target file.");
-            } 
+            }
         }
 
 
@@ -110,7 +106,7 @@ namespace SceneryStream.src.Model
             {
                 Console.WriteLine($"[!] Server address is not formatted correctly!\nAddress: {address}");
             }
-            
+
             try
             {
                 PingReply reply = new Ping().Send(address, 1000);
@@ -258,111 +254,111 @@ namespace Utility
             {
                 return false;
             }
-            
+
         }
     }
     class Windows
     {
-            internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, int processType)
-            {
-                Console.WriteLine("[*] Attempting target mounting");
-                try
-                {
-                    return await Task.Run(async () =>
-                    {
-                        try
-                        {
-                            switch (processType)
-                            {
-                                case 1:
-                                    NetworkDrive.MapNetworkDrive(drive, address);
-                                    Console.WriteLine("Directories: " + Directory.GetDirectories("X"));
-                                    return NetworkDrive.IsDriveMapped(drive);
-
-
-                                default:
-                                    return NetworkDrive.MapDriveByConsole(drive, address);
-
-                            }
-                            
-                        }
-                        catch
-                        {
-                            Console.WriteLine("[!] Untraced mounting error.");
-                            return false;
-                        }
-                    }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
-                }
-                catch (TimeoutException)
-                {
-                    Console.WriteLine("[!] Drive mounting timed out!");
-                    return false;
-                }
-
-            }
-        }
-
-        public class NetworkDrive //Code sourced from StackOverflow (obviously) from users Mario and Mat
+        internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, int processType)
         {
+            Console.WriteLine("[*] Attempting target mounting");
+            try
+            {
+                return await Task.Run(async () =>
+                {
+                    try
+                    {
+                        switch (processType)
+                        {
+                            case 1:
+                                NetworkDrive.MapNetworkDrive(drive, address);
+                                Console.WriteLine("Directories: " + Directory.GetDirectories("X"));
+                                return NetworkDrive.IsDriveMapped(drive);
 
-            private enum ResourceScope
-            {
-                RESOURCE_CONNECTED = 1,
-                RESOURCE_GLOBALNET,
-                RESOURCE_REMEMBERED,
-                RESOURCE_RECENT,
-                RESOURCE_CONTEXT
-            }
-            private enum ResourceType
-            {
-                RESOURCETYPE_ANY,
-                RESOURCETYPE_DISK,
-                RESOURCETYPE_PRINT,
-                RESOURCETYPE_RESERVED
-            }
-            private enum ResourceUsage
-            {
-                RESOURCEUSAGE_CONNECTABLE = 0x00000001,
-                RESOURCEUSAGE_CONTAINER = 0x00000002,
-                RESOURCEUSAGE_NOLOCALDEVICE = 0x00000004,
-                RESOURCEUSAGE_SIBLING = 0x00000008,
-                RESOURCEUSAGE_ATTACHED = 0x00000010
-            }
-            private enum ResourceDisplayType
-            {
-                RESOURCEDISPLAYTYPE_GENERIC,
-                RESOURCEDISPLAYTYPE_DOMAIN,
-                RESOURCEDISPLAYTYPE_SERVER,
-                RESOURCEDISPLAYTYPE_SHARE,
-                RESOURCEDISPLAYTYPE_FILE,
-                RESOURCEDISPLAYTYPE_GROUP,
-                RESOURCEDISPLAYTYPE_NETWORK,
-                RESOURCEDISPLAYTYPE_ROOT,
-                RESOURCEDISPLAYTYPE_SHAREADMIN,
-                RESOURCEDISPLAYTYPE_DIRECTORY,
-                RESOURCEDISPLAYTYPE_TREE,
-                RESOURCEDISPLAYTYPE_NDSCONTAINER
-            }
-            [StructLayout(LayoutKind.Sequential)]
-            private struct NETRESOURCE
-            {
-                public ResourceScope oResourceScope;
-                public ResourceType oResourceType;
-                public ResourceDisplayType oDisplayType;
-                public ResourceUsage oResourceUsage;
-                public string sLocalName;
-                public string sRemoteName;
-                public string sComments;
-                public string sProvider;
-            }
-            [DllImport("mpr.dll", EntryPoint = "WNetAddConnection2", CallingConvention = CallingConvention.Winapi)]
-            private static extern int WNetAddConnection2
-                (ref NETRESOURCE oNetworkResource, string sPassword,
-                string sUserName, int iFlags);
 
-            [DllImport("mpr.dll")]
-            private static extern int WNetCancelConnection2
-                (string sLocalName, uint iFlags, int iForce);
+                            default:
+                                return NetworkDrive.MapDriveByConsole(drive, address);
+
+                        }
+
+                    }
+                    catch
+                    {
+                        Console.WriteLine("[!] Untraced mounting error.");
+                        return false;
+                    }
+                }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
+            }
+            catch (TimeoutException)
+            {
+                Console.WriteLine("[!] Drive mounting timed out!");
+                return false;
+            }
+
+        }
+    }
+
+    public class NetworkDrive //Code sourced from StackOverflow (obviously) from users Mario and Mat
+    {
+
+        private enum ResourceScope
+        {
+            RESOURCE_CONNECTED = 1,
+            RESOURCE_GLOBALNET,
+            RESOURCE_REMEMBERED,
+            RESOURCE_RECENT,
+            RESOURCE_CONTEXT
+        }
+        private enum ResourceType
+        {
+            RESOURCETYPE_ANY,
+            RESOURCETYPE_DISK,
+            RESOURCETYPE_PRINT,
+            RESOURCETYPE_RESERVED
+        }
+        private enum ResourceUsage
+        {
+            RESOURCEUSAGE_CONNECTABLE = 0x00000001,
+            RESOURCEUSAGE_CONTAINER = 0x00000002,
+            RESOURCEUSAGE_NOLOCALDEVICE = 0x00000004,
+            RESOURCEUSAGE_SIBLING = 0x00000008,
+            RESOURCEUSAGE_ATTACHED = 0x00000010
+        }
+        private enum ResourceDisplayType
+        {
+            RESOURCEDISPLAYTYPE_GENERIC,
+            RESOURCEDISPLAYTYPE_DOMAIN,
+            RESOURCEDISPLAYTYPE_SERVER,
+            RESOURCEDISPLAYTYPE_SHARE,
+            RESOURCEDISPLAYTYPE_FILE,
+            RESOURCEDISPLAYTYPE_GROUP,
+            RESOURCEDISPLAYTYPE_NETWORK,
+            RESOURCEDISPLAYTYPE_ROOT,
+            RESOURCEDISPLAYTYPE_SHAREADMIN,
+            RESOURCEDISPLAYTYPE_DIRECTORY,
+            RESOURCEDISPLAYTYPE_TREE,
+            RESOURCEDISPLAYTYPE_NDSCONTAINER
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NETRESOURCE
+        {
+            public ResourceScope oResourceScope;
+            public ResourceType oResourceType;
+            public ResourceDisplayType oDisplayType;
+            public ResourceUsage oResourceUsage;
+            public string sLocalName;
+            public string sRemoteName;
+            public string sComments;
+            public string sProvider;
+        }
+        [DllImport("mpr.dll", EntryPoint = "WNetAddConnection2", CallingConvention = CallingConvention.Winapi)]
+        private static extern int WNetAddConnection2
+            (ref NETRESOURCE oNetworkResource, string sPassword,
+            string sUserName, int iFlags);
+
+        [DllImport("mpr.dll")]
+        private static extern int WNetCancelConnection2
+            (string sLocalName, uint iFlags, int iForce);
 
         public static void MapNetworkDrive(string sDriveLetter, string sNetworkPath)
         {
@@ -419,7 +415,7 @@ namespace Utility
 
         internal static bool MapDriveByConsole(string drive, string address)
         {
-            if(Environment.GetLogicalDrives().Contains(drive))
+            if (Environment.GetLogicalDrives().Contains(drive))
             {
                 RemoveDriveByConsole(drive);
             }
@@ -442,15 +438,15 @@ namespace Utility
                 output = process.StandardOutput.ReadToEnd();
                 process.Dispose();
                 return output.Contains("success");
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 process.Dispose();
                 Console.WriteLine(ex.Message);
                 return false;
 
             }
-            
+
         }
 
         internal static void RemoveDriveByConsole(string drive)
@@ -471,18 +467,18 @@ namespace Utility
                 process.Start();
                 process.WaitForExit();
                 string output = process.StandardOutput.ReadToEnd();
-                if(!output.Contains("success"))
+                if (!output.Contains("success"))
                 {
                     Console.WriteLine("[!] Could not remove mounted drive!");
                 }
                 process.Dispose();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"[!] {ex.Message}");
                 process.Dispose();
             }
-            
+
         }
     }
 }

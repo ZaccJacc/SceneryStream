@@ -1,11 +1,6 @@
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
-using SceneryStream.src.ViewModel;
-using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace SceneryStream.src.View
 {
@@ -25,7 +20,7 @@ namespace SceneryStream.src.View
             scenery_paths = new ObservableCollection<string>();
         }
 
-       
+
 
         public void UsingMoreInstallations(object? sender, RoutedEventArgs args)
         {
@@ -84,7 +79,7 @@ namespace SceneryStream.src.View
             return path;
         }
 
-        
+
 
         public void UsingCustomLocations(object? sender, RoutedEventArgs args)
         {

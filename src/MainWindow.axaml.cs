@@ -1,20 +1,10 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
-using Avalonia.Data;
 using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using System.Collections.ObjectModel;
-using SceneryStream.src;
-using System.Xml.Linq;
-using System.IO;
-using SceneryStream.src.View;
-using System.ComponentModel;
 using SceneryStream.src.Model;
+using SceneryStream.src.View;
 using System;
-using System.Diagnostics;
+using System.ComponentModel;
 using Utility;
 
 namespace SceneryStream.src
@@ -39,13 +29,13 @@ namespace SceneryStream.src
                 NetworkDrive.RemoveDriveByConsole(Preferences.DriveLetter);
             }
             catch (Exception) { }
-            
+
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
 
         public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)

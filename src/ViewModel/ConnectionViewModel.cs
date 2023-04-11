@@ -1,17 +1,5 @@
 ﻿using SceneryStream.src.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Net.NetworkInformation;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Collections.ObjectModel;
-using Avalonia.Controls;
-using Tmds.DBus;
 using Utility;
 
 namespace SceneryStream.src.ViewModel
@@ -48,8 +36,8 @@ namespace SceneryStream.src.ViewModel
         {
             NetworkDrive.MapNetworkDrive("X", "\\\\86.141.55.2\\Scenery");
             Console.WriteLine(NetworkDrive.IsDriveMapped("X"));
-        } 
-        
+        }
+
     }
 }
-       
+

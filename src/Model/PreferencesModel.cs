@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace SceneryStream.src.Model
 {
@@ -22,9 +17,9 @@ namespace SceneryStream.src.Model
         public static string? PreferencesFile { get; set; }
     }
 
-    internal  class PreferencesModel
+    internal class PreferencesModel
     {
-        public PreferencesModel() {}
+        public PreferencesModel() { }
 
         public static async Task<bool> loadPreferences(string fileName) //Still requires the error detection method to be changed from terminating because of an exception, to setting a flag variable that is checked after so other values can be loaded.
         {
@@ -83,7 +78,7 @@ namespace SceneryStream.src.Model
                             Preferences.PreferencesFile = Preferences.PreferencesFile == null ? "Preferences.setup" : Preferences.PreferencesFile;
                             Console.WriteLine(Path.GetFullPath(Preferences.PreferencesFile));
                             return true;
-                        } 
+                        }
                         else
                         {
                             throw new Exception();
@@ -102,7 +97,7 @@ namespace SceneryStream.src.Model
                 }
 
             });
-            
+
         }
 
         public static async Task savePreferences()
@@ -114,7 +109,7 @@ namespace SceneryStream.src.Model
                 lines[1] = Preferences.SimDirectory != null ? $"S-{Preferences.SimDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
                 lines[2] = $"D-{Preferences.DriveLetter}";
                 lines[3] = $"M-Multisim:{Preferences.MultipleSims}";
-                if(Preferences.PreferencesFile != null && File.Exists(Preferences.PreferencesFile)) 
+                if (Preferences.PreferencesFile != null && File.Exists(Preferences.PreferencesFile))
                 {
                     File.WriteAllLines(Preferences.PreferencesFile, lines);
                 }

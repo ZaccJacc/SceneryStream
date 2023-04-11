@@ -1,27 +1,16 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Interactivity;
+﻿using Avalonia.Interactivity;
 using ReactiveUI;
 using SceneryStream.src.Model;
 using SceneryStream.src.View;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Diagnostics;
 
 namespace SceneryStream.src.ViewModel
 {
     internal class PreferencesViewModel : INotifyPropertyChanged
     {
-        
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
