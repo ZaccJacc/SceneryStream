@@ -26,7 +26,7 @@
 			<!--Scenery installation settings-->
 			<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<TextBlock Text="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18" FontFamily="Abadi"/>
-				<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive is used as the scenery mounting location for the simulator.">
+				<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to be use - one that you are not using">
 					<ComboBoxItem Content="A:"/>
 					<ComboBoxItem Content="B:"/>
 					<ComboBoxItem Content="C:"/>
@@ -89,7 +89,7 @@
 			<!--Scenery scanning settings-->
 			<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery addons to prevent installation conflict."/>
+				<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
 				<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
 				<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 					<ListBox.ItemTemplate>
