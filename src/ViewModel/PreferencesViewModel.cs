@@ -5,6 +5,7 @@ using SceneryStream.src.View;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -14,9 +15,7 @@ namespace SceneryStream.src.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public string Platform
@@ -30,11 +29,11 @@ namespace SceneryStream.src.ViewModel
         {
             get
             {
-                return Preferences.SimDirectory;
+                return App.Preferences.SimDirectory;
             }
             set
             {
-                Preferences.SimDirectory = value;
+                App.Preferences.SimDirectory = value;
                 NotifyPropertyChanged();
             }
         }
@@ -43,9 +42,9 @@ namespace SceneryStream.src.ViewModel
         {
             get
             {
-                if (Preferences.DriveLetter != null)
+                if (App.Preferences.DriveLetter != null)
                 {
-                    return Preferences.DriveLetter[0] - 65;
+                    return App.Preferences.DriveLetter[0] - 65;
                 }
                 else
                 {
@@ -54,9 +53,10 @@ namespace SceneryStream.src.ViewModel
             }
             set
             {
-                Preferences.DriveLetter = ((char)(value + 65)).ToString();
+                App.Preferences.DriveLetter = ((char)(value + 65)).ToString();
             }
         }
+
 
         //-//
         public static void popup(object? sender, RoutedEventArgs e)
@@ -75,12 +75,20 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public async void selectSimDirectory(string install_type)
+        public async void selectSimDirectory(string install_type) //this needs to eventually check if this is for the main directory or for other installations
         {
+            SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+        }
 
-                SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
-          
-            
+        public async void resetPreferences()
+        {
+            await Task.Run(() =>
+            {
+                App.Preferences.ServerAddress = null;
+                App.Preferences.MultipleSims = false;
+                App.Preferences.DriveLetter = null;
+                App.Preferences.SimDirectory = null;
+            });
         }
     }
 }

@@ -49,12 +49,12 @@ namespace SceneryStream.src.Model
             }).Start();
             try
             {
-                Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
+                App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
                 Console.WriteLine("[*] Preferences file found.");
-                Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(Preferences.PreferencesFile);
+                Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
                 if (await loadPreferenceSuccess)
                 {
-                    Task<bool> pingServer = AttemptAddressPing(Preferences.ServerAddress);
+                    Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
                     if (!await pingServer)
                     {
                         Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
@@ -64,14 +64,14 @@ namespace SceneryStream.src.Model
                         switch (platform)
                         {
                             case PlatformID.Win32NT:
-                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter, 0);
+                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
                                 primary_connection_success = await attempt_mounting;
                                 if (primary_connection_success)
                                 {
                                     await Task.Run(async () =>
                                     {
                                         Console.WriteLine("[*] Trying to make shortcuts");
-                                        Utility.Windows.createShortcut(Preferences.DriveLetter, Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
+                                        Utility.Windows.createShortcut(App.Preferences.DriveLetter, App.Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
                                         //Currently forced to only airports because the server only has airports :p
                                     });
                                 }  
@@ -574,12 +574,13 @@ namespace Utility
                 if (!output.Contains("success"))
                 {
                     Console.WriteLine("[!] Could not remove mounted drive!");
+                    throw new Exception("\t=> Drive removal failed");
                 }
                 process.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[!] {ex.Message}");
+                Console.WriteLine($"{ex.Message}");
                 process.Dispose();
             }
 

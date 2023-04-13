@@ -11,6 +11,7 @@ namespace SceneryStream
     public partial class App : Application
     {
         public static LocalMachine ServiceInstance = new LocalMachine();
+        public static Preferences Preferences = new Preferences();
 
         public override void Initialize()
         {

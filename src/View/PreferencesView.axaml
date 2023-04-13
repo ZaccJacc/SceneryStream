@@ -78,7 +78,7 @@
 						<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 					</Panel>
 				</Button>
-				<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0">
+				<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding}"/>
@@ -91,7 +91,7 @@
 				<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 				<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery addons to prevent installation conflict."/>
 				<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
-				<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0">
+				<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding}"/>
@@ -123,6 +123,7 @@
 			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding loadPreferences}" Margin="5 45"/>
+				<Button x:Name="ResetConfigFile" Content="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45" Foreground="#a10000"/>
 			</Canvas>
 	</Grid>
 

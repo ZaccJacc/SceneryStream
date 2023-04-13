@@ -16,7 +16,7 @@ namespace SceneryStream.src
         protected override async void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-            /*if (Preferences.SimDirectory != null && Preferences.ServerAddress != null && Preferences.DriveLetter != null)
+            /*if (App.Preferences.SimDirectory != null && App.Preferences.ServerAddress != null && App.Preferences.DriveLetter != null)
             {
                 await PreferencesModel.savePreferences();
             }
@@ -27,12 +27,12 @@ namespace SceneryStream.src
             await PreferencesModel.savePreferences();
             try
             {
-                NetworkDrive.RemoveDriveByConsole(Preferences.DriveLetter);
-                File.Delete(Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
-                File.Delete(Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
+                NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
+                File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
             }
             catch (Exception) { }
-
+            
             
 
         }

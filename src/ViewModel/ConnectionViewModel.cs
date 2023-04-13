@@ -10,11 +10,11 @@ namespace SceneryStream.src.ViewModel
         {
             get
             {
-                return Preferences.ServerAddress;
+                return App.Preferences.ServerAddress;
             }
             set
             {
-                Preferences.ServerAddress = value;
+                App.Preferences.ServerAddress = value;
             }
         }
 
@@ -22,9 +22,9 @@ namespace SceneryStream.src.ViewModel
 
         internal async void makeConnection()
         {
-            if (Preferences.ServerAddress != null && Preferences.DriveLetter != null)
+            if (App.Preferences.ServerAddress != null && App.Preferences.DriveLetter != null)
             {
-                await Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter, 0);
+                await Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
             }
             else
             {
