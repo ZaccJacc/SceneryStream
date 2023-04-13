@@ -123,7 +123,7 @@
 			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding loadPreferences}" Margin="5 45"/>
-				<Button x:Name="ResetConfigFile" Content="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45" Foreground="#a10000"/>
+				<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45" Foreground="#a10000"/>
 			</Canvas>
 	</Grid>
 
