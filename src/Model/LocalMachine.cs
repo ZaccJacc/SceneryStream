@@ -214,14 +214,24 @@ namespace Utility
                     }
                     catch (NullReferenceException)
                     {
-                        Console.WriteLine("No path selected");
+                        Console.WriteLine("[!] No path selected");
                         return "";
                     }
 
 
                 case "Directory":
                     OpenFolderDialog simDialog = new OpenFolderDialog();
-                    return await simDialog.ShowAsync(new Window());
+                    try
+                    {
+                        return await simDialog.ShowAsync(new Window());
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("[!] No directory selected!");
+                        return "";
+                    }
+                    
+                    
             }
             return "";
         }
