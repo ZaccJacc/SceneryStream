@@ -77,7 +77,10 @@ namespace SceneryStream.src.ViewModel
 
         public async void selectSimDirectory(string install_type)
         {
-            SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+
+                SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+          
+            
         }
     }
 }

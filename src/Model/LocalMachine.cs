@@ -223,9 +223,18 @@ namespace Utility
                     OpenFolderDialog simDialog = new OpenFolderDialog();
                     try
                     {
-                        return await simDialog.ShowAsync(new Window());
+                        string result =  await simDialog.ShowAsync(new Window());
+                        if (!result.Contains("\\"))
+                        {
+                            Console.WriteLine("[!] No directory selected!");
+                            return "";
+                        }
+                        else
+                        {
+                            return result;
+                        }
                     }
-                    catch (Exception)
+                    catch (NullReferenceException)
                     {
                         Console.WriteLine("[!] No directory selected!");
                         return "";
