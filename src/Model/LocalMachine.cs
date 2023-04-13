@@ -332,7 +332,7 @@ namespace Utility
 
                     // setup shortcut information
                     link.SetDescription($"XSS Mount for {scenery_type}");
-                    link.SetPath($"{origin_path}");
+                    link.SetPath($@"{origin_path}:\");
 
                     // save it
                     IPersistFile file = (IPersistFile)link;
