@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS1998
 using Avalonia.Controls;
+using SceneryStream.src.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -63,6 +66,15 @@ namespace SceneryStream.src.Model
                             case PlatformID.Win32NT:
                                 Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(Preferences.ServerAddress, Preferences.DriveLetter, 0);
                                 primary_connection_success = await attempt_mounting;
+                                if (primary_connection_success)
+                                {
+                                    await Task.Run(async () =>
+                                    {
+                                        Console.WriteLine("[*] Trying to make shortcuts");
+                                        Utility.Windows.createShortcut(Preferences.DriveLetter, Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
+                                        //Currently forced to only airports because the server only has airports :p
+                                    });
+                                }  
                                 break;
 
                             case PlatformID.Unix:
@@ -135,6 +147,37 @@ namespace SceneryStream.src.Model
 
 namespace Utility
 {
+    [ComImport] //Simon Mourier, Stack Overflow
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    internal class ShellLink
+    {
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    internal interface IShellLink
+    {
+        void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, out IntPtr pfd, int fFlags);
+        void GetIDList(out IntPtr ppidl);
+        void SetIDList(IntPtr pidl);
+        void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cchMaxName);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cchMaxPath);
+        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        void GetArguments([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cchMaxPath);
+        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        void GetHotkey(out short pwHotkey);
+        void SetHotkey(short wHotkey);
+        void GetShowCmd(out int piShowCmd);
+        void SetShowCmd(int iShowCmd);
+        void GetIconLocation([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cchIconPath, out int piIcon);
+        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, int dwReserved);
+        void Resolve(IntPtr hwnd, int fFlags);
+        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+    }
+
     class FileBrowser
     {
 
@@ -278,6 +321,48 @@ namespace Utility
     }
     class Windows
     {
+        internal static async void createShortcut(string origin_path, string target_path, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
+        {
+            await Task.Run(async () =>
+            {
+                Console.WriteLine("wapwap");
+                try
+                {
+                    IShellLink link = (IShellLink)new ShellLink();
+
+                    // setup shortcut information
+                    link.SetDescription($"XSS Mount for {scenery_type}");
+                    link.SetPath($"{origin_path}");
+
+                    // save it
+                    IPersistFile file = (IPersistFile)link;
+                    switch (scenery_type)
+                    {
+                        case "ortho":
+                            file.Save(Path.Combine(target_path, "zOrtho_xss_mount.lnk"), false);
+                            Console.WriteLine("\t=> Made ortho shortcut");
+                            break;
+
+                        case "airports":
+                            file.Save(Path.Combine(target_path, "airports_xss_mount.lnk"), false);
+                            Console.WriteLine("\t=> Made airports shortcut");
+                            break;
+                    }
+                }
+                catch(Exception) 
+                {
+                    Console.WriteLine("[!] Could not create shortcuts!");
+                }
+                
+                
+
+            });
+            
+        }
+
+
+
+
         internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, int processType)
         {
             Console.WriteLine("[*] Attempting target mounting");

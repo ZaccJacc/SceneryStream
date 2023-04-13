@@ -5,6 +5,7 @@ using SceneryStream.src.Model;
 using SceneryStream.src.View;
 using System;
 using System.ComponentModel;
+using System.IO;
 using Utility;
 
 namespace SceneryStream.src
@@ -27,8 +28,12 @@ namespace SceneryStream.src
             try
             {
                 NetworkDrive.RemoveDriveByConsole(Preferences.DriveLetter);
+                File.Delete(Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
+                File.Delete(Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
             }
             catch (Exception) { }
+
+            
 
         }
 
