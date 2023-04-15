@@ -40,9 +40,10 @@ namespace SceneryStream
                 {
                     Console.WriteLine("[#] Automatic initialisation success!");
                 }
+                /*
                 Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
                 Console.WriteLine("[*] Preferences file found.");
-                PreferencesModel.loadPreferences(Preferences.PreferencesFile);
+                PreferencesModel.loadPreferences(Preferences.PreferencesFile);*/
             }
 
             base.OnFrameworkInitializationCompleted();

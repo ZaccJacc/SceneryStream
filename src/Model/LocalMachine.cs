@@ -181,63 +181,6 @@ namespace Utility
     class FileBrowser
     {
 
-        ObservableCollection<Node> Items { get; }
-        ObservableCollection<Node> SelectedItems { get; }
-        public string strFolder { get; set; }
-
-        public FileBrowser()
-        {
-            strFolder = @"A:"; // EDIT THIS FOR AN EXISTING FOLDER
-
-            Items = new ObservableCollection<Node>();
-
-            Node rootNode = new Node(strFolder);
-            rootNode.Subfolders = GetSubfolders(strFolder);
-
-            Items.Add(rootNode);
-        }
-
-        public ObservableCollection<Node> GetSubfolders(string strPath)
-        {
-            ObservableCollection<Node> subfolders = new ObservableCollection<Node>();
-            string[] subdirs = Directory.GetDirectories(strPath, "*", SearchOption.TopDirectoryOnly);
-
-            foreach (string dir in subdirs)
-            {
-                Node thisnode = new Node(dir);
-
-                try
-                {
-                    if (Directory.GetDirectories(dir, "*", SearchOption.TopDirectoryOnly).Length > 0)
-                    {
-                        thisnode.Subfolders = new ObservableCollection<Node>();
-
-                        thisnode.Subfolders = GetSubfolders(dir);
-                    }
-                }
-                catch (Exception e) { }
-
-
-                subfolders.Add(thisnode);
-            }
-
-            return subfolders;
-        }
-
-        public class Node
-        {
-            public ObservableCollection<Node> Subfolders { get; set; }
-
-            public string strNodeText { get; }
-            public string strFullPath { get; }
-
-            public Node(string _strFullPath)
-            {
-                strFullPath = _strFullPath;
-                strNodeText = Path.GetFileName(_strFullPath);
-            }
-        }
-
         internal static async Task<object?> produceBrowser(string callback)
         {
             switch (callback)
@@ -321,7 +264,7 @@ namespace Utility
     }
     class Windows
     {
-        internal static async void createShortcut(string origin_path, string target_path, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
+        internal static async void createShortcut(string link_path, string link_location, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
         {
             await Task.Run(async () =>
             {
@@ -332,19 +275,19 @@ namespace Utility
 
                     // setup shortcut information
                     link.SetDescription($"XSS Mount for {scenery_type}");
-                    link.SetPath($@"{origin_path}:\");
+                    link.SetPath($@"{link_path}:\");
 
                     // save it
                     IPersistFile file = (IPersistFile)link;
                     switch (scenery_type)
                     {
                         case "ortho":
-                            file.Save(Path.Combine(target_path, "zOrtho_xss_mount.lnk"), false);
+                            file.Save(Path.Combine(link_location, "zOrtho_xss_mount.lnk"), false);
                             Console.WriteLine("\t=> Made ortho shortcut");
                             break;
 
                         case "airports":
-                            file.Save(Path.Combine(target_path, "airports_xss_mount.lnk"), false);
+                            file.Save(Path.Combine(link_location, "airports_xss_mount.lnk"), false);
                             Console.WriteLine("\t=> Made airports shortcut");
                             break;
                     }

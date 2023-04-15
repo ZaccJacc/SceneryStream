@@ -133,7 +133,11 @@
 			<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 			<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45"/>
 			<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="150 45"/>
-			<Button Content="{Binding Value}" Command="{Binding ForceValue}" Margin="200 200"/>
+			<Button Content="{Binding Preferences.SimDirectory}" Command="{Binding ForceValue}">
+				<Button.DataContext>
+					<model:PreferencesModel/>
+				</Button.DataContext>
+			</Button>
 		</Canvas>
 	</Grid>
 

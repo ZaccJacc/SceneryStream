@@ -1,6 +1,4 @@
-﻿using ReactiveUI;
-using SceneryStream.src.ViewModel;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -12,26 +10,28 @@ namespace SceneryStream.src.Model
     {
         public PreferencesModel() { }
 
+        internal PreferencesModel Preferences = App.Preferences;
+
         private string _test = "hello world";
         public string Test
         {
-            get { return _test; }
-            set { _test = value; }
+            get => _test;
+            set
+            {
+                _test = value;
+                NotifyPropertyChanged(nameof(Test));
+            }
         }
 
 
         private string? _simDirectory;
         public string? SimDirectory
         {
-            get
-            {
-                Console.WriteLine("Directory: " + _simDirectory);
-                return _simDirectory;
-            }
+            get => _simDirectory;
             set
             {
                 _simDirectory = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(SimDirectory));
             }
         }
 
@@ -40,13 +40,13 @@ namespace SceneryStream.src.Model
         {
             get
             {
-                Console.WriteLine("address: " + _serverAddress);
                 return _serverAddress;
             }
+
             set
             {
-                Console.WriteLine(_serverAddress);
-                NotifyPropertyChanged();
+                _serverAddress = value;
+                NotifyPropertyChanged(nameof(ServerAddress));
             }
         }
 
@@ -61,7 +61,7 @@ namespace SceneryStream.src.Model
             set
             {
                 _multipleSims = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(MultipleSims));
             }
         }
 
@@ -71,7 +71,8 @@ namespace SceneryStream.src.Model
             get { return _driveLetter; }
             set
             {
-                _driveLetter = value;
+                this._driveLetter = value;
+                NotifyPropertyChanged(nameof(DriveLetter));
             }
         }
 
@@ -84,7 +85,7 @@ namespace SceneryStream.src.Model
             set
             {
                 _driveLetter = ((char)(value + 65)).ToString();
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(DriveIndex));
             }
         }
 
@@ -99,8 +100,13 @@ namespace SceneryStream.src.Model
             set
             {
                 _preferencesFile = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(PreferencesFile));
             }
+        }
+
+        public void ForceValue()
+        {
+            SimDirectory = @"\NewDirectory";
         }
 
         //--//
@@ -117,6 +123,7 @@ namespace SceneryStream.src.Model
             {
                 try
                 {
+                    Console.WriteLine($"Values on save time: {App.Preferences._serverAddress} {App.Preferences._simDirectory}");
                     string[] lines = new string[4];
                     lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
                     lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
@@ -215,18 +222,18 @@ namespace SceneryStream.src.Model
                         Console.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated. {ex.Message}");
                         return false;
                     }
-                    
+
                 }
                 catch (FileNotFoundException)
                 {
                     Console.WriteLine("[!] Could not locate file at read time!");
                     return false;
                 }
-                
+
             });
 
         }
 
-        
+
     }
 }

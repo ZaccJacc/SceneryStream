@@ -18,6 +18,8 @@ namespace SceneryStream.src.ViewModel
             get { return App.ServiceInstance.Platform.ToString(); }
         }
 
+        public PreferencesModel Preferences = App.Preferences;
+
         public PreferencesViewModel() { }
 
         //-//
@@ -53,9 +55,5 @@ namespace SceneryStream.src.ViewModel
             });
         }
 
-        public void ForceValue()
-        {
-            App.Preferences.SimDirectory = @"\TRY TO CHANGE FFS";
-        }
     }
 }
