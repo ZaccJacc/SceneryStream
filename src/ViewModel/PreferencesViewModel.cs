@@ -9,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.ViewModel
 {
-    internal class PreferencesViewModel : INotifyPropertyChanged
+    internal class PreferencesViewModel
     {
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public string Platform
         {
@@ -25,56 +20,15 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() { }
 
-        public void FlushUpdate()
-        {
-            SimDirectory = SimDirectory;
-        }
-
-
         //-//
-        public string? SimDirectory
-        {
-            get
-            {
-                return App.Preferences.SimDirectory;
-            }
-            set
-            {
-                App.Preferences.SimDirectory = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int? DriveIndex
-        {
-            get
-            {
-                if (App.Preferences.DriveLetter != null)
-                {
-                    return App.Preferences.DriveLetter[0] - 65;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            set
-            {
-                App.Preferences.DriveLetter = ((char)(value + 65)).ToString();
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        //-//
-        public static void popup(object? sender, RoutedEventArgs e)
+        public static void Popup(object? sender, RoutedEventArgs e)
         {
             var command = ReactiveCommand.Create(() => Console.WriteLine("ReactiveCommand invoked"));
             FileBrowserView fileBrowser = new FileBrowserView();
             fileBrowser.Show();
         }
 
-        public async void loadPreferences()
+        public async void LoadPreferences()
         {
             string prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
             if (prefFile != "" && prefFile != null)
@@ -83,20 +37,25 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public async void selectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
+        public async void SelectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
         {
-            SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+            App.Preferences.SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
         }
 
-        public async void resetPreferences()
+        public async void ResetPreferences()
         {
             await Task.Run(() =>
             {
                 App.Preferences.ServerAddress = null;
                 App.Preferences.MultipleSims = false;
-                App.Preferences.DriveLetter = null;
+                App.Preferences.DriveLetter = "A";
                 App.Preferences.SimDirectory = null;
             });
+        }
+
+        public void ForceValue()
+        {
+            App.Preferences.SimDirectory = @"\TRY TO CHANGE FFS";
         }
     }
 }

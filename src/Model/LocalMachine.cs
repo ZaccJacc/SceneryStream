@@ -51,8 +51,8 @@ namespace SceneryStream.src.Model
             {
                 App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
                 Console.WriteLine("[*] Preferences file found.");
-                Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
-                if (await loadPreferenceSuccess)
+                //Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
+                if (/*await loadPreferenceSuccess*/true)
                 {
                     Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
                     if (!await pingServer)

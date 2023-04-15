@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using SceneryStream.src;
 using SceneryStream.src.Model;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SceneryStream
@@ -26,18 +27,22 @@ namespace SceneryStream
                 desktop.MainWindow = new MainWindow();
                 //----//
                 await platformbuild;
+                
                 if (!ServiceInstance.Platform_Verified)
                 {
                     Console.WriteLine("[!] Unable to complete platform verification.");
                 }
                 if (!ServiceInstance.Connected)
                 {
-                    Console.WriteLine("[!] Drive connection unsuccessful.");
+                    Console.WriteLine("[!] Drive connection unsuccessful.\n\t=> Application initialisation complete.");
                 }
                 if (ServiceInstance.Connected && ServiceInstance.Platform_Verified)
                 {
                     Console.WriteLine("[#] Automatic initialisation success!");
                 }
+                Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
+                Console.WriteLine("[*] Preferences file found.");
+                PreferencesModel.loadPreferences(Preferences.PreferencesFile);
             }
 
             base.OnFrameworkInitializationCompleted();

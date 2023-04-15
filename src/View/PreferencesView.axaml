@@ -55,9 +55,15 @@
 				<ComboBoxItem Content="X:"/>
 				<ComboBoxItem Content="Y:"/>
 				<ComboBoxItem Content="Z:"/>
+				<ComboBox.DataContext>
+					<model:PreferencesModel/>
+				</ComboBox.DataContext>
 			</ComboBox>
 			<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 			<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240" Text="{Binding SimDirectory}">
+				<TextBox.DataContext>
+					<model:PreferencesModel/>
+				</TextBox.DataContext>
 			</TextBox>
 			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" Command="{Binding selectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
 				<Panel>
@@ -125,8 +131,9 @@
 		<!--Controller config-->
 		<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-			<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding loadPreferences}" Margin="5 45"/>
-			<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45"/>
+			<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45"/>
+			<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="150 45"/>
+			<Button Content="{Binding Value}" Command="{Binding ForceValue}" Margin="200 200"/>
 		</Canvas>
 	</Grid>
 

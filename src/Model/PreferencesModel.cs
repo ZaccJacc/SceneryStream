@@ -12,6 +12,14 @@ namespace SceneryStream.src.Model
     {
         public PreferencesModel() { }
 
+        private string _test = "hello world";
+        public string Test
+        {
+            get { return _test; }
+            set { _test = value; }
+        }
+
+
         private string? _simDirectory;
         public string? SimDirectory
         {
@@ -37,7 +45,6 @@ namespace SceneryStream.src.Model
             }
             set
             {
-                _serverAddress = value;
                 Console.WriteLine(_serverAddress);
                 NotifyPropertyChanged();
             }
@@ -72,7 +79,7 @@ namespace SceneryStream.src.Model
         {
             get
             {
-                return _driveLetter[0] - 65;
+                return _driveLetter != null ? _driveLetter[0] - 65 : 0;
             }
             set
             {
@@ -172,7 +179,6 @@ namespace SceneryStream.src.Model
                                     break;
 
                                 case 'M':
-
                                     string[] split = line.Split(':');
                                     if (!split[1].Contains("True") && !split[1].Contains("False"))
                                     {
