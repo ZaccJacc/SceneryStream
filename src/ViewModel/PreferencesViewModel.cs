@@ -25,6 +25,12 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() { }
 
+        public void FlushUpdate()
+        {
+            SimDirectory = SimDirectory;
+        }
+
+
         //-//
         public string? SimDirectory
         {

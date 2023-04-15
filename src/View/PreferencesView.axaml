@@ -28,7 +28,7 @@
 		<!--Scenery installation settings-->
 		<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<TextBlock Text="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18" FontFamily="Abadi"/>
-			<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to be use - one that you are not using">
+			<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to use.">
 				<ComboBoxItem Content="A:"/>
 				<ComboBoxItem Content="B:"/>
 				<ComboBoxItem Content="C:"/>
@@ -57,7 +57,8 @@
 				<ComboBoxItem Content="Z:"/>
 			</ComboBox>
 			<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-			<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240" Text="{Binding SimDirectory}"/>
+			<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240" Text="{Binding SimDirectory}">
+			</TextBox>
 			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" Command="{Binding selectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
 				<Panel>
 					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>

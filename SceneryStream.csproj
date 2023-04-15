@@ -56,8 +56,8 @@
     <Compile Update="src\View\FileBrowserView.axaml.cs">
       <DependentUpon>FileBrowserView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="src\View\HomePageView.axaml.cs">
-      <DependentUpon>HomePageView.axaml</DependentUpon>
+    <Compile Update="src\View\ConnectionView.axaml.cs">
+      <DependentUpon>ConnectionView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

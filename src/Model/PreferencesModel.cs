@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using SceneryStream.src.ViewModel;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -7,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
 {
-    public class Preferences : INotifyPropertyChanged
+    internal class PreferencesModel : INotifyPropertyChanged
     {
+        public PreferencesModel() { }
 
         private string? _simDirectory;
         public string? SimDirectory
         {
             get
             {
+                Console.WriteLine("Directory: " + _simDirectory);
                 return _simDirectory;
             }
             set
@@ -29,11 +32,13 @@ namespace SceneryStream.src.Model
         {
             get
             {
+                Console.WriteLine("address: " + _serverAddress);
                 return _serverAddress;
             }
             set
             {
                 _serverAddress = value;
+                Console.WriteLine(_serverAddress);
                 NotifyPropertyChanged();
             }
         }
@@ -54,15 +59,24 @@ namespace SceneryStream.src.Model
         }
 
         private string? _driveLetter;
-        public string? DriveLetter
+        public string DriveLetter
         {
-            get
-            {
-                return _driveLetter;
-            }
+            get { return _driveLetter; }
             set
             {
                 _driveLetter = value;
+            }
+        }
+
+        public int? DriveIndex
+        {
+            get
+            {
+                return _driveLetter[0] - 65;
+            }
+            set
+            {
+                _driveLetter = ((char)(value + 65)).ToString();
                 NotifyPropertyChanged();
             }
         }
@@ -90,38 +104,35 @@ namespace SceneryStream.src.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static async Task savePreferences()
+        public static async Task SavePreferences()
         {
-            try
+            await Task.Run(() =>
             {
-                string[] lines = new string[4];
-                lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
-                lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
-                lines[2] = $"D-{App.Preferences._driveLetter}";
-                lines[3] = $"M-Multisim:{App.Preferences._multipleSims}";
-                if (App.Preferences._preferencesFile != null && File.Exists(App.Preferences._preferencesFile))
+                try
                 {
-                    File.WriteAllLines(App.Preferences._preferencesFile, lines);
-                }
-                else
-                {
-                    File.WriteAllLines("Preferences.setup", lines);
-                    App.Preferences._preferencesFile = "Preferences.setup";
-                }
-                File.WriteAllText("Targets.setup", App.Preferences._preferencesFile);
+                    string[] lines = new string[4];
+                    lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
+                    lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
+                    lines[2] = $"D-{App.Preferences._driveLetter}";
+                    lines[3] = $"M-Multisim:{App.Preferences._multipleSims}";
+                    if (App.Preferences._preferencesFile != null && File.Exists(App.Preferences._preferencesFile))
+                    {
+                        File.WriteAllLines(App.Preferences._preferencesFile, lines);
+                    }
+                    else
+                    {
+                        File.WriteAllLines("Preferences.setup", lines);
+                        App.Preferences._preferencesFile = "Preferences.setup";
+                    }
+                    File.WriteAllText("Targets.setup", App.Preferences._preferencesFile);
 
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("[!] Could not write to preferences file!");
-            }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("[!] Could not write to preferences file!");
+                }
+            });
         }
-
-    }
-
-    internal class PreferencesModel
-    {
-        public PreferencesModel() { }
 
         public static async Task<bool> loadPreferences(string fileName)
         {

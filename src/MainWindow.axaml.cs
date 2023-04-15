@@ -16,15 +16,7 @@ namespace SceneryStream.src
         protected override async void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-            /*if (App.Preferences.SimDirectory != null && App.Preferences.ServerAddress != null && App.Preferences.DriveLetter != null)
-            {
-                await PreferencesModel.savePreferences();
-            }
-            else
-            {
-                Console.WriteLine("[!] Preferences file incomplete - will not autosave.");
-            }*/
-            await Preferences.savePreferences();
+            await PreferencesModel.SavePreferences();
             try
             {
                 NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
@@ -32,8 +24,8 @@ namespace SceneryStream.src
                 File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
             }
             catch (Exception) { }
-            
-            
+
+
 
         }
 

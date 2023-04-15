@@ -38,7 +38,7 @@
 				<!--Home Page-->
 				<TabItem x:Name="HomePage" Header="Home">
 					<Grid>
-						<views:HomePageView x:Name="HomePageViewControl"/>
+						<views:ConnectionView x:Name="ConnectionViewControl"/>
 					</Grid>
 				</TabItem>
 				<!--Preferences page-->		

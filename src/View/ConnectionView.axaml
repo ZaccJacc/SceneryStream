@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="SceneryStream.src.View.ConnectionView"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model">
+
+	<UserControl.DataContext>
+		<viewModel:ConnectionViewModel/>
+	</UserControl.DataContext>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="300"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="600"/>
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="150"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="300"/>
+		</Grid.RowDefinitions>
+
+		<Canvas>
+			<TextBlock Text="Server Updates" Canvas.Top="224" Canvas.Left="22" FontSize="18" FontFamily="Abadi"/>
+			<TextBox x:Name="ServerUpdate_block" MinHeight="600" Width="350" Text="Placeholder updates - this box will contain information about the updates to the servers and the app." AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Canvas.Left="20" Canvas.Top="250" IsReadOnly="True" TextWrapping="Wrap"/>
+			<TextBlock Text="Scenery Location" Canvas.Top="125" Canvas.Left="90" FontSize="18" FontFamily="Abadi"/>
+			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="87" Canvas.Top="150" Text="{Binding ServerAddress}">
+				<TextBox.DataContext>
+					<model:PreferencesModel/>
+				</TextBox.DataContext>
+			</TextBox>
+			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Canvas.Left="440" Canvas.Top="150" Command="{Binding makeConnection}">
+				<Panel>
+					<Image Source="/Assets/Chain.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+		</Canvas>
+			
+	</Grid>
+
+</UserControl>
