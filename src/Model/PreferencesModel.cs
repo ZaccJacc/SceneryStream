@@ -7,35 +7,31 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
 {
-    public class Preferences : ReactiveObject
+    public class Preferences : INotifyPropertyChanged
     {
-        public Preferences() 
-        {
-            this.WhenAnyValue(x => x.SimDirectory, x => x.ServerAddress, x => x.MultipleSims, x => x.DriveLetter, x => x.PreferencesFile)
-                .Subscribe(x => 
-                {
-                    SimDirectory = x.Item1;
-                    ServerAddress = x.Item2;
-                    MultipleSims= x.Item3;
-                    DriveLetter= x.Item4;
-                    PreferencesFile = x.Item5;
-                });
-        }
 
         private string? _simDirectory;
-        public string? SimDirectory { get => _simDirectory; set => this.RaiseAndSetIfChanged(ref _simDirectory, value); }
+        public string? SimDirectory { get => _simDirectory; set { _simDirectory = value; NotifyPropertyChanged(); } }
 
         private string? _serverAddress;
-        public string? ServerAddress { get => _serverAddress; set => this.RaiseAndSetIfChanged(ref _serverAddress, value); }
+        public string? ServerAddress { get => _serverAddress; set { _serverAddress = value; NotifyPropertyChanged(); } }
 
         private bool _multipleSims;
-        public bool MultipleSims { get => _multipleSims; set => this.RaiseAndSetIfChanged(ref _multipleSims, value); }
+        public bool MultipleSims { get => _multipleSims; set { _multipleSims = value; NotifyPropertyChanged(); } }
 
         private string? _driveLetter;
-        public string? DriveLetter { get => _driveLetter; set=> this.RaiseAndSetIfChanged(ref _driveLetter, value); }
+        public string? DriveLetter { get => _driveLetter; set { _driveLetter = value; NotifyPropertyChanged(); } }
 
         private string? _preferencesFile;
-        public string? PreferencesFile { get => _preferencesFile; set => this.RaiseAndSetIfChanged(ref _preferencesFile, value); }
+        public string? PreferencesFile { get => _preferencesFile; set { _preferencesFile = value; NotifyPropertyChanged(); } }
+
+        //--//
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 

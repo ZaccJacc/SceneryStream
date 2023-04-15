@@ -20,7 +20,6 @@
     <None Remove="Assets\Folder.png" />
     <None Remove="Assets\Plus.png" />
     <None Remove="Assets\Tick.png" />
-    <None Remove="Assets\XLogo.png" />
     <None Remove="Assets\Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -28,7 +27,6 @@
     <AvaloniaResource Include="Assets\Folder.png" />
     <AvaloniaResource Include="Assets\Plus.png" />
     <AvaloniaResource Include="Assets\Tick.png" />
-    <AvaloniaResource Include="Assets\XLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.

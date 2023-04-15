@@ -54,6 +54,7 @@ namespace SceneryStream.src.ViewModel
             set
             {
                 App.Preferences.DriveLetter = ((char)(value + 65)).ToString();
+                NotifyPropertyChanged();
             }
         }
 
