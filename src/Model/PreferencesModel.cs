@@ -140,8 +140,8 @@ namespace SceneryStream.src.Model
                 }
                 else
                 {
-                    File.WriteAllLines("App.Preferences.setup", lines);
-                    App.Preferences.PreferencesFile = "App.Preferences.setup";
+                    File.WriteAllLines("Preferences.setup", lines);
+                    App.Preferences.PreferencesFile = "Preferences.setup";
                 }
                 File.WriteAllText("Targets.setup", App.Preferences.PreferencesFile);
 

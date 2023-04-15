@@ -8,9 +8,8 @@
 		
 		TransparencyLevelHint="AcrylicBlur"
 	    Background="Transparent"
+		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True">
-
-	<ScrollViewer>
 		<Grid>
 			<Panel>
 				<ExperimentalAcrylicBorder IsHitTestVisible="False">
@@ -43,5 +42,4 @@ Please read the Terms of Service and further information on the website for more
 				
 			</TextBlock>
 		</Grid>
-	</ScrollViewer>
 </Window>
