@@ -5,7 +5,9 @@
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.PreferencesView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
-             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel">
+             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model">
+
 
 	<UserControl.DataContext>
 		<viewModel:PreferencesViewModel/>
@@ -23,108 +25,108 @@
 		</Grid.RowDefinitions>
 
 
-			<!--Scenery installation settings-->
-			<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<TextBlock Text="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18" FontFamily="Abadi"/>
-				<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to be use - one that you are not using">
-					<ComboBoxItem Content="A:"/>
-					<ComboBoxItem Content="B:"/>
-					<ComboBoxItem Content="C:"/>
-					<ComboBoxItem Content="D:"/>
-					<ComboBoxItem Content="E:"/>
-					<ComboBoxItem Content="F:"/>
-					<ComboBoxItem Content="G:"/>
-					<ComboBoxItem Content="H:"/>
-					<ComboBoxItem Content="I:"/>
-					<ComboBoxItem Content="J:"/>
-					<ComboBoxItem Content="K:"/>
-					<ComboBoxItem Content="L:"/>
-					<ComboBoxItem Content="M:"/>
-					<ComboBoxItem Content="N:"/>
-					<ComboBoxItem Content="O:"/>
-					<ComboBoxItem Content="P:"/>
-					<ComboBoxItem Content="Q:"/>
-					<ComboBoxItem Content="R:"/>
-					<ComboBoxItem Content="S:"/>
-					<ComboBoxItem Content="T:"/>
-					<ComboBoxItem Content="U:"/>
-					<ComboBoxItem Content="V:"/>
-					<ComboBoxItem Content="W:"/>
-					<ComboBoxItem Content="X:"/>
-					<ComboBoxItem Content="Y:"/>
-					<ComboBoxItem Content="Z:"/>
-				</ComboBox>
-				<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240" Text="{Binding SimDirectory}"/>
-				<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" Command="{Binding selectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
-					<Panel>
-						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-				<Button x:Name="AcceptSimDir" Margin="284,45,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" CornerRadius="5">
-					<Panel>
-						<Image Source="/Assets/Tick.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-				<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
-				<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False"/>
-				<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
-					<Panel>
-						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-				<Button x:Name="AddDirectory" Margin="284,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomInstallationDirectory">
-					<Panel>
-						<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-				<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}"/>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</Canvas>
-			<!--Scenery scanning settings-->
-			<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
-				<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
-				<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}"/>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-				<Button x:Name="BrowseCustomScenery" Margin="246,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
-					<Panel>
-						<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-				<Button x:Name="AddDirectoryScenery" Margin="284,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomSceneryDirectory">
-					<Panel>
-						<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-					</Panel>
-				</Button>
-			</Canvas>
-			<!--Integration settings-->
-			<Canvas Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<Label Content="Integration Settings" FontSize="21" FontWeight="Medium" Grid.Column="1" Margin="5 5"/>
-				<CheckBox x:Name="MaintenanceUpdates" IsChecked="True" Content="Receive maintenance notifications in-sim" FontSize="18" Margin="5 45"/>
-				<Label Content="Popup Type" FontSize="16" Margin="5 90"/>
-				<ComboBox x:Name="PopupType" MinWidth="250" SelectedIndex="0" Margin="5 125" >
-					<ComboBoxItem Content="Service updates"/>
-					<ComboBoxItem Content="Service warnings only"/>
-				</ComboBox>
-			</Canvas>
-			<!--Controller config-->
-			<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
-				<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-				<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding loadPreferences}" Margin="5 45"/>
-				<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45"/>
-			</Canvas>
+		<!--Scenery installation settings-->
+		<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<TextBlock Text="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18" FontFamily="Abadi"/>
+			<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to be use - one that you are not using">
+				<ComboBoxItem Content="A:"/>
+				<ComboBoxItem Content="B:"/>
+				<ComboBoxItem Content="C:"/>
+				<ComboBoxItem Content="D:"/>
+				<ComboBoxItem Content="E:"/>
+				<ComboBoxItem Content="F:"/>
+				<ComboBoxItem Content="G:"/>
+				<ComboBoxItem Content="H:"/>
+				<ComboBoxItem Content="I:"/>
+				<ComboBoxItem Content="J:"/>
+				<ComboBoxItem Content="K:"/>
+				<ComboBoxItem Content="L:"/>
+				<ComboBoxItem Content="M:"/>
+				<ComboBoxItem Content="N:"/>
+				<ComboBoxItem Content="O:"/>
+				<ComboBoxItem Content="P:"/>
+				<ComboBoxItem Content="Q:"/>
+				<ComboBoxItem Content="R:"/>
+				<ComboBoxItem Content="S:"/>
+				<ComboBoxItem Content="T:"/>
+				<ComboBoxItem Content="U:"/>
+				<ComboBoxItem Content="V:"/>
+				<ComboBoxItem Content="W:"/>
+				<ComboBoxItem Content="X:"/>
+				<ComboBoxItem Content="Y:"/>
+				<ComboBoxItem Content="Z:"/>
+			</ComboBox>
+			<Label Content="Installation Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+			<TextBox x:Name="SimDirectory" Watermark="X-Plane Directory" Margin="5 45" Width="240" Text="{Binding SimDirectory}"/>
+			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" Command="{Binding selectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
+				<Panel>
+					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+			<Button x:Name="AcceptSimDir" Margin="284,45,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" CornerRadius="5">
+				<Panel>
+					<Image Source="/Assets/Tick.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+			<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
+			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False"/>
+			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+				<Panel>
+					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+			<Button x:Name="AddDirectory" Margin="284,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomInstallationDirectory">
+				<Panel>
+					<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Canvas>
+		<!--Scenery scanning settings-->
+		<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
+			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
+			<ListBox x:Name="OtherDirectoryList" Margin="5,122,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			<Button x:Name="BrowseCustomScenery" Margin="246,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+				<Panel>
+					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+			<Button x:Name="AddDirectoryScenery" Margin="284,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomSceneryDirectory">
+				<Panel>
+					<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</Panel>
+			</Button>
+		</Canvas>
+		<!--Integration settings-->
+		<Canvas Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Label Content="Integration Settings" FontSize="21" FontWeight="Medium" Grid.Column="1" Margin="5 5"/>
+			<CheckBox x:Name="MaintenanceUpdates" IsChecked="True" Content="Receive maintenance notifications in-sim" FontSize="18" Margin="5 45"/>
+			<Label Content="Popup Type" FontSize="16" Margin="5 90"/>
+			<ComboBox x:Name="PopupType" MinWidth="250" SelectedIndex="0" Margin="5 125" >
+				<ComboBoxItem Content="Service updates"/>
+				<ComboBoxItem Content="Service warnings only"/>
+			</ComboBox>
+		</Canvas>
+		<!--Controller config-->
+		<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
+			<Button x:Name="LoadConfigFile" Content="Load Config File" FontSize="16" CornerRadius="5" Command="{Binding loadPreferences}" Margin="5 45"/>
+			<Button x:Name="ResetConfigFile" Content="Reset Preferences On Restart" FontSize="16" CornerRadius="5" Command="{Binding resetPreferences}" Margin="150 45"/>
+		</Canvas>
 	</Grid>
 
 </UserControl>

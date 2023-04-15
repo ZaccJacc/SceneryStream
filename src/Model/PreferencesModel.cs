@@ -11,19 +11,76 @@ namespace SceneryStream.src.Model
     {
 
         private string? _simDirectory;
-        public string? SimDirectory { get => _simDirectory; set { _simDirectory = value; NotifyPropertyChanged(); } }
+        public string? SimDirectory
+        {
+            get
+            {
+                return _simDirectory;
+            }
+            set
+            {
+                _simDirectory = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string? _serverAddress;
-        public string? ServerAddress { get => _serverAddress; set { _serverAddress = value; NotifyPropertyChanged(); } }
+        public string? ServerAddress
+        {
+            get
+            {
+                return _serverAddress;
+            }
+            set
+            {
+                _serverAddress = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         private bool _multipleSims;
-        public bool MultipleSims { get => _multipleSims; set { _multipleSims = value; NotifyPropertyChanged(); } }
+        public bool MultipleSims
+        {
+            get
+            {
+                return _multipleSims;
+            }
+            set
+            {
+                _multipleSims = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string? _driveLetter;
-        public string? DriveLetter { get => _driveLetter; set { _driveLetter = value; NotifyPropertyChanged(); } }
+        public string? DriveLetter
+        {
+            get
+            {
+                return _driveLetter;
+            }
+            set
+            {
+                _driveLetter = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         private string? _preferencesFile;
-        public string? PreferencesFile { get => _preferencesFile; set { _preferencesFile = value; NotifyPropertyChanged(); } }
+        public string? PreferencesFile
+        {
+            get
+            {
+                return _preferencesFile;
+            }
+            set
+            {
+                _preferencesFile = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         //--//
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -33,13 +90,40 @@ namespace SceneryStream.src.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public static async Task savePreferences()
+        {
+            try
+            {
+                string[] lines = new string[4];
+                lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
+                lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
+                lines[2] = $"D-{App.Preferences._driveLetter}";
+                lines[3] = $"M-Multisim:{App.Preferences._multipleSims}";
+                if (App.Preferences._preferencesFile != null && File.Exists(App.Preferences._preferencesFile))
+                {
+                    File.WriteAllLines(App.Preferences._preferencesFile, lines);
+                }
+                else
+                {
+                    File.WriteAllLines("Preferences.setup", lines);
+                    App.Preferences._preferencesFile = "Preferences.setup";
+                }
+                File.WriteAllText("Targets.setup", App.Preferences._preferencesFile);
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("[!] Could not write to preferences file!");
+            }
+        }
+
     }
 
     internal class PreferencesModel
     {
         public PreferencesModel() { }
 
-        public static async Task<bool> loadPreferences(string fileName) //Still requires the error detection method to be changed from terminating because of an exception, to setting a flag variable that is checked after so other values can be loaded.
+        public static async Task<bool> loadPreferences(string fileName)
         {
             App.Preferences.PreferencesFile = fileName;
             return await Task.Run(() =>
@@ -86,10 +170,11 @@ namespace SceneryStream.src.Model
                                         break;
                                     }
                                     App.Preferences.MultipleSims = split[1].Equals("True") ? true : false;
+                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
                                 case 'D':
-                                    if (line.Length < 2)
+                                    if (line.Length < 3)
                                     {
                                         PropertiesIncomplete = true;
                                         Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
@@ -110,7 +195,7 @@ namespace SceneryStream.src.Model
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated.");
+                        Console.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated. {ex.Message}");
                         return false;
                     }
                     
@@ -125,31 +210,6 @@ namespace SceneryStream.src.Model
 
         }
 
-        public static async Task savePreferences()
-        {
-            try
-            {
-                string[] lines = new string[4];
-                lines[0] = App.Preferences.ServerAddress != null ? $"A-{App.Preferences.ServerAddress}" : $"A-{null}";
-                lines[1] = App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
-                lines[2] = $"D-{App.Preferences.DriveLetter}";
-                lines[3] = $"M-Multisim:{App.Preferences.MultipleSims}";
-                if (App.Preferences.PreferencesFile != null && File.Exists(App.Preferences.PreferencesFile))
-                {
-                    File.WriteAllLines(App.Preferences.PreferencesFile, lines);
-                }
-                else
-                {
-                    File.WriteAllLines("Preferences.setup", lines);
-                    App.Preferences.PreferencesFile = "Preferences.setup";
-                }
-                File.WriteAllText("Targets.setup", App.Preferences.PreferencesFile);
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("[!] Could not write to preferences file!");
-            }
-        }
+        
     }
 }

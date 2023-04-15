@@ -24,7 +24,7 @@ namespace SceneryStream.src
             {
                 Console.WriteLine("[!] Preferences file incomplete - will not autosave.");
             }*/
-            await PreferencesModel.savePreferences();
+            await Preferences.savePreferences();
             try
             {
                 NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);

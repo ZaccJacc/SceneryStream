@@ -25,6 +25,7 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() { }
 
+        //-//
         public string? SimDirectory
         {
             get
@@ -76,7 +77,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public async void selectSimDirectory(string install_type) //this needs to eventually check if this is for the main directory or for other installations
+        public async void selectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
         {
             SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
         }
