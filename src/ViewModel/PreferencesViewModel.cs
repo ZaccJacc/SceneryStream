@@ -55,5 +55,10 @@ namespace SceneryStream.src.ViewModel
             });
         }
 
+        public async void SavePreferences()
+        {
+            await PreferencesModel.SavePreferences();
+        }
+
     }
 }

@@ -36,6 +36,7 @@ namespace SceneryStream.src.ViewModel
             if (App.Preferences.ServerAddress != null && App.Preferences.DriveLetter != null)
             {
                 await Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
+                cViewModel.GatherUpdateInformation();
             }
             else
             {
