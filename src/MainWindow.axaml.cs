@@ -14,7 +14,8 @@ namespace SceneryStream.src
     {
 
         protected override async void OnClosing(CancelEventArgs e)
-        {        
+        {
+            base.OnClosing(e);
             try
             {
                 NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
@@ -26,7 +27,6 @@ namespace SceneryStream.src
                 Console.WriteLine("Shutdown incomplete");
             }
             await PreferencesModel.SavePreferences();
-            base.OnClosing(e);
         }
 
         public MainWindow()

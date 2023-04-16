@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="SceneryStream.src.MainWindow"
-        Title="XSS Alpha0.13"
+        Title="XSS Alpha0.14"
 		
 		xmlns:views="clr-namespace:SceneryStream.src.View"
 		
@@ -47,7 +47,7 @@
 						<views:PreferencesView x:Name="PreferencesViewControl"/>
 					</Grid>
 				</TabItem>
-				<TabItem Header="Alpha0.13" FontFamily="Consolas" FontWeight="Bold" IsEnabled="False"/>
+				<TabItem Header="Alpha0.14" FontFamily="Consolas" FontWeight="Bold" IsEnabled="False"/>
 			</TabControl>
 		</Grid>
 </Window>
