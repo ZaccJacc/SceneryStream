@@ -12,7 +12,11 @@ namespace SceneryStream
     public partial class App : Application
     {
         public static LocalMachine ServiceInstance = new LocalMachine();
-        internal static PreferencesModel Preferences = new PreferencesModel();
+        private static PreferencesModel _preferences = new PreferencesModel();
+        public static PreferencesModel Preferences
+        {
+            get { return _preferences; }
+        }
 
         public override void Initialize()
         {

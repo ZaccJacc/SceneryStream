@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
 {
-    internal class PreferencesModel : INotifyPropertyChanged
+    public class PreferencesModel : INotifyPropertyChanged
     {
         public PreferencesModel() { }
-
-        internal PreferencesModel Preferences = App.Preferences;
 
         private string _test = "hello world";
         public string Test
@@ -38,10 +36,8 @@ namespace SceneryStream.src.Model
         private string? _serverAddress;
         public string? ServerAddress
         {
-            get
-            {
-                return _serverAddress;
-            }
+            get => _serverAddress;
+            
 
             set
             {
@@ -54,10 +50,7 @@ namespace SceneryStream.src.Model
         private bool _multipleSims;
         public bool MultipleSims
         {
-            get
-            {
-                return _multipleSims;
-            }
+            get => _multipleSims;
             set
             {
                 _multipleSims = value;
@@ -68,7 +61,7 @@ namespace SceneryStream.src.Model
         private string? _driveLetter;
         public string DriveLetter
         {
-            get { return _driveLetter; }
+            get => _driveLetter;
             set
             {
                 this._driveLetter = value;
@@ -93,10 +86,7 @@ namespace SceneryStream.src.Model
         private string? _preferencesFile;
         public string? PreferencesFile
         {
-            get
-            {
-                return _preferencesFile;
-            }
+            get => _preferencesFile;
             set
             {
                 _preferencesFile = value;
