@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
 {
-    public class PreferencesModel : INotifyPropertyChanged
+    internal class PreferencesModel : ObservableObject
     {
         public PreferencesModel() { }
 
@@ -94,18 +94,7 @@ namespace SceneryStream.src.Model
             }
         }
 
-        public void ForceValue()
-        {
-            SimDirectory = @"\NewDirectory";
-        }
-
         //--//
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public static async Task SavePreferences()
         {
@@ -113,7 +102,6 @@ namespace SceneryStream.src.Model
             {
                 try
                 {
-                    Console.WriteLine($"Values on save time: {App.Preferences._serverAddress} {App.Preferences._simDirectory}");
                     string[] lines = new string[4];
                     lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
                     lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.

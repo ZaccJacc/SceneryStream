@@ -13,7 +13,7 @@ namespace SceneryStream
     {
         public static LocalMachine ServiceInstance = new LocalMachine();
         private static PreferencesModel _preferences = new PreferencesModel();
-        public static PreferencesModel Preferences
+        internal static PreferencesModel Preferences
         {
             get { return _preferences; }
         }

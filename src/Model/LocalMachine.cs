@@ -1,6 +1,7 @@
 ﻿#pragma warning disable CS1998
 using Avalonia.Controls;
 using SceneryStream.src.Model;
+using SceneryStream.src.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -70,9 +71,9 @@ namespace SceneryStream.src.Model
                                 {
                                     await Task.Run(async () =>
                                     {
-                                        Console.WriteLine("[*] Trying to make shortcuts");
                                         Utility.Windows.createShortcut(App.Preferences.DriveLetter, App.Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
                                         //Currently forced to only airports because the server only has airports :p
+                                        ConnectionViewModel.cViewModel.GatherUpdateInformation();
                                     });
                                 }  
                                 break;
@@ -268,7 +269,7 @@ namespace Utility
         {
             await Task.Run(async () =>
             {
-                Console.WriteLine("wapwap");
+                Console.WriteLine("[*] Attempting shell links.");
                 try
                 {
                     IShellLink link = (IShellLink)new ShellLink();
@@ -457,14 +458,13 @@ namespace Utility
             return false;
         }
 
-
-
-
         internal static bool MapDriveByConsole(string drive, string address)
         {
+            Console.WriteLine("[*] Attempting to map drive");
             foreach(string s in Environment.GetLogicalDrives())
             {
-                if (s.ToUpper().Equals(drive.ToUpper())){
+                if (char.ToUpper(s[0]).ToString().Equals(drive.ToUpper())){
+                    Console.WriteLine($"[*] Drive conflict found!\n\t=> Will override {drive}");
                     RemoveDriveByConsole(drive);
                 }
             }
@@ -499,6 +499,7 @@ namespace Utility
 
         internal static void RemoveDriveByConsole(string drive)
         {
+            Console.WriteLine($"[*] Attempting to remove {drive}");
             Process process = new Process();
             try
             {
@@ -508,7 +509,7 @@ namespace Utility
                     RedirectStandardOutput = true,
                     CreateNoWindow = false,
                     FileName = $"net",
-                    Arguments = $"use {drive}: /delete"
+                    Arguments = $"use {drive}: /delete /y"
                 };
 
                 process.Start();

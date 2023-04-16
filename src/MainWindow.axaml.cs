@@ -14,19 +14,19 @@ namespace SceneryStream.src
     {
 
         protected override async void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-            await PreferencesModel.SavePreferences();
+        {        
             try
             {
                 NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
                 File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
                 File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
             }
-            catch (Exception) { }
-
-
-
+            catch (Exception) 
+            {
+                Console.WriteLine("Shutdown incomplete");
+            }
+            await PreferencesModel.SavePreferences();
+            base.OnClosing(e);
         }
 
         public MainWindow()

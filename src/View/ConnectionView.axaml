@@ -28,7 +28,7 @@
 
 		<Canvas>
 			<TextBlock Text="Server Updates" Canvas.Top="224" Canvas.Left="22" FontSize="18" FontFamily="Abadi"/>
-			<TextBox x:Name="ServerUpdate_block" MinHeight="600" Width="350" Text="Placeholder updates - this box will contain information about the updates to the servers and the app." AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Canvas.Left="20" Canvas.Top="250" IsReadOnly="True" TextWrapping="Wrap"/>
+			<TextBox x:Name="ServerUpdate_block" MinHeight="600" Width="350" Text="{Binding cViewModel.UpdateText}" AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Canvas.Left="20" Canvas.Top="250" IsReadOnly="True" TextWrapping="Wrap"/>
 			<TextBlock Text="Scenery Location" Canvas.Top="125" Canvas.Left="90" FontSize="18" FontFamily="Abadi"/>
 			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="87" Canvas.Top="150" Text="{Binding Preferences.ServerAddress}">
 				<TextBox.DataContext>
