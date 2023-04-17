@@ -49,8 +49,5 @@
 			<Setter Property="FontFamily" Value="Abadi"/>
 		</Style>
     </Application.Styles>
-
-	<!--<Application.Resources>
-		<x:Static x:Key="PlatformID" DataContext="{Binding LocalMachine}">{Binding Platform}</x:Static>
-	</Application.Resources>-->
+	
 </Application>
