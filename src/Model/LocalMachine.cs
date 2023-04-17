@@ -71,7 +71,7 @@ namespace SceneryStream.src.Model
                                 {
                                     await Task.Run(async () =>
                                     {
-                                        Utility.Windows.createShortcut(App.Preferences.DriveLetter, App.Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
+                                        Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
                                         //Currently forced to only airports because the server only has airports :p
                                         ConnectionViewModel.cViewModel.GatherUpdateInformation();
                                     });
@@ -265,7 +265,7 @@ namespace Utility
     }
     class Windows
     {
-        internal static async void createShortcut(string link_path, string link_location, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
+        internal static async void createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
         {
             await Task.Run(async () =>
             {
@@ -276,7 +276,7 @@ namespace Utility
 
                     // setup shortcut information
                     link.SetDescription($"XSS Mount for {scenery_type}");
-                    link.SetPath($@"{link_path}:\");
+                    link.SetPath($@"{mounted_drive}:\{link_path}");
 
                     // save it
                     IPersistFile file = (IPersistFile)link;

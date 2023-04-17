@@ -40,11 +40,6 @@ namespace SceneryStream.src
             FlyoutBase.ShowAttachedFlyout(sender as Control);
         }
 
-        public void ThrowCredits(object? sender, PointerPressedEventArgs e)
-        {
-            CreditsWindow credits = new CreditsWindow();
-            credits.Show();
-        }
 
 
         //Platform-dependent operations below - Here be dragons!

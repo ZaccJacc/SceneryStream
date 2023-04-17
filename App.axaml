@@ -3,6 +3,7 @@
              x:Class="SceneryStream.App">
     <Application.Styles>
         <FluentTheme Mode="Light"/>
+		
 		<Style Selector="TabControl WrapPanel">
 			<Setter Property="Background" Value="#d4d6d9"/>
 		</Style>
@@ -10,7 +11,7 @@
 		<Style Selector="TabItem">
 			<Setter Property="FocusAdorner" Value="{x:Null}"/>
 			<Setter Property="Width" Value="200"/>
-			<Setter Property="FontSize" Value="21"/>
+			<Setter Property="FontSize" Value="24"/>
 			<Setter Property="Height" Value="34"/>
 			<Setter Property="VerticalAlignment" Value="Center"/>
 			<Setter Property="Background" Value="#d4d6d9"/>
@@ -27,7 +28,7 @@
 
 
 		<Style Selector="TabItem:selected">
-			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="Foreground" Value="#94a0b0"/>
 			<Setter Property="Margin" Value="0 0 0 0"/>
 			<Setter Property="Padding" Value="10 0"/>
 		</Style>

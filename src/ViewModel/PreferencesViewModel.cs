@@ -23,12 +23,6 @@ namespace SceneryStream.src.ViewModel
         public PreferencesViewModel() { }
 
         //-//
-        public static void Popup(object? sender, RoutedEventArgs e)
-        {
-            var command = ReactiveCommand.Create(() => Console.WriteLine("ReactiveCommand invoked"));
-            FileBrowserView fileBrowser = new FileBrowserView();
-            fileBrowser.Show();
-        }
 
         public async void LoadPreferences()
         {
@@ -41,7 +35,8 @@ namespace SceneryStream.src.ViewModel
 
         public async void SelectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
         {
-            App.Preferences.SimDirectory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+            string directory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+            App.Preferences.SimDirectory = directory != "" ? directory : App.Preferences.SimDirectory;
         }
 
         public async void ResetPreferences()

@@ -7,6 +7,7 @@
     <TrimMode>copyused</TrimMode>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>SceneryStream.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>True</Optimize>
@@ -41,6 +42,9 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.19" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.19" />
+    <PackageReference Include="GMap.NET.Core" Version="2.1.7" />
+    <PackageReference Include="GMap.NET.WinAvalonia" Version="2.1.6" />
+    <PackageReference Include="Mapsui.Avalonia" Version="4.0.0-beta.10" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="ReactiveUI" Version="18.4.26" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
@@ -50,9 +54,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="src\View\CreditsWindowView.axaml.cs">
-      <DependentUpon>CreditsWindowView.axaml</DependentUpon>
     </Compile>
     <Compile Update="src\View\FileBrowserView.axaml.cs">
       <DependentUpon>FileBrowserView.axaml</DependentUpon>

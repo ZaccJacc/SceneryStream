@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using SceneryStream.src;
 using SceneryStream.src.Model;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace SceneryStream
@@ -27,11 +26,11 @@ namespace SceneryStream
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                Task platformbuild = ServiceInstance.BuildServiceAuthenticity();
                 desktop.MainWindow = new MainWindow();
+                Task platformbuild = ServiceInstance.BuildServiceAuthenticity();
                 //----//
                 await platformbuild;
-                
+
                 if (!ServiceInstance.Platform_Verified)
                 {
                     Console.WriteLine("[!] Unable to complete platform verification.");
