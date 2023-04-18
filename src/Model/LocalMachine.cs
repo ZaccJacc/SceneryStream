@@ -79,7 +79,16 @@ namespace SceneryStream.src.Model
                                 break;
 
                             case PlatformID.Unix:
-                                Console.WriteLine("[!] Drive mounting is currently only available on Windows.");
+                                Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
+                                primary_connection_success = await attempt_unix_mounting;
+                                if (primary_connection_success)
+                                {
+                                    await Task.Run(async () =>
+                                    {
+                                        Console.WriteLine("[!] Cannot create shortcuts on unix.");
+                                        ConnectionViewModel.cViewModel.GatherUpdateInformation();
+                                    });
+                                }
                                 break;
                         }
 

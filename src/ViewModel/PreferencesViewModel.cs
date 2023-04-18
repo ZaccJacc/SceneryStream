@@ -13,7 +13,7 @@ namespace SceneryStream.src.ViewModel
     {
 
 
-        public string Platform
+        public static string Platform
         {
             get { return App.ServiceInstance.Platform.ToString(); }
         }

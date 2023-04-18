@@ -48,11 +48,19 @@ namespace SceneryStream.src.ViewModel
         {
             await Task.Run(() =>
             {
+                Console.WriteLine("[*] Attempting to read server updates info");
                 try
                 {
-                    Console.WriteLine("[*] Attempting to read server updates info");
-                    cViewModel.UpdateText = File.ReadAllText(App.Preferences.ServerAddress + @"\ServerUpdates");
+                    switch (ViewModel.PreferencesViewModel.Platform)
+                    {
+                        case "Win32NT":
+                            cViewModel.UpdateText = File.ReadAllText(App.Preferences.ServerAddress + @"\ServerUpdates");
+                            break;
 
+                        case "Unix":
+                            cViewModel.UpdateText = File.ReadAllText($"~/mnt/{App.Preferences.ServerAddress}/ServerUpdates");
+                            break;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +68,6 @@ namespace SceneryStream.src.ViewModel
                 }
             });
         }
-
     }
 }
 
