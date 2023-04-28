@@ -64,7 +64,7 @@ namespace SceneryStream.src.Model
             get => _driveLetter;
             set
             {
-                this._driveLetter = value;
+                _driveLetter = value;
                 NotifyPropertyChanged(nameof(DriveLetter));
             }
         }
@@ -73,7 +73,8 @@ namespace SceneryStream.src.Model
         {
             get
             {
-                return _driveLetter != null ? _driveLetter[0] - 65 : 0;
+
+                return string.IsNullOrEmpty(_driveLetter) ? _driveLetter[0] - 65 : 0;
             }
             set
             {
