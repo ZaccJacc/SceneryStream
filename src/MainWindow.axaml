@@ -61,6 +61,6 @@
 					</Grid>
 				</TabItem>
 			</TabControl>
-		<Label ZIndex="2" Content="Alpha0.15.1" FontFamily="Consolas" FontWeight="Bold" Margin="15 1050 0 0" Foreground="#909193" FontSize="20"/>
+		<Label ZIndex="2" Content="Alpha0.15.1" FontFamily="Consolas" FontWeight="Bold" Margin="15 10" VerticalAlignment="Bottom" Foreground="#909193" FontSize="20"/>
 		</Grid>
 </Window>
