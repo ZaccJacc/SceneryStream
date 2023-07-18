@@ -66,6 +66,7 @@ namespace SceneryStream.src.Model
             {
                 _driveLetter = value;
                 NotifyPropertyChanged(nameof(DriveLetter));
+                NotifyPropertyChanged(nameof(DriveIndex));
             }
         }
 
@@ -74,11 +75,11 @@ namespace SceneryStream.src.Model
             get
             {
 
-                return string.IsNullOrEmpty(_driveLetter) ? _driveLetter[0] - 65 : 0;
+                return string.IsNullOrEmpty(_driveLetter) ? 0 : _driveLetter[0] - 65;
             }
             set
             {
-                _driveLetter = ((char)(value + 65)).ToString();
+                _driveLetter = ((char?)(value + 65)).ToString();
                 NotifyPropertyChanged(nameof(DriveIndex));
             }
         }
