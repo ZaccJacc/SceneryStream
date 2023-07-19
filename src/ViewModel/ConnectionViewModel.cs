@@ -3,7 +3,12 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
+using Avalonia.Input;
 using Utility;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
+using Avalonia.Media.Imaging;
+using JetBrains.Annotations;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -30,6 +35,48 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
+        private Bitmap? _source = new($@"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\Assets\Status\Connecting_Circle.png");
+        public Bitmap? Source
+        {
+            get => _source;
+            set
+            {
+                _source = value;
+                NotifyPropertyChanged(nameof(Source));
+            }
+        }
+
+        internal void ReviewConnecionStatusIndicator()
+        {
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            switch (App.ServiceInstance.Connected)
+            {
+                case true:
+                    Source = new Bitmap(@$"{projectDirectory}\Assets\Status\Connected_Circle.png");
+                    break;
+                case false:
+                    Source = new Bitmap(@$"{projectDirectory}\Assets\Status\Disconnected_Circle.png");
+                    break;
+            }
+        }
+
+        internal void ToggleConnection(object? sender, PointerPressedEventArgs args)
+        {
+            Console.WriteLine("[*] Connection Manually Triggered");
+            switch (App.ServiceInstance.Connected)
+            {
+                case true:
+                    NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    break;
+
+                case false:
+                    if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
+                    {
+                        makeConnection();
+                    }
+                    break;
+            }
+        }
 
         internal async void makeConnection()
         {

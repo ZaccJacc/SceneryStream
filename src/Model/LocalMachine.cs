@@ -1,6 +1,7 @@
 ﻿#pragma warning disable CS1998
 using Avalonia.Controls;
 using SceneryStream.src.Model;
+using SceneryStream.src.View;
 using SceneryStream.src.ViewModel;
 using System;
 using System.Collections.ObjectModel;
@@ -26,6 +27,7 @@ namespace SceneryStream.src.Model
             {
                 primary_connection_success = value;
                 NotifyPropertyChanged(nameof(Connected));
+                ConnectionViewModel.cViewModel.ReviewConnecionStatusIndicator();
             }
         }
 
@@ -69,6 +71,7 @@ namespace SceneryStream.src.Model
                         if (!await pingServer)
                         {
                             Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
+                            Connected = false;
                         }
                         else
                         {
@@ -76,8 +79,8 @@ namespace SceneryStream.src.Model
                             {
                                 case PlatformID.Win32NT:
                                     Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
-                                    primary_connection_success = await attempt_mounting;
-                                    if (primary_connection_success)
+                                    Connected = await attempt_mounting;
+                                    if (Connected)
                                     {
                                         await Task.Run(async () =>
                                         {
@@ -90,8 +93,8 @@ namespace SceneryStream.src.Model
 
                                 case PlatformID.Unix:
                                     Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
-                                    primary_connection_success = await attempt_unix_mounting;
-                                    if (primary_connection_success)
+                                    Connected = await attempt_unix_mounting;
+                                    if (Connected)
                                     {
                                         await Task.Run(async () =>
                                         {

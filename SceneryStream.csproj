@@ -23,6 +23,9 @@
     <None Remove="Assets\Plus.png" />
     <None Remove="Assets\Reset.png" />
     <None Remove="Assets\SaveFile.png" />
+    <None Remove="Assets\Status\Connected_Circle.png" />
+    <None Remove="Assets\Status\Connecting_Circle.png" />
+    <None Remove="Assets\Status\Disconnected_Circle.png" />
     <None Remove="Assets\Tick.png" />
     <None Remove="Assets\Resources\" />
   </ItemGroup>
@@ -33,6 +36,9 @@
     <AvaloniaResource Include="Assets\Plus.png" />
     <AvaloniaResource Include="Assets\Reset.png" />
     <AvaloniaResource Include="Assets\SaveFile.png" />
+    <AvaloniaResource Include="Assets\Status\Connected_Circle.png" />
+    <AvaloniaResource Include="Assets\Status\Connecting_Circle.png" />
+    <AvaloniaResource Include="Assets\Status\Disconnected_Circle.png" />
     <AvaloniaResource Include="Assets\Tick.png" />
   </ItemGroup>
   <ItemGroup>
