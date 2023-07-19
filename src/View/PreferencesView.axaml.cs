@@ -59,6 +59,7 @@ namespace SceneryStream.src.View
                         OtherDirectoryList.IsVisible = true;
                     }
                     ((CheckBox)sender).Tag = 1;
+                    App.Preferences.MultipleSims = true;
                     break;
                 case "1":
                     OtherInstallationField.IsVisible = false;
@@ -66,6 +67,7 @@ namespace SceneryStream.src.View
                     OtherInstallationList.IsVisible = false;
                     AddDirectory.IsVisible = false;
                     ((CheckBox)sender).Tag = 0;
+                    App.Preferences.MultipleSims = false;
                     break;
 
                 default:

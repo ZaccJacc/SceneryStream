@@ -57,53 +57,55 @@ namespace SceneryStream.src.Model
                 platform = platformdata.Item2;
             }).Start();
             try
-            {
+            { //Delegated this entire thing to a new random thread because the mounting attempt when the preferences load successfully was on the UI thread and froze the whole thing.
+                new Thread(async () =>
+                {
                 App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
                 Console.WriteLine("[*] Preferences file found.");
                 Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
-                if (await loadPreferenceSuccess)
-                {
-                    Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
-                    if (!await pingServer)
+                    if (await loadPreferenceSuccess)
                     {
-                        Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
-                    }
-                    else
-                    {
-                        switch (platform)
+                        Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
+                        if (!await pingServer)
                         {
-                            case PlatformID.Win32NT:
-                                Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
-                                primary_connection_success = await attempt_mounting;
-                                if (primary_connection_success)
-                                {
-                                    await Task.Run(async () =>
-                                    {
-                                        Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory+@"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
-                                        //Currently forced to only airports because the server only has airports :p
-                                        ConnectionViewModel.cViewModel.GatherUpdateInformation();
-                                    });
-                                }  
-                                break;
-
-                            case PlatformID.Unix:
-                                Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
-                                primary_connection_success = await attempt_unix_mounting;
-                                if (primary_connection_success)
-                                {
-                                    await Task.Run(async () =>
-                                    {
-                                        Console.WriteLine("[!] Cannot create shortcuts on unix.");
-                                        ConnectionViewModel.cViewModel.GatherUpdateInformation();
-                                    });
-                                }
-                                break;
+                            Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
                         }
+                        else
+                        {
+                            switch (platform)
+                            {
+                                case PlatformID.Win32NT:
+                                    Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
+                                    primary_connection_success = await attempt_mounting;
+                                    if (primary_connection_success)
+                                    {
+                                        await Task.Run(async () =>
+                                        {
+                                            Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
+                                                                                                                                                                                                                //Currently forced to only airports because the server only has airports :p
+                                            ConnectionViewModel.cViewModel.GatherUpdateInformation();
+                                        });
+                                    }
+                                    break;
+
+                                case PlatformID.Unix:
+                                    Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
+                                    primary_connection_success = await attempt_unix_mounting;
+                                    if (primary_connection_success)
+                                    {
+                                        await Task.Run(async () =>
+                                        {
+                                            Console.WriteLine("[!] Cannot create shortcuts on unix.");
+                                            ConnectionViewModel.cViewModel.GatherUpdateInformation();
+                                        });
+                                    }
+                                    break;
+                            }
 
 
+                        }
                     }
-                }
-
+                }).Start();
             }
             catch (FileNotFoundException)
             {
