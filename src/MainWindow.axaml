@@ -55,7 +55,7 @@
 						<views:PreferencesView x:Name="PreferencesViewControl"/>
 					</Grid>
 				</TabItem>
-				<TabItem x:Name="Scenery" Header="Scenery">
+				<TabItem x:Name="Map" Header="Scenery Map">
 					<Grid>
 						<views:SceneryView x:Name="SceneryViewControl"/>
 					</Grid>
