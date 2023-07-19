@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using System.Collections.ObjectModel;
 
@@ -153,6 +154,23 @@ namespace SceneryStream.src.View
             scenery_paths.Add(OtherDirectoryField.Text);
             OtherDirectoryList.Items = scenery_paths;
             OtherDirectoryField.Text = string.Empty;
+        }
+
+        public void SubmitKeyHandler(object? sender, KeyEventArgs args)
+        {
+            if(args.Key == Key.Return)
+            {
+                switch (((TextBox)sender).Name)
+                {
+                    case "OtherDirectoryField":
+                        LogCustomSceneryDirectory(sender, args); 
+                        break;
+
+                    case "OtherInstallationField":
+                        LogCustomInstallationDirectory(sender, args); 
+                        break;
+                }
+            }
         }
     }
 }

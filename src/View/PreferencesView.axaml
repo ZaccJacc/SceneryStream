@@ -72,7 +72,7 @@
 				</Panel>
 			</Button>
 			<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
-			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False"/>
+			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" KeyDown="SubmitKeyHandler"/>
 			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
 				<Panel>
 					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -95,7 +95,7 @@
 		<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
-			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
+			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False" KeyDown="SubmitKeyHandler"/>
 			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 				<ListBox.ContextMenu>
 					 <ContextMenu>
@@ -132,28 +132,23 @@
 		<!--Controller config-->
 		<Canvas Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Label Content="Application Settings" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-			<!--<Button x:Name="LoadConfigFile" Content="Load Preferences File" FontSize="16" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45"/>-->
-			<Button x:Name="LoadConfigFile" ToolTip.Tip="Load Preferences File" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45">
+			<Button x:Name="LoadConfigFile" Content="Load Preferences File" FontSize="16" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45"/>
+			<!--<Button x:Name="LoadConfigFile" ToolTip.Tip="Load Preferences File" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="5 45">
 				<Panel>
 					<Image Source="/Assets/OpenFile.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
-			</Button>
-			<!--<Button x:Name="ResetConfigFile" Content="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="180 45"/>-->
-			<Button x:Name="ResetConfigFile" ToolTip.Tip="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="50 45">
+			</Button>-->
+			<Button x:Name="ResetConfigFile" Content="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="180 45"/>
+			<!--<Button x:Name="ResetConfigFile" ToolTip.Tip="Reset Preferences" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="50 45">
 				<Panel>
 					<Image Source="/Assets/Reset.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
-			</Button>
+			</Button>-->
 						
-			<!--<Button x:Name="SavePreferences" Margin="329 45" Content="Save Preferences" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}"/>-->
-			<Button x:Name="SavePreferences" Margin="95 45" ToolTip.Tip="Save Preferences File" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}">
+			<Button x:Name="SavePreferences" Margin="329 45" Content="Save Preferences" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}"/>
+			<!--<Button x:Name="SavePreferences" Margin="95 45" ToolTip.Tip="Save Preferences File" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}">
 				<Panel>
 					<Image Source="/Assets/SaveFile.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-				</Panel>
-			</Button>
-			<!--<Button x:Name="SavePreferences" Margin="329 45" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" CornerRadius="5" Command="{Binding SavePreferences}">
-				<Panel>
-					<Image Source="/Assets/Tick.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>-->
 		</Canvas>
