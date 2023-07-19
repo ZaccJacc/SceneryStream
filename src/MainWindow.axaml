@@ -56,9 +56,16 @@
 						<views:PreferencesView x:Name="PreferencesViewControl"/>
 					</Grid>
 				</TabItem>
+				<!--Scenery Map Page-->
 				<TabItem x:Name="Map" Header="Scenery Map">
 					<Grid>
 						<views:SceneryView x:Name="SceneryViewControl"/>
+					</Grid>
+				</TabItem>
+				<!--Credits Page-->
+				<TabItem x:Name="Credits" Header="Credits">
+					<Grid>
+						<views:CreditsView/>
 					</Grid>
 				</TabItem>
 			</TabControl>

@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Avalonia.Media.Imaging;
 using JetBrains.Annotations;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Threading;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -72,6 +73,7 @@ namespace SceneryStream.src.ViewModel
                 case false:
                     if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
                     {
+                        Source = new Bitmap(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\Assets\Status\Connecting_Circle.png");
                         makeConnection();
                     }
                     break;
@@ -82,8 +84,11 @@ namespace SceneryStream.src.ViewModel
         {
             if (App.Preferences.ServerAddress != null && App.Preferences.DriveLetter != null)
             {
-                await Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
-                cViewModel.GatherUpdateInformation();
+                new Thread(async() =>
+                {
+                    App.ServiceInstance.Connected = await Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
+                    cViewModel.GatherUpdateInformation();
+                }).Start();
             }
             else
             {

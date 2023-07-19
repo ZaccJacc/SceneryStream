@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS1998
 using Avalonia.Controls;
+using SceneryStream;
 using SceneryStream.src.Model;
 using SceneryStream.src.View;
 using SceneryStream.src.ViewModel;
@@ -543,6 +544,7 @@ namespace Utility
                     throw new Exception("\t=> Drive removal failed");
                 }
                 process.Dispose();
+                App.ServiceInstance.Connected = false;
             }
             catch (Exception ex)
             {
