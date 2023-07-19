@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.CreditsView">
 	<Grid>
 		<Panel>
@@ -19,8 +19,10 @@
 		<Label Content="Credits" Margin="90,80,0,0" FontFamily="Abadi" FontSize="25" FontWeight="Medium"/>
 		<Label Content="This software was developed and designed by" Margin="90,130,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium"/>
 		<Label Content="Croissant	and	Simleybob" Margin="90,160,0,0" FontSize="15"/>
+		<Label Content="This software was built using" Margin="90,200,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium" FontStyle="Italic"/>
+		<Label Content="Avalonia UI, MapsUI" Margin="90,230,0,0" FontSize="15" FontStyle="Italic"/>
 		<!---->
-		<TextBlock Margin="90,470,0,0" FontFamily="Consolas" FontSize="15">
+		<TextBlock Margin="90,150" FontFamily="Consolas" FontSize="15" VerticalAlignment="Bottom" TextWrapping="Wrap">
 Software copyright © XSS 2022-23
 
 Unauthorised redistribution, modification, or other usage of this software is a punishable offence. Please contact the team directly to report this or ask for authorisation.
