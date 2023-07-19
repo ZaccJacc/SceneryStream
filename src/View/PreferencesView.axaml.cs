@@ -27,6 +27,29 @@ namespace SceneryStream.src.View
             DeleteItemMenu.PointerPressed += DeleteItemMenu_PointerPressed;
             OtherDirectoryList.ContextMenu = DeleteItemMenu;
             OtherInstallationList.ContextMenu = DeleteItemMenu;
+
+            //getting the checkboxes into their correct state based on the loadeed preferences
+            switch(App.Preferences.MultipleSims)
+            {
+                case true:
+                    OtherInstallationField.IsVisible = true;
+                    BrowseCustom.IsVisible = true;
+                    AddDirectory.IsVisible = true;
+                    if ((string)OtherInstallationList.Tag == "1")
+                    {
+                        OtherDirectoryList.IsVisible = true;
+                    }
+                    OtherInstallationCheck.Tag = 1;
+                    break;
+
+                default:
+                    OtherInstallationField.IsVisible = false;
+                    BrowseCustom.IsVisible = false;
+                    OtherInstallationList.IsVisible = false;
+                    AddDirectory.IsVisible = false;
+                    OtherInstallationCheck.Tag = 0;
+                    break;
+            }
         }
 
         private void DeleteItemMenu_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
