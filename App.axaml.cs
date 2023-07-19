@@ -10,7 +10,7 @@ namespace SceneryStream
 {
     public partial class App : Application
     {
-        public static LocalMachine ServiceInstance = new LocalMachine();
+        internal static LocalMachine ServiceInstance = new LocalMachine();
         private static PreferencesModel _preferences = new PreferencesModel();
         internal static PreferencesModel Preferences
         {

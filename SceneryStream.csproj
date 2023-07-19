@@ -19,14 +19,20 @@
     <None Remove=".gitignore" />
     <None Remove="Assets\Chain.png" />
     <None Remove="Assets\Folder.png" />
+    <None Remove="Assets\OpenFile.png" />
     <None Remove="Assets\Plus.png" />
+    <None Remove="Assets\Reset.png" />
+    <None Remove="Assets\SaveFile.png" />
     <None Remove="Assets\Tick.png" />
     <None Remove="Assets\Resources\" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\Chain.png" />
     <AvaloniaResource Include="Assets\Folder.png" />
+    <AvaloniaResource Include="Assets\OpenFile.png" />
     <AvaloniaResource Include="Assets\Plus.png" />
+    <AvaloniaResource Include="Assets\Reset.png" />
+    <AvaloniaResource Include="Assets\SaveFile.png" />
     <AvaloniaResource Include="Assets\Tick.png" />
   </ItemGroup>
   <ItemGroup>

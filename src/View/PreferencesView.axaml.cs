@@ -10,7 +10,7 @@ namespace SceneryStream.src.View
         ObservableCollection<string> paths; /*Observable Collections send a notification when their contents are updated. This means 
                                              * objects that don't read through the list but instead use the whole thing as a source (ListBoxes) 
                                              * have to use this, because they need to be triggered to update the whole collection*/
-        ObservableCollection<string> scenery_paths;
+        ObservableCollection<string> scenery_paths; //"OtherDirectoryList"
 
 
         public PreferencesView()
@@ -18,9 +18,32 @@ namespace SceneryStream.src.View
             InitializeComponent();
             paths = new ObservableCollection<string>();
             scenery_paths = new ObservableCollection<string>();
+
+            //code constructing a contextmenu so it can be assigned an event listener in backend
+            ContextMenu DeleteItemMenu = new ContextMenu();
+            string[] delete = { "Remove" };
+            DeleteItemMenu.Items = delete;
+            DeleteItemMenu.PointerPressed += DeleteItemMenu_PointerPressed;
+            OtherDirectoryList.ContextMenu = DeleteItemMenu;
+            OtherInstallationList.ContextMenu = DeleteItemMenu;
         }
 
-
+        private void DeleteItemMenu_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            //((ContextMenu)sender)
+            if(OtherDirectoryList.SelectedItem != null)
+            {
+                scenery_paths.Remove(OtherDirectoryList.SelectedItem.ToString());
+            }
+            else
+            {
+                if(OtherInstallationList.SelectedItem != null)
+                {
+                    paths.Remove(OtherInstallationList.SelectedItem.ToString());
+                }
+            }
+            
+        }
 
         public void UsingMoreInstallations(object? sender, RoutedEventArgs args)
         {
@@ -60,11 +83,21 @@ namespace SceneryStream.src.View
             }
             paths.Add(OtherInstallationField.Text);
             OtherInstallationList.Items = paths;
+            OtherInstallationField.Text = string.Empty;
         }
 
         public void RecallPathSelection(object? sender, SelectionChangedEventArgs e)
         {
-            OtherInstallationField.Text = ((ListBox)sender).SelectedItem as string;
+            switch(((ListBox)sender).Name){
+                case "OtherInstallationList":
+                    OtherInstallationField.Text = ((ListBox)sender).SelectedItem as string;
+                    break;
+
+                case "OtherDirectoryList":
+                    OtherDirectoryField.Text= ((ListBox)sender).SelectedItem as string;
+                    break;
+            }
+            
         }
 
         /// <summary>
@@ -119,6 +152,7 @@ namespace SceneryStream.src.View
             }
             scenery_paths.Add(OtherDirectoryField.Text);
             OtherDirectoryList.Items = scenery_paths;
+            OtherDirectoryField.Text = string.Empty;
         }
     }
 }

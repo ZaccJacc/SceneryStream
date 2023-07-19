@@ -16,10 +16,18 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
 {
-    public class LocalMachine
+    internal class LocalMachine : ObservableObject
     {
         private bool primary_connection_success;
-        public bool Connected { get { return primary_connection_success; } }
+        public bool Connected {
+            get => primary_connection_success;
+
+            set
+            {
+                primary_connection_success = value;
+                NotifyPropertyChanged(nameof(Connected));
+            }
+        }
 
         private bool platform_authenticity;
         public bool Platform_Verified { get { return platform_authenticity; } }
