@@ -17,6 +17,10 @@ namespace SceneryStream.src.View
             mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
             mapControl.Map.BackColor = Mapsui.Styles.Color.Opacity(Mapsui.Styles.Color.Gray, 0);
             mapControl.Margin = new Avalonia.Thickness(0, 0, 7, 15);
+            mapControl.Height = 1045;
+            mapControl.Width = 1800;
+            mapControl.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right;
+            mapControl.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
 
             Content = mapControl;
 
