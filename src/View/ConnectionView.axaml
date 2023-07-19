@@ -12,11 +12,10 @@
 	<UserControl.DataContext>
 		<viewModel:ConnectionViewModel/>
 	</UserControl.DataContext>
-
-	<Grid ShowGridLines="True">
+	<Grid ShowGridLines="False">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="640"/>
-			<ColumnDefinition Width="640"/>
+			<ColumnDefinition Width="430"/>
 			<ColumnDefinition Width="640"/>
 		</Grid.ColumnDefinitions>
 
@@ -29,7 +28,7 @@
 		<Canvas Grid.Column="0">
 			<TextBlock Text="Server Updates" Canvas.Top="224" Canvas.Left="22" FontSize="18" FontFamily="Abadi"/>
 			<TextBox x:Name="ServerUpdate_block" Height="600" Width="600" Text="{Binding cViewModel.UpdateText}" AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Canvas.Left="20" Canvas.Top="250" IsReadOnly="True" TextWrapping="Wrap" Focusable="False"/>
-			<TextBlock Text="Scenery Location" Canvas.Top="125" Canvas.Left="90" FontSize="18" FontFamily="Abadi"/>
+			<TextBlock Text="Scenery Server Address" Canvas.Top="125" Canvas.Left="90" FontSize="18" FontFamily="Abadi"/>
 			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" MinWidth="350" Canvas.Left="87" Canvas.Top="150" Text="{Binding Preferences.ServerAddress}">
 				<TextBox.DataContext>
 					<app:App/>
@@ -42,9 +41,9 @@
 			</Button>
 		</Canvas>
 		
-		<Canvas Grid.Column="2">
-			<Label Content="Connection Status:" FontSize="20" FontWeight="Light" HorizontalAlignment="Right" Margin="10"/>
-			<Image x:Name="StatusIndicator" HorizontalAlignment="Right" Margin="175 16" Source="{Binding cViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Toggle Connection"/>
+		<Canvas Grid.Column="2" Grid.Row="2">
+			<Label Content="Connection Status:" FontSize="20" FontWeight="Light" Margin="425 284" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+			<Image x:Name="StatusIndicator" Margin="595 290" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="{Binding cViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Toggle Connection"/>
 		</Canvas>
 			
 	</Grid>

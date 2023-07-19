@@ -31,7 +31,6 @@ namespace SceneryStream.src.View
 
             //getting the checkboxes into their correct state based on the loadeed preferences - currently all this happens before the preferences get read... somehow need to find a way to fix this.
             //could do a re-check when the window comes into focus / is selected?
-            Console.WriteLine($"multisim read status = {App.Preferences.MultipleSims}");
             switch(App.Preferences.MultipleSims)
             {
                 case true:
