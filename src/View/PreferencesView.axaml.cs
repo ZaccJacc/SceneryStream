@@ -24,7 +24,7 @@ namespace SceneryStream.src.View
             //code constructing a contextmenu so it can be assigned an event listener in backend
             ContextMenu DeleteItemMenu = new ContextMenu();
             string[] delete = { "Remove" };
-            DeleteItemMenu.Items = delete;
+            DeleteItemMenu.Items.Add(delete);
             DeleteItemMenu.PointerPressed += DeleteItemMenu_PointerPressed;
             OtherDirectoryList.ContextMenu = DeleteItemMenu;
             OtherInstallationList.ContextMenu = DeleteItemMenu;
@@ -110,7 +110,7 @@ namespace SceneryStream.src.View
                 OtherInstallationList.IsVisible = true;
             }
             paths.Add(OtherInstallationField.Text);
-            OtherInstallationList.Items = paths;
+            OtherInstallationList.Items.Add(paths);
             OtherInstallationField.Text = string.Empty;
         }
 
@@ -135,7 +135,7 @@ namespace SceneryStream.src.View
         public string HandleBrowser(object? sender, RoutedEventArgs e)
         {
             OpenFolderDialog openFolderDialog = new OpenFolderDialog();
-            string? path = openFolderDialog.ShowAsync(new FileBrowserView()).ToString();
+            string? path = openFolderDialog.ShowAsync(new Window()).ToString();
             //Find a a way to set the directory field in the view model from here i dont remember how.
             return path;
         }
@@ -179,7 +179,7 @@ namespace SceneryStream.src.View
                 OtherDirectoryList.IsVisible = true;
             }
             scenery_paths.Add(OtherDirectoryField.Text);
-            OtherDirectoryList.Items = scenery_paths;
+            OtherDirectoryList.Items.Add(scenery_paths);
             OtherDirectoryField.Text = string.Empty;
         }
 

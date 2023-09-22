@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using System;
-using CommunityToolkit.Maui;
 
 namespace SceneryStream
 {

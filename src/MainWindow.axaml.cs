@@ -13,7 +13,7 @@ namespace SceneryStream.src
     public partial class MainWindow : Window
     {
 
-        protected override async void OnClosing(CancelEventArgs e)
+        protected override async void OnClosing(WindowClosingEventArgs e)
         {
             base.OnClosing(e);
             try
@@ -22,7 +22,7 @@ namespace SceneryStream.src
                 File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
                 File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 Console.WriteLine("Shutdown incomplete");
             }

@@ -4,10 +4,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
         x:Class="SceneryStream.src.MainWindow"
-        Title="XSS Alpha0.15.5"
+        Title="XSS Alpha0.16.1"
 		MinWidth="1000"
 		MinHeight="600"
 		xmlns:views="clr-namespace:SceneryStream.src.View"
+		xmlns:ic="using:FluentIcons.Avalonia"
 		
 	    TransparencyLevelHint="AcrylicBlur"
 	    Background="Transparent"
@@ -15,60 +16,94 @@
 		ExtendClientAreaToDecorationsHint="True"
 		WindowState="Maximized">
 
-
-	
-		<Grid>
-			<!--Acrylic background for the pretties-->
-			<Panel>
-				<ExperimentalAcrylicBorder IsHitTestVisible="False">
-					<ExperimentalAcrylicBorder.Material>
-						<ExperimentalAcrylicMaterial
-							BackgroundSource="Digger"
-							TintColor="#f0f0f0"
-							TintOpacity="0.8"
-							MaterialOpacity="0.5" />
-					</ExperimentalAcrylicBorder.Material>
-				</ExperimentalAcrylicBorder>
-			</Panel>
-			<!--Little rectangle to fix the gap-->	
-			<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-			<!--Menubar at the side-->	
-			<TabControl ZIndex="1" x:Name="MenuTabs" SelectedIndex="1" TabStripPlacement="Left" Margin="10,25,0,0">
-				<TabItem Header="X-Plane Scenery&#x0a;Streaming" FontSize="18" FontWeight="Light" Foreground="#000000" Opacity="0.5">
-					<TabItem.Styles>
-						<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
-							<Setter Property="Height" Value="0"/>
-						</Style>
-					</TabItem.Styles>
-					<Grid>
-						<views:CreditsView/>
-					</Grid>
-				</TabItem>
-				<!--Home Page-->
-				<TabItem x:Name="HomePage" Header="Home">
-					<Grid>
-						<views:ConnectionView x:Name="ConnectionViewControl"/>
-					</Grid>
-				</TabItem>
-				<!--Preferences page-->		
-				<TabItem x:Name="Settings" Header="Preferences">
-					<Grid>
-						<views:PreferencesView x:Name="PreferencesViewControl"/>
-					</Grid>
-				</TabItem>
-				<!--Scenery Map Page-->
-				<TabItem x:Name="Map" Header="Scenery Map">
-					<Grid>
-						<views:SceneryView x:Name="SceneryViewControl"/>
-					</Grid>
-				</TabItem>
-				<!--Credits Page-->
-				<TabItem x:Name="Credits" Header="Credits">
-					<Grid>
-						<views:CreditsView/>
-					</Grid>
-				</TabItem>
-			</TabControl>
-		<Label ZIndex="2" Content="Alpha0.15.5" FontFamily="Consolas" FontWeight="Bold" Margin="15 10" VerticalAlignment="Bottom" Foreground="#909193" FontSize="20"/>
-		</Grid>
+	<Grid>
+		<!--Acrylic background for the pretties-->
+		<Panel>
+			<ExperimentalAcrylicBorder IsHitTestVisible="False">
+				<ExperimentalAcrylicBorder.Material>
+					<ExperimentalAcrylicMaterial
+						BackgroundSource="Digger"
+						TintColor="#f0f0f0"
+						TintOpacity="0.8"
+						MaterialOpacity="0.5" />
+				</ExperimentalAcrylicBorder.Material>
+			</ExperimentalAcrylicBorder>
+		</Panel>
+		<!--Little rectangle to fix the gap-->
+		<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<!--Menubar at the side-->
+		<TabControl ZIndex="1" x:Name="MenuTabs" SelectedIndex="2" TabStripPlacement="Left" Margin="7,15" HorizontalAlignment="Left" HorizontalContentAlignment="Left" >
+			<TabItem Header="X-Plane Scenery&#x0a;Streaming" FontSize="18" FontWeight="Light" Foreground="#000000" Opacity="0.5">
+				<TabItem.Styles>
+					<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+						<Setter Property="Height" Value="0"/>
+					</Style>
+				</TabItem.Styles>
+				<Grid>
+					<views:CreditsView/>
+				</Grid>
+			</TabItem>
+			<!--Home Page-->
+			<TabItem IsEnabled="False"/>
+			<TabItem x:Name="HomePage">
+				<TabItem.Header>
+					<ic:SymbolIcon Symbol="Home" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
+    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
+				</TabItem.Header>
+				<Grid>
+					<views:ConnectionView x:Name="ConnectionViewControl"/>
+				</Grid>
+			</TabItem>
+			<!--Preferences page-->
+			<TabItem IsEnabled="False"/>
+			<TabItem x:Name="Settings">
+				<TabItem.Header>
+					<ic:SymbolIcon Symbol="Settings" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
+    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
+				</TabItem.Header>
+				<Grid>
+					<views:PreferencesView x:Name="PreferencesViewControl"/>
+				</Grid>
+			</TabItem>
+			<!--Scenery Map Page-->
+			<TabItem IsEnabled="False"/>
+			<TabItem x:Name="Map">
+				<TabItem.Header>
+					<ic:SymbolIcon Symbol="Map" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
+    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
+				</TabItem.Header>
+				<Grid>
+					<views:MapView x:Name="MapViewControl"/>
+				</Grid>
+			</TabItem>
+			<!--Scenery Selection Page-->
+			<TabItem IsEnabled="False"/>
+			<TabItem x:Name="Scenery">
+				<TabItem.Header>
+					<ic:SymbolIcon Symbol="MultiselectLtr" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
+    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
+				</TabItem.Header>
+				<Grid>
+					<views:SceneryView x:Name="SceneryViewControl"/>
+				</Grid>
+			</TabItem>
+			<!--Credits Page-->
+			<TabItem IsEnabled="False"/>
+			<TabItem x:Name="Credits" Header="Credits">
+				<TabItem.Header>
+					<ic:SymbolIcon Symbol="ClipboardTextLtr" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
+    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
+				</TabItem.Header>
+				<Grid>
+					<views:CreditsView/>
+				</Grid>
+			</TabItem>
+		</TabControl>
+		<Label ZIndex="2" Content="Alpha0.16.1" FontFamily="Consolas" FontWeight="Bold" Margin="15 10" VerticalAlignment="Bottom" Foreground="#909193" FontSize="20"/>
+	</Grid>
 </Window>

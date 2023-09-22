@@ -7,8 +7,6 @@ using Avalonia.Input;
 using Utility;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Avalonia.Media.Imaging;
-using JetBrains.Annotations;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Threading;
 
 namespace SceneryStream.src.ViewModel

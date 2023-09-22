@@ -49,19 +49,17 @@
     <TrimmableAssembly Include="Avalonia.Themes.Default" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.19" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.19" />
+    <PackageReference Include="Avalonia" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.19" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.19" />
-    <PackageReference Include="GMap.NET.Core" Version="2.1.7" />
-    <PackageReference Include="GMap.NET.WinAvalonia" Version="2.1.6" />
-    <PackageReference Include="Mapsui.Avalonia" Version="4.0.0-beta.10" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.4" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.4" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="FluentIcons.Avalonia" Version="1.1.217" />
+    <PackageReference Include="Mapsui.Avalonia" Version="4.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="ReactiveUI" Version="18.4.26" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="1.6.1" />
-    <PackageReference Include="CommunityToolkit.Maui.Core" Version="5.1.0" />
-    <PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
+    <PackageReference Include="ReactiveUI" Version="19.4.1" />
    </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -69,8 +67,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="src\View\FileBrowserView.axaml.cs">
-      <DependentUpon>FileBrowserView.axaml</DependentUpon>
+    <Compile Update="src\MainWindow.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="src\View\ConnectionView.axaml.cs">
       <DependentUpon>ConnectionView.axaml</DependentUpon>
@@ -84,5 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Update="src\MainWindow.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
   </ItemGroup>
 </Project>
