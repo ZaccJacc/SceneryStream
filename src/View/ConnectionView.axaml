@@ -7,7 +7,8 @@
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 			 xmlns:model="clr-namespace:SceneryStream.src.Model"
-			 xmlns:app="clr-namespace:SceneryStream">
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia">
 
 	<UserControl.DataContext>
 		<viewModel:ConnectionViewModel/>
@@ -34,9 +35,9 @@
 					<app:App/>
 				</TextBox.DataContext>
 			</TextBox>
-			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" Canvas.Left="440" Canvas.Top="150" Command="{Binding makeConnection}">
+			<Button x:Name="Connect" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" Canvas.Left="440" Canvas.Top="150" Command="{Binding makeConnection}">
 				<Panel>
-					<Image Source="/Assets/Chain.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<ic:SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19"/>
 				</Panel>
 			</Button>
 		</Canvas>

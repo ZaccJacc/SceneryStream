@@ -109,8 +109,10 @@ namespace SceneryStream.src.View
                 OtherInstallationList.Tag = "1";
                 OtherInstallationList.IsVisible = true;
             }
-            paths.Add(OtherInstallationField.Text);
-            OtherInstallationList.Items.Add(paths);
+            if (OtherInstallationField.Text != string.Empty)
+            {
+                paths.Add(OtherInstallationField.Text);
+            }
             OtherInstallationField.Text = string.Empty;
         }
 

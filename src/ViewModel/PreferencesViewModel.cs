@@ -7,10 +7,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace SceneryStream.src.ViewModel
 {
-    internal class PreferencesViewModel
+    internal class PreferencesViewModel : ObservableObject
     {
 
 
@@ -19,9 +20,51 @@ namespace SceneryStream.src.ViewModel
             get { return App.ServiceInstance.Platform.ToString(); }
         }
 
+        private bool _installationListVisible = false;
+        public bool InstallationListVisible
+        {
+            set
+            {
+                _installationListVisible = value;
+                NotifyPropertyChanged(nameof(InstallationListVisible));
+            }
+            get
+            {
+                return _installationListVisible;
+            }
+        }
+
+        private string? _installationToAdd;
+        public string InstallationToAdd
+        {
+            get => _installationToAdd ?? string.Empty;
+            set
+            {
+                _installationToAdd= value;
+                NotifyPropertyChanged(nameof(InstallationToAdd));
+            }
+        }
+
+        
         public PreferencesModel Preferences = App.Preferences;
 
-        public PreferencesViewModel() { }
+        private ObservableCollection<string> _installationList = new();
+        public ObservableCollection<string> InstallationPathsCollection
+        {
+            get => _installationList;
+            set
+            {
+                _installationList = value;
+                NotifyPropertyChanged(nameof(InstallationPathsCollection));
+            }
+        }
+        public ObservableCollection<string> SceneryPathsCollection;
+
+        public PreferencesViewModel() 
+        { 
+            InstallationPathsCollection= new ObservableCollection<string>();
+            SceneryPathsCollection= new ObservableCollection<string>();
+        }
 
         //-//
 
@@ -56,5 +99,11 @@ namespace SceneryStream.src.ViewModel
             await PreferencesModel.SavePreferences();
         }
 
+        internal async void LogInstallationDirectory()
+        {
+            InstallationListVisible = true;
+            InstallationPathsCollection.Add(_installationToAdd);
+            InstallationToAdd = string.Empty;
+        }
     }
 }

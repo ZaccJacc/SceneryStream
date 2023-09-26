@@ -7,22 +7,23 @@
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 			 xmlns:model="clr-namespace:SceneryStream.src.Model"
-			 xmlns:app="clr-namespace:SceneryStream">
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia">
 
 
 	<UserControl.DataContext>
 		<viewModel:PreferencesViewModel/>
 	</UserControl.DataContext>
 
-	<Grid>
+	<Grid ShowGridLines="True">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400"/>
-			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="900"/>
 		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="400"/>
-			<RowDefinition Height="auto"/>
+			<RowDefinition Height="600"/>
+			<RowDefinition Height="600"/>
 		</Grid.RowDefinitions>
 
 
@@ -66,29 +67,35 @@
 					<app:App/>
 				</TextBox.DataContext>
 			</TextBox>
-			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" Command="{Binding SelectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
+			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" Command="{Binding SelectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
 				<Panel>
-					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
 			<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
-			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" KeyDown="SubmitKeyHandler"/>
-			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False">
+			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" KeyDown="SubmitKeyHandler" Text="{Binding InstallationToAdd}"/>
+			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="False">
 				<Panel>
-					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<Button x:Name="AddDirectory" Margin="284,170,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomInstallationDirectory">
+			<Button x:Name="AddDirectory" Margin="284,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="False" Command="{Binding LogInstallationDirectory}">
 				<Panel>
-					<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<ic:SymbolIcon Symbol="FolderAdd" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
+			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding InstallationPathsCollection}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding}"/>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
+				<ListBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Delete Item"/>
+						<!--//wont show up as proper text?-->
+					</ContextMenu>
+				</ListBox.ContextMenu>
 			</ListBox>
 		</Canvas>
 		<!--Scenery scanning settings-->
@@ -99,7 +106,7 @@
 			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 				<ListBox.ContextMenu>
 					 <ContextMenu>
-						 <MenuItem x:Name="DeleteItem" Header="Delete"/>
+						 <MenuItem Header="Delete Item"/>
 					 </ContextMenu>
 				</ListBox.ContextMenu>
 				<ListBox.ItemTemplate>

@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
         x:Class="SceneryStream.src.MainWindow"
         Title="XSS Alpha0.16.1"
 		MinWidth="1000"
@@ -33,15 +33,12 @@
 		<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 		<!--Menubar at the side-->
 		<TabControl ZIndex="1" x:Name="MenuTabs" SelectedIndex="2" TabStripPlacement="Left" Margin="7,15" HorizontalAlignment="Left" HorizontalContentAlignment="Left" >
-			<TabItem Header="X-Plane Scenery&#x0a;Streaming" FontSize="18" FontWeight="Light" Foreground="#000000" Opacity="0.5">
+			<TabItem Header="X-Plane Scenery&#x0a;Streaming" FontSize="18" FontWeight="Light" Foreground="#000000" Opacity="0.5" IsEnabled="False">
 				<TabItem.Styles>
 					<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
 						<Setter Property="Height" Value="0"/>
 					</Style>
 				</TabItem.Styles>
-				<Grid>
-					<views:CreditsView/>
-				</Grid>
 			</TabItem>
 			<!--Home Page-->
 			<TabItem IsEnabled="False"/>
