@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -45,10 +46,21 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
+        private string? _selectedExtraInstallationItem;
+        public string SelectedExtraInstallationItem
+        {
+            get => _selectedExtraInstallationItem ?? string.Empty;
+            set
+            {
+                _selectedExtraInstallationItem = value;
+                NotifyPropertyChanged(nameof(SelectedExtraInstallationItem));
+            }
+        }
+
         
         public PreferencesModel Preferences = App.Preferences;
 
-        private ObservableCollection<string> _installationList = new();
+        private ObservableCollection<string> _installationList;
         public ObservableCollection<string> InstallationPathsCollection
         {
             get => _installationList;
@@ -58,6 +70,7 @@ namespace SceneryStream.src.ViewModel
                 NotifyPropertyChanged(nameof(InstallationPathsCollection));
             }
         }
+
         public ObservableCollection<string> SceneryPathsCollection;
 
         public PreferencesViewModel() 
@@ -99,11 +112,16 @@ namespace SceneryStream.src.ViewModel
             await PreferencesModel.SavePreferences();
         }
 
-        internal async void LogInstallationDirectory()
+        internal void LogInstallationDirectory()
         {
             InstallationListVisible = true;
             InstallationPathsCollection.Add(_installationToAdd);
             InstallationToAdd = string.Empty;
+        }
+
+        internal void RemoveExtraInstallation()
+        {
+            InstallationPathsCollection.Remove(_selectedExtraInstallationItem); //this isn't updating the UI. It's coming from the public observable collection on adding, but i need to find a way to get the ui component to be notified and do a full update.
         }
     }
 }

@@ -8,6 +8,7 @@
 		MinWidth="1000"
 		MinHeight="600"
 		xmlns:views="clr-namespace:SceneryStream.src.View"
+		xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 		xmlns:ic="using:FluentIcons.Avalonia"
 		
 	    TransparencyLevelHint="AcrylicBlur"
@@ -15,6 +16,10 @@
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
 		WindowState="Maximized">
+
+	<Window.DataContext>
+		<viewModel:MainWindowViewModel/>
+	</Window.DataContext>
 
 	<Grid>
 		<!--Acrylic background for the pretties-->
@@ -30,77 +35,54 @@
 			</ExperimentalAcrylicBorder>
 		</Panel>
 		<!--Little rectangle to fix the gap-->
-		<Rectangle Width="210" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-		<!--Menubar at the side-->
-		<TabControl ZIndex="1" x:Name="MenuTabs" SelectedIndex="2" TabStripPlacement="Left" Margin="7,15" HorizontalAlignment="Left" HorizontalContentAlignment="Left" >
-			<TabItem Header="X-Plane Scenery&#x0a;Streaming" FontSize="18" FontWeight="Light" Foreground="#000000" Opacity="0.5" IsEnabled="False">
-				<TabItem.Styles>
-					<Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
-						<Setter Property="Height" Value="0"/>
-					</Style>
-				</TabItem.Styles>
-			</TabItem>
-			<!--Home Page-->
-			<TabItem IsEnabled="False"/>
-			<TabItem x:Name="HomePage">
-				<TabItem.Header>
-					<ic:SymbolIcon Symbol="Home" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
-    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
-				</TabItem.Header>
-				<Grid>
-					<views:ConnectionView x:Name="ConnectionViewControl"/>
-				</Grid>
-			</TabItem>
-			<!--Preferences page-->
-			<TabItem IsEnabled="False"/>
-			<TabItem x:Name="Settings">
-				<TabItem.Header>
-					<ic:SymbolIcon Symbol="Settings" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
-    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
-				</TabItem.Header>
-				<Grid>
-					<views:PreferencesView x:Name="PreferencesViewControl"/>
-				</Grid>
-			</TabItem>
-			<!--Scenery Map Page-->
-			<TabItem IsEnabled="False"/>
-			<TabItem x:Name="Map">
-				<TabItem.Header>
-					<ic:SymbolIcon Symbol="Map" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
-    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
-				</TabItem.Header>
-				<Grid>
-					<views:MapView x:Name="MapViewControl"/>
-				</Grid>
-			</TabItem>
-			<!--Scenery Selection Page-->
-			<TabItem IsEnabled="False"/>
-			<TabItem x:Name="Scenery">
-				<TabItem.Header>
-					<ic:SymbolIcon Symbol="MultiselectLtr" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
-    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
-				</TabItem.Header>
-				<Grid>
-					<views:SceneryView x:Name="SceneryViewControl"/>
-				</Grid>
-			</TabItem>
-			<!--Credits Page-->
-			<TabItem IsEnabled="False"/>
-			<TabItem x:Name="Credits" Header="Credits">
-				<TabItem.Header>
-					<ic:SymbolIcon Symbol="ClipboardTextLtr" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, 
-    Path=IsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25 0" FontSize="50"/>
-				</TabItem.Header>
-				<Grid>
-					<views:CreditsView/>
-				</Grid>
-			</TabItem>
-		</TabControl>
+		<Rectangle Width="280" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 		<Label ZIndex="2" Content="Alpha0.16.1" FontFamily="Consolas" FontWeight="Bold" Margin="15 10" VerticalAlignment="Bottom" Foreground="#909193" FontSize="20"/>
+		<!--New buttons for manual sidebar layout-->
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 115 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="Home" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Home" HorizontalAlignment="Right" FontFamily="Abadi" FontSize="30" VerticalAlignment="Center"/>
+			</Panel>	
+		</ToggleButton>
+		
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 225 0 0" Width="250" Padding="10" IsChecked="{Binding PreferencesSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="SettingsCogMultiple" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Options" HorizontalAlignment="Right" FontFamily="Abadi" FontSize="30" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+		
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 335 0 0" Width="250" Padding="10" IsChecked="{Binding MapSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="Map" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Map" HorizontalAlignment="Right" FontFamily="Abadi" FontSize="30" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+		
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 445 0 0" Width="250" Padding="10" IsChecked="{Binding SceneryViewSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="MultiselectLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Scenery" HorizontalAlignment="Right" FontFamily="Abadi" FontSize="30" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+		
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 555 0 0" Width="250" Padding="10" IsChecked="{Binding CreditsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="ClipboardTaskListLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Credits" HorizontalAlignment="Right" FontFamily="Abadi" FontSize="30" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+
+		<ContentControl HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300 30 0 0" Content="{Binding ContentToDisplay}"/>
 	</Grid>
 </Window>

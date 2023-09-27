@@ -42,6 +42,7 @@ namespace SceneryStream.src.View
                         OtherDirectoryList.IsVisible = true;
                     }
                     OtherInstallationCheck.Tag = 1;
+                    OtherInstallationCheck.IsChecked = true;
                     break;
 
                 default:
@@ -50,6 +51,7 @@ namespace SceneryStream.src.View
                     OtherInstallationList.IsVisible = false;
                     AddDirectory.IsVisible = false;
                     OtherInstallationCheck.Tag = 0;
+                    OtherInstallationCheck.IsChecked = false;
                     break;
             }
         }

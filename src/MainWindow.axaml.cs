@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using SceneryStream.src.Model;
 using SceneryStream.src.View;
 using System;
@@ -40,6 +41,10 @@ namespace SceneryStream.src
             FlyoutBase.ShowAttachedFlyout(sender as Control);
         }
 
+        public void buttonTest(object? sender, RoutedEventArgs args)
+        {
+            Console.WriteLine("Button pressed");
+        }
 
 
         //Platform-dependent operations below - Here be dragons!

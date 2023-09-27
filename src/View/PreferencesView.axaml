@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             mc:Ignorable="d" d:DesignWidth="1620" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.PreferencesView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
@@ -15,7 +15,7 @@
 		<viewModel:PreferencesViewModel/>
 	</UserControl.DataContext>
 
-	<Grid ShowGridLines="True">
+	<Grid ShowGridLines="False">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400"/>
 			<ColumnDefinition Width="900"/>
@@ -84,18 +84,30 @@
 					<ic:SymbolIcon Symbol="FolderAdd" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding InstallationPathsCollection}">
+			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding InstallationPathsCollection}" SelectedItem="{Binding SelectedExtraInstallationItem}">
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="ContextMenu">
+							<Setter.Value>
+								<ContextMenu>
+									<ContextMenu.DataContext>
+										<viewModel:PreferencesViewModel/>
+									</ContextMenu.DataContext>
+									<MenuItem Command="{Binding RemoveExtraInstallation}">
+										<MenuItem.Header>
+											<ic:SymbolIcon Symbol="Delete"/>
+										</MenuItem.Header>
+									</MenuItem>
+								</ContextMenu>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</ListBox.Styles>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding}"/>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
-				<ListBox.ContextMenu>
-					<ContextMenu>
-						<MenuItem Header="Delete Item"/>
-						<!--//wont show up as proper text?-->
-					</ContextMenu>
-				</ListBox.ContextMenu>
 			</ListBox>
 		</Canvas>
 		<!--Scenery scanning settings-->
