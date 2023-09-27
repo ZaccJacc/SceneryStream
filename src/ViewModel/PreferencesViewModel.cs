@@ -75,7 +75,7 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() 
         { 
-            InstallationPathsCollection= new ObservableCollection<string>();
+            _installationList= new ObservableCollection<string>();
             SceneryPathsCollection= new ObservableCollection<string>();
         }
 
@@ -83,7 +83,7 @@ namespace SceneryStream.src.ViewModel
 
         public async void LoadPreferences()
         {
-            string prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
+            string? prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
             if (prefFile != "" && prefFile != null)
             {
                 PreferencesModel.loadPreferences(prefFile);
@@ -92,7 +92,7 @@ namespace SceneryStream.src.ViewModel
 
         public async void SelectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
         {
-            string directory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
+            string? directory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
             App.Preferences.SimDirectory = directory != "" ? directory : App.Preferences.SimDirectory;
         }
 
