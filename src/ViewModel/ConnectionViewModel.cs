@@ -51,10 +51,10 @@ namespace SceneryStream.src.ViewModel
             switch (App.ServiceInstance.Connected)
             {
                 case true:
-                    Source = new Bitmap(@$"{projectDirectory}\Assets\Status\Connected_Circle.png");
+                    Source = new Bitmap(@$"{projectDirectory}/Assets/Status/Connected_Circle.png");
                     break;
                 case false:
-                    Source = new Bitmap(@$"{projectDirectory}\Assets\Status\Disconnected_Circle.png");
+                    Source = new Bitmap(@$"{projectDirectory}/Assets/Status/Disconnected_Circle.png");
                     break;
             }
         }
@@ -71,7 +71,7 @@ namespace SceneryStream.src.ViewModel
                 case false:
                     if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
                     {
-                        Source = new Bitmap(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\Assets\Status\Connecting_Circle.png");
+                        Source = new Bitmap(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}/Assets/Status/Connecting_Circle.png");
                         makeConnection();
                     }
                     break;
