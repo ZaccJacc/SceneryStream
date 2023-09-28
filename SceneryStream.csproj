@@ -11,6 +11,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>True</Optimize>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
@@ -56,7 +57,7 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.4" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.4" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-    <PackageReference Include="FluentIcons.Avalonia" Version="1.1.217" />
+    <PackageReference Include="FluentIcons.Avalonia" Version="1.1.218" />
     <PackageReference Include="Mapsui.Avalonia" Version="4.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
    </ItemGroup>
