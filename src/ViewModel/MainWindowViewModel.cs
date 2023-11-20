@@ -9,6 +9,13 @@ namespace SceneryStream.src.ViewModel
 {
     internal class MainWindowViewModel : ObservableObject
     {
+        //--Window Views--//
+        private static readonly View.ConnectionView connectionView = new();
+        private static readonly View.PreferencesView preferencesView = new();
+        private static readonly View.MapView mapView = new();
+        private static readonly View.SceneryView sceneryView = new();
+        private static readonly View.CreditsView creditsView = new();
+        //--//
 
         private bool _homePageSelected = true;
         public bool HomePageSelected
@@ -24,7 +31,7 @@ namespace SceneryStream.src.ViewModel
                     SceneryViewSelected = false;
                     CreditsSelected = false;
                 }
-                setContentByIndex(0);
+                SetContentByIndex(0);
                 NotifyPropertyChanged(nameof(HomePageSelected));
             }
         }
@@ -47,8 +54,8 @@ namespace SceneryStream.src.ViewModel
                     MapSelected = false;
                     SceneryViewSelected = false;
                     CreditsSelected = false;
+                    SetContentByIndex(1);
                 }
-                setContentByIndex(1);
                 NotifyPropertyChanged(nameof(PreferencesSelected));
             }
         }
@@ -71,8 +78,8 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     SceneryViewSelected =false;
                     CreditsSelected = false;
+                    SetContentByIndex(2);
                 }
-                setContentByIndex(2);
                 NotifyPropertyChanged(nameof(MapSelected));
             }
         }
@@ -95,8 +102,8 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     MapSelected = false;
                     CreditsSelected = false;
+                    SetContentByIndex(3);
                 }
-                setContentByIndex(3);
                 NotifyPropertyChanged(nameof(SceneryViewSelected));
             }
         }
@@ -119,13 +126,13 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     MapSelected = false;
                     SceneryViewSelected = false;
+                    SetContentByIndex(4);
                 }
-                setContentByIndex(4);
                 NotifyPropertyChanged(nameof(CreditsSelected));
             }
         }
 
-        private object _contentToDisplay = new View.ConnectionView();
+        private object _contentToDisplay = connectionView;
         public object? ContentToDisplay
         {
             get => _contentToDisplay;
@@ -136,29 +143,31 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        private void setContentByIndex(int index)
+       
+
+        private void SetContentByIndex(int index)
         {
             switch (index)
             {
                 default:
                 case 0:
-                    ContentToDisplay = new View.ConnectionView();
+                    ContentToDisplay = connectionView;
                     break;
 
                 case 1:
-                    ContentToDisplay = new View.PreferencesView();
+                    ContentToDisplay = preferencesView;
                     break;
 
                 case 2:
-                    ContentToDisplay = new View.MapView();
+                    ContentToDisplay = mapView;
                     break;
 
                 case 3:
-                    ContentToDisplay = new View.SceneryView();
+                    ContentToDisplay = sceneryView;
                     break;
 
                 case 4:
-                    ContentToDisplay = new View.CreditsView();
+                    ContentToDisplay = creditsView;
                     break;
             }
         }

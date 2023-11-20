@@ -20,6 +20,10 @@
     <None Remove=".gitignore" />
     <None Remove="Assets\Chain.png" />
     <None Remove="Assets\Folder.png" />
+    <None Remove="Assets\Map\USAmap.png" />
+    <None Remove="Assets\Map\worldmap.png" />
+    <None Remove="Assets\Map\worldmap2.png" />
+    <None Remove="Assets\Map\worldmaplined.png" />
     <None Remove="Assets\OpenFile.png" />
     <None Remove="Assets\Plus.png" />
     <None Remove="Assets\Reset.png" />
@@ -33,6 +37,9 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\Chain.png" />
     <AvaloniaResource Include="Assets\Folder.png" />
+    <AvaloniaResource Include="Assets\Map\USAmap.png" />
+    <AvaloniaResource Include="Assets\Map\worldmap.png" />
+    <AvaloniaResource Include="Assets\Map\worldmaplined.png" />
     <AvaloniaResource Include="Assets\OpenFile.png" />
     <AvaloniaResource Include="Assets\Plus.png" />
     <AvaloniaResource Include="Assets\Reset.png" />

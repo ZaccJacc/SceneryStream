@@ -14,8 +14,8 @@ namespace SceneryStream.src.ViewModel
     internal class ConnectionViewModel : ObservableObject
     {
 
-        private static ConnectionViewModel _cViewModel = new ConnectionViewModel();
-        public static ConnectionViewModel cViewModel
+        private static ConnectionViewModel _cViewModel = new();
+        public static ConnectionViewModel CViewModel
         {
             get => _cViewModel;
         }
@@ -85,7 +85,7 @@ namespace SceneryStream.src.ViewModel
                 new Thread(async() =>
                 {
                     App.ServiceInstance.Connected = await Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
-                    cViewModel.GatherUpdateInformation();
+                    CViewModel.GatherUpdateInformation();
                 }).Start();
             }
             else
@@ -101,14 +101,14 @@ namespace SceneryStream.src.ViewModel
                 Console.WriteLine("[*] Attempting to read server updates info");
                 try
                 {
-                    switch (ViewModel.PreferencesViewModel.Platform)
+                    switch (App.ServiceInstance.Platform.ToString())
                     {
                         case "Win32NT":
-                            cViewModel.UpdateText = File.ReadAllText(App.Preferences.ServerAddress + @"\ServerUpdates");
+                            CViewModel.UpdateText = File.ReadAllText(App.Preferences.ServerAddress + @"\ServerUpdates");
                             break;
 
                         case "Unix":
-                            cViewModel.UpdateText = File.ReadAllText($"~/mnt/{App.Preferences.ServerAddress}/ServerUpdates");
+                            CViewModel.UpdateText = File.ReadAllText($"~/mnt/{App.Preferences.ServerAddress}/ServerUpdates");
                             break;
                     }
                 }

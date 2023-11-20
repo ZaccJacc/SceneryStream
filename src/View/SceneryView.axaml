@@ -3,13 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1620" d:DesignHeight="1080"
-             x:Class="SceneryStream.src.View.SceneryView">
+             x:Class="SceneryStream.src.View.SceneryView"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model"
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia">
 
+	<UserControl.DataContext>
+		<viewModel:SceneryViewModel/>
+	</UserControl.DataContext>
 	<Grid>
-		<Label Content="Scenery Selection" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="500"/>
+		<Label Content="Scenery Selection" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15"/>
 		<TextBlock>
 			Select specific scenery provisions from the available regions.
 		</TextBlock>
+		<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" Height="1080" Width="1500"/>
 	</Grid>
 
 </UserControl>

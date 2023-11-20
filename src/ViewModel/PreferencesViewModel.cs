@@ -15,12 +15,6 @@ namespace SceneryStream.src.ViewModel
     internal class PreferencesViewModel : ObservableObject
     {
 
-
-        public static string Platform
-        {
-            get { return App.ServiceInstance.Platform.ToString(); }
-        }
-
         private bool _installationListVisible = false;
         public bool InstallationListVisible
         {

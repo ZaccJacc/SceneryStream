@@ -16,7 +16,7 @@ namespace SceneryStream.src.View
         public ConnectionView()
         {
             InitializeComponent();
-            StatusIndicator.AddHandler(PointerPressedEvent, ConnectionViewModel.cViewModel.ToggleConnection, RoutingStrategies.Bubble);
+            StatusIndicator.AddHandler(PointerPressedEvent, ConnectionViewModel.CViewModel.ToggleConnection, RoutingStrategies.Bubble);
         }
     }
 }

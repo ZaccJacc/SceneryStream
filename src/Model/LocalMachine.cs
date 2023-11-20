@@ -28,7 +28,7 @@ namespace SceneryStream.src.Model
             {
                 primary_connection_success = value;
                 NotifyPropertyChanged(nameof(Connected));
-                ConnectionViewModel.cViewModel.ReviewConnecionStatusIndicator();
+                ConnectionViewModel.CViewModel.ReviewConnecionStatusIndicator();
             }
         }
 
@@ -87,7 +87,7 @@ namespace SceneryStream.src.Model
                                         {
                                             Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
                                                                                                                                                                                                                 //Currently forced to only airports because the server only has airports :p
-                                            ConnectionViewModel.cViewModel.GatherUpdateInformation();
+                                            ConnectionViewModel.CViewModel.GatherUpdateInformation();
                                         });
                                     }
                                     break;
@@ -100,7 +100,7 @@ namespace SceneryStream.src.Model
                                         await Task.Run(async () =>
                                         {
                                             Console.WriteLine("[!] Cannot create shortcuts on unix.");
-                                            ConnectionViewModel.cViewModel.GatherUpdateInformation();
+                                            ConnectionViewModel.CViewModel.GatherUpdateInformation();
                                         });
                                     }
                                     break;
