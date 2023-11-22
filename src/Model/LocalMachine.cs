@@ -63,7 +63,14 @@ namespace SceneryStream.src.Model
             { //Delegated this entire thing to a new random thread because the mounting attempt when the preferences load successfully was on the UI thread and froze the whole thing.
                 new Thread(async () =>
                 {
-                App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
+                    try
+                    {
+                        App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
+                    } catch (Exception)
+                    {
+                        File.WriteAllText("Targets.setup", "Preferences.setup");
+                    }
+                
                 Console.WriteLine("[*] Preferences file found.");
                 Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
                     if (await loadPreferenceSuccess)
