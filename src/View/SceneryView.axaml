@@ -18,7 +18,9 @@
 		<TextBlock>
 			Select specific scenery provisions from the available regions.
 		</TextBlock>
-		<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" Height="1080" Width="1500"/>
+		<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" Height="1080" Width="1500" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		</ScrollViewer>
 	</Grid>
 
 </UserControl>
