@@ -93,7 +93,7 @@
 									<ContextMenu.DataContext>
 										<viewModel:PreferencesViewModel/>
 									</ContextMenu.DataContext>
-									<MenuItem Command="{Binding RemoveExtraInstallation}">
+									<MenuItem Command="{Binding RemoveExtraInstallation}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=Content}"> //this needs to pass the contents of the menuitem selected as a param
 										<MenuItem.Header>
 											<ic:SymbolIcon Symbol="Delete"/>
 										</MenuItem.Header>
@@ -116,11 +116,24 @@
 			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
 			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False" KeyDown="SubmitKeyHandler"/>
 			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
-				<ListBox.ContextMenu>
-					 <ContextMenu>
-						 <MenuItem Header="Delete Item"/>
-					 </ContextMenu>
-				</ListBox.ContextMenu>
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="ContextMenu">
+							<Setter.Value>
+								<ContextMenu>
+									<ContextMenu.DataContext>
+										<viewModel:PreferencesViewModel/>
+									</ContextMenu.DataContext>
+									<MenuItem Command="">
+										<MenuItem.Header>
+											<ic:SymbolIcon Symbol="Delete"/>
+										</MenuItem.Header>
+									</MenuItem>
+								</ContextMenu>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</ListBox.Styles>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding}"/>

@@ -113,9 +113,11 @@ namespace SceneryStream.src.ViewModel
             InstallationToAdd = string.Empty;
         }
 
-        internal void RemoveExtraInstallation()
+        internal void RemoveExtraInstallation(string item)
         {
-            InstallationPathsCollection.Remove(_selectedExtraInstallationItem); //this isn't updating the UI. It's coming from the public observable collection on adding, but i need to find a way to get the ui component to be notified and do a full update.
+            InstallationPathsCollection.Remove(item);
+            //the parameter needs to contain the contents of the menuitem, and cannot be called using _selectedExtraInstallation because it just aint working.
+            //could potentially cheat and use _installationToAdd
         }
     }
 }
