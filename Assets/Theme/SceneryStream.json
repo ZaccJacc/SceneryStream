@@ -1,0 +1,14 @@
+{
+  "Id": "SceneryStream.json",
+  "Name": "SceneryStream.json",
+  "LightRegionColor": "#fff6f7ff",
+  "DarkRegionColor": "#ff1a1a28",
+  "LightBaseColor": "#ffaab2cc",
+  "DarkBaseColor": "#ff313133",
+  "LightPrimaryColor": "#ff004d8b",
+  "DarkPrimaryColor": "#ec0e1e75",
+  "LightBaseOverrides": [],
+  "DarkBaseOverrides": [],
+  "LightPrimaryOverrides": [],
+  "DarkPrimaryOverrides": []
+}

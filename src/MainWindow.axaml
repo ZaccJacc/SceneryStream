@@ -11,18 +11,19 @@
 		xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 		xmlns:ic="using:FluentIcons.Avalonia"
 		
-	    TransparencyLevelHint="AcrylicBlur"
-	    Background="Transparent"
+	    
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
 		WindowState="Maximized">
+	<!--TransparencyLevelHint="AcrylicBlur"
+	    Background="Transparent"-->
 
 	<Window.DataContext>
 		<viewModel:MainWindowViewModel/>
 	</Window.DataContext>
 
 	<Grid>
-		<!--Acrylic background for the pretties-->
+		<!--Acrylic background for the pretties
 		<Panel>
 			<ExperimentalAcrylicBorder IsHitTestVisible="False">
 				<ExperimentalAcrylicBorder.Material>
@@ -33,9 +34,9 @@
 						MaterialOpacity="0.5" />
 				</ExperimentalAcrylicBorder.Material>
 			</ExperimentalAcrylicBorder>
-		</Panel>
+		</Panel>-->
 		<!--Little rectangle to fix the gap-->
-		<Rectangle Width="280" Height="1088" Fill="#d4d6d9" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+		<Rectangle Width="280" Height="1088" Fill="{DynamicResource ListMedium}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 		<Label ZIndex="2" Content="Alpha0.16.1" FontFamily="Consolas" FontWeight="Bold" Margin="15 10" VerticalAlignment="Bottom" Foreground="#909193" FontSize="20"/>
 		<!--New buttons for manual sidebar layout-->
 		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 115 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">

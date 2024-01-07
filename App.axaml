@@ -1,13 +1,26 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SceneryStream.App"
-			
+			 
 			 RequestedThemeVariant="Light">
+
+	<Application.Resources>
+		<SolidColorBrush x:Key="RegionColourLight">#fff6f7ff</SolidColorBrush>
+		<SolidColorBrush x:Key="RegionColourDark">#ff1a1a28</SolidColorBrush>
+		<SolidColorBrush x:Key="ListMedium">#ffaab2cc</SolidColorBrush>
+	</Application.Resources>
+
+	<!--Spend some time turning these themes vvvv into a ResourceDictionary.ThemeDictionaries https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants-->
+	
     <Application.Styles>
 		<FluentTheme>
+			<FluentTheme.Palettes>
+				<ColorPaletteResources x:Key="Light" Accent="#ff004d8b" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ffaab2cc" BaseMedium="#ff5f759b" BaseMediumHigh="#ff2d4d7a" BaseMediumLow="#ff46618a" ChromeAltLow="#ff2d4d7a" ChromeBlackHigh="Black" ChromeBlackLow="#ffaab2cc" ChromeBlackMedium="#ff2d4d7a" ChromeBlackMediumLow="#ff5f759b" ChromeDisabledHigh="#ffaab2cc" ChromeDisabledLow="#ff5f759b" ChromeGray="#ff46618a" ChromeHigh="#ffaab2cc" ChromeLow="#ffdce3f8" ChromeMedium="#ffd2d9ef" ChromeMediumLow="#ffdce3f8" ChromeWhite="White" ListLow="#ffd2d9ef" ListMedium="#ffaab2cc" RegionColor="#fff6f7ff" />
+				<ColorPaletteResources x:Key="Dark" Accent="#ec0e1e75" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff313133" BaseMedium="#ff99999a" BaseMediumHigh="#ffb3b3b4" BaseMediumLow="#ff656567" ChromeAltLow="#ffb3b3b4" ChromeBlackHigh="Black" ChromeBlackLow="#ffb3b3b4" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff313133" ChromeDisabledLow="#ff99999a" ChromeGray="#ff7f7f80" ChromeHigh="#ff7f7f80" ChromeLow="#ff151515" ChromeMedium="#ff1c1c1d" ChromeMediumLow="#ff2a2a2c" ChromeWhite="White" ListLow="#ff1c1c1d" ListMedium="#ff313133" RegionColor="#ff1a1a28" />
+			</FluentTheme.Palettes>
 		</FluentTheme>
-		
-		
+
+
 		<Style Selector="TabControl WrapPanel">
 			<Setter Property="Background" Value="#d4d6d9"/>
 		</Style>

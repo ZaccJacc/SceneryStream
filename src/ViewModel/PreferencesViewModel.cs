@@ -109,15 +109,16 @@ namespace SceneryStream.src.ViewModel
         internal void LogInstallationDirectory()
         {
             InstallationListVisible = true;
-            InstallationPathsCollection.Add(_installationToAdd);
+            InstallationPathsCollection.Add(InstallationToAdd);
             InstallationToAdd = string.Empty;
         }
 
-        internal void RemoveExtraInstallation(string item)
+        internal void RemoveExtraInstallation()
         {
-            InstallationPathsCollection.Remove(item);
+            //InstallationPathsCollection.Remove(item);
             //the parameter needs to contain the contents of the menuitem, and cannot be called using _selectedExtraInstallation because it just aint working.
             //could potentially cheat and use _installationToAdd
+            Console.WriteLine("button pressed");
         }
     }
 }
