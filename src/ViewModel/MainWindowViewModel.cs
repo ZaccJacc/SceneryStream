@@ -132,7 +132,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        private object _contentToDisplay = connectionView;
+        private object? _contentToDisplay = connectionView;
         public object? ContentToDisplay
         {
             get => _contentToDisplay;
