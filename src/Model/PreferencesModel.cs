@@ -204,7 +204,7 @@ namespace SceneryStream.src.Model
                     }
 
                 }
-                catch (FileNotFoundException)
+                catch (Exception)
                 {
                     Console.WriteLine("[!] Could not locate file at read time!");
                     return false;

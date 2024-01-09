@@ -34,7 +34,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        private Bitmap? _source = new($@"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}\Assets\Status\Connecting_Circle.png");
+        private Bitmap? _source = new($@"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}/Assets/Status/Connecting_Circle.png");
         public Bitmap? Source
         {
             get => _source;
