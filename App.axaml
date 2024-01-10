@@ -1,13 +1,16 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SceneryStream.App"
-			 
 			 RequestedThemeVariant="Light">
 
 	<Application.Resources>
 		<SolidColorBrush x:Key="RegionColourLight">#fff6f7ff</SolidColorBrush>
 		<SolidColorBrush x:Key="RegionColourDark">#ff1a1a28</SolidColorBrush>
 		<SolidColorBrush x:Key="ListMedium">#ffaab2cc</SolidColorBrush>
+		<SolidColorBrush x:Key="BaseMediumHigh">#ff2d4d7a</SolidColorBrush>
+		<SolidColorBrush x:Key="ChromeAltLow">#ff2d4d7a</SolidColorBrush>
+		<SolidColorBrush x:Key="ListLow">#ffdce3f8</SolidColorBrush>
+		<SolidColorBrush x:Key="ChromeHigh">#ffaab2cc</SolidColorBrush>
 	</Application.Resources>
 
 	<!--Spend some time turning these themes vvvv into a ResourceDictionary.ThemeDictionaries https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants-->

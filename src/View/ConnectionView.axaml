@@ -13,55 +13,35 @@
 	<UserControl.DataContext>
 		<viewModel:ConnectionViewModel/>
 	</UserControl.DataContext>
-	<Grid ShowGridLines="True">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
+	<Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid ShowGridLines="True" ColumnDefinitions="2*,*,*" RowDefinitions="*,*,*" Margin="5">
+			<Panel Grid.Column="0" Grid.Row="0" Margin="25">
+				<Border CornerRadius="15" BorderBrush="Black" Background="Gainsboro">
+					<Panel>
+						<TextBlock Text="Server Updates" Margin="0 0 0 0" FontSize="18" FontFamily="Abadi" Grid.Column="0" Grid.Row="0"/>
+						<TextBox x:Name="ServerUpdate_block" Height="250" Width="250" Text="{Binding CViewModel.UpdateText}" AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Margin="0 60 0 0" IsReadOnly="True" TextWrapping="Wrap" Focusable="False" Grid.Column="0" Grid.Row="0"/>
+					</Panel>
+				</Border>
+			</Panel>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-
-		<Grid Grid.Column="0" Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
-			<TextBlock Text="Server Updates" Margin="22 224 0 0" FontSize="18" FontFamily="Abadi" Grid.Column="0" Grid.Row="0"/>
-			<TextBox x:Name="ServerUpdate_block" Height="600" Width="600" Text="{Binding CViewModel.UpdateText}" AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Margin="20 250 0 0" IsReadOnly="True" TextWrapping="Wrap" Focusable="False" Grid.Column="0" Grid.Row="0"/>
-			<TextBlock Text="Scenery Server Address" VerticalAlignment="Top" Margin="22 90 0 0" FontSize="18" FontFamily="Abadi" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0"/>
-			<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" Width="350" HorizontalAlignment="Left" Margin="22 125 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}" Grid.Column="0" Grid.Row="0">
-				<TextBox.DataContext>
-					<app:App/>
-				</TextBox.DataContext>
-			</TextBox>
-			<Button x:Name="Connect" Margin="375 125 0 0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding makeConnection}" Grid.Column="0" Grid.Row="0">
-				<Panel>
-					<ic:SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19"/>
-				</Panel>
-			</Button>
-		</Grid>
+			<Panel Grid.Column="0" Grid.Row="1">
+				<TextBlock Text="Scenery Server Address" VerticalAlignment="Top" Margin="22 90 0 0" FontSize="18" FontFamily="Abadi" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0"/>
+				<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" Width="350" HorizontalAlignment="Left" Margin="22 125 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}" Grid.Column="0" Grid.Row="0">
+					<TextBox.DataContext>
+						<app:App/>
+					</TextBox.DataContext>
+				</TextBox>
+				<Button x:Name="Connect" Margin="375 125 0 0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding makeConnection}" Grid.Column="0" Grid.Row="0">
+					<Panel>
+						<ic:SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19"/>
+					</Panel>
+				</Button>
+			</Panel>
 		
-		
-		<Grid Grid.Column="1" Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
-			<Canvas Height="100" Width="250" Grid.Row="0" Grid.Column="0">
+			<Panel Grid.Column="1" Grid.Row="0" Height="100" Width="250">
 				<Label Content="Connection Status:" FontSize="20" FontWeight="Light"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0"/>
-				<Image x:Name="StatusIndicator" Margin="163 6 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="{Binding CViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Connect / Disconnect" ToolTip.Placement="Left" Grid.Row="0" Grid.Column="0"/>
-			</Canvas>			
+				<Image x:Name="StatusIndicator" Margin="163 6 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="{Binding CViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Connect / Disconnect" ToolTip.Placement="Left" Grid.Row="0" Grid.Column="0"/>		
+			</Panel>
 		</Grid>
-			
-	</Grid>
-
+	</Panel>
 </UserControl>

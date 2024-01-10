@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1620" d:DesignHeight="1080"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="400"
              x:Class="SceneryStream.src.View.SceneryView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
 			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
@@ -13,14 +13,18 @@
 	<UserControl.DataContext>
 		<viewModel:SceneryViewModel/>
 	</UserControl.DataContext>
-	<Grid>
-		<Label Content="Scenery Selection" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15"/>
-		<TextBlock>
-			Select specific scenery provisions from the available regions.
-		</TextBlock>
-		<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left">
-			<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" Height="1080" Width="1500" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		</ScrollViewer>
-	</Grid>
-
+		<Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Label Content="Scenery Selection" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15"/>
+			<TextBlock>
+				Select specific scenery provisions from the available regions.
+			</TextBlock>
+			<Button Command="{Binding ResetMap}">
+				<Panel>
+					<ic:SymbolIcon Symbol="ArrowReset" FontSize="19"/>
+				</Panel>
+			</Button>
+			<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 50 0 0">
+				<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+			</ScrollViewer>
+		</Grid>
 </UserControl>

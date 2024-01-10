@@ -4,5 +4,4 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1620" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.MapView">
-  Welcome to Avalonia!
 </UserControl>

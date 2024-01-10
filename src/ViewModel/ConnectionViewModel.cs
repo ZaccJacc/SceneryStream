@@ -5,7 +5,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Input;
 using Utility;
-using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Avalonia.Media.Imaging;
 using System.Threading;
 
