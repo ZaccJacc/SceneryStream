@@ -20,6 +20,9 @@
     <None Remove=".gitignore" />
     <None Remove="Assets\Chain.png" />
     <None Remove="Assets\Folder.png" />
+    <None Remove="Assets\Fonts\Dosis-Variable.ttf" />
+    <None Remove="Assets\Fonts\Urbanist-Italic-Variable.ttf" />
+    <None Remove="Assets\Fonts\Urbanist-Variable.ttf" />
     <None Remove="Assets\Map\USAmap.png" />
     <None Remove="Assets\Map\worldmap.png" />
     <None Remove="Assets\Map\worldmap2.png" />
@@ -37,6 +40,9 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\Chain.png" />
     <AvaloniaResource Include="Assets\Folder.png" />
+    <AvaloniaResource Include="Assets\Fonts\Dosis-Variable.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Urbanist-Italic-Variable.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Urbanist-Variable.ttf" />
     <AvaloniaResource Include="Assets\Map\USAmap.png" />
     <AvaloniaResource Include="Assets\Map\worldmap.png" />
     <AvaloniaResource Include="Assets\Map\worldmaplined.png" />

@@ -1,5 +1,8 @@
-﻿using Avalonia.Input;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using SceneryStream.src.Model;
 using System;
 using System.Collections.Generic;
@@ -20,7 +23,7 @@ internal class SceneryViewModel : ObservableObject
         get => _sViewModel;
     }
 
-    private Bitmap _mapSource = new(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}/Assets/Map/worldmap.png");
+    private Bitmap _mapSource = Region.GLOBE.Map;
     public Bitmap MapSource
     {
         get => _mapSource;
@@ -31,20 +34,8 @@ internal class SceneryViewModel : ObservableObject
         }
     }
 
-    private enum Region
-    {
-        GLOBE=0,
-        USAN=1,
-        CAN=2,
-        USAS=3,
-        EUR=4,
-        AFR=5,
-        ASI=6,
-        OCE=7
-    }
 
-    private Region _displayedRegion = Region.GLOBE;
-
+    private static Region _displayedRegion = Region.GLOBE;
 
     internal void FocusRegion(object? sender, PointerPressedEventArgs args)
     {
@@ -56,20 +47,18 @@ internal class SceneryViewModel : ObservableObject
             var y = point.Position.Y;
             if (point.Properties.IsLeftButtonPressed)
             {
-                switch (_displayedRegion)
+                switch (_displayedRegion.ID)
                 {
-                    case Region.GLOBE:
+                    case Region.RegionID.GLOBE:
                         if (((x < 530 && y > 228) || (x < 192 && y < 228)) && y < 404)
                         {
-                            Console.WriteLine("USA region");
-                            MapSource = new(@$"{Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName}/Assets/Map/USAmap.png");
-                            _displayedRegion = Region.USAN;
+                            DisplayRegion(Region.USA);
                         }
                         else
                         {
                             if (x < 530 && y > 404)
                             {
-                                Console.WriteLine("USA-S region");
+                                Console.WriteLine("LATAM region");
                             }
                             else
                             {
@@ -106,25 +95,25 @@ internal class SceneryViewModel : ObservableObject
                         }
                         break;
 
-                    case Region.USAN:
+                    case Region.RegionID.USA:
                         break;
 
-                    case Region.CAN:
+                    case Region.RegionID.CAN:
                         break;
 
-                    case Region.USAS: 
+                    case Region.RegionID.LATAM: 
                         break;
 
-                    case Region.EUR: 
+                    case Region.RegionID.EUR: 
                         break;
 
-                    case Region.AFR: 
+                    case Region.RegionID.AFR: 
                         break;
 
-                    case Region.ASI: 
+                    case Region.RegionID.ASI: 
                         break;
 
-                    case Region.OCE: 
+                    case Region.RegionID.OCE: 
                         break;
                 
                 }
@@ -134,5 +123,16 @@ internal class SceneryViewModel : ObservableObject
         {
             Console.WriteLine("[!] Malformed pointer event args!");
         }
+    }
+
+    private void DisplayRegion(Region region)
+    {
+        SViewModel.MapSource = region.Map;
+        _displayedRegion = region;
+    }
+
+    internal void ResetMap()
+    {
+        DisplayRegion(Region.GLOBE);
     }
 }
