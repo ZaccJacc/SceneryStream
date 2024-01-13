@@ -18,7 +18,7 @@
 			<Panel Grid.Column="0" Grid.Row="0" Margin="25">
 				<Border CornerRadius="15" BorderBrush="Black" Background="Gainsboro">
 					<Panel>
-						<TextBlock Text="Server Updates" Margin="0 0 0 0" FontSize="18" FontFamily="Abadi" Grid.Column="0" Grid.Row="0"/>
+						<TextBlock Text="Server Updates" Margin="0 0 0 0" FontSize="18" FontFamily="Urbanist" Grid.Column="0" Grid.Row="0"/>
 						<TextBox x:Name="ServerUpdate_block" Height="250" Width="250" Text="{Binding CViewModel.UpdateText}" AcceptsReturn="True" AcceptsTab="True" FontFamily="Abadi" FontSize="16" Margin="0 60 0 0" IsReadOnly="True" TextWrapping="Wrap" Focusable="False" Grid.Column="0" Grid.Row="0"/>
 					</Panel>
 				</Border>

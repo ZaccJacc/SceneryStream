@@ -18,7 +18,7 @@
 			<TextBlock>
 				Select specific scenery provisions from the available regions.
 			</TextBlock>
-			<Button Command="{Binding ResetMap}" Width="180" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Button Command="{Binding ResetMap}" Width="180" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="560 15 0 0">
 				<Panel>
 					<ic:SymbolIcon Symbol="ArrowReset" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 					<Label Content="Reset Map" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Center"/>
