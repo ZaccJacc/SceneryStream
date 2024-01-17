@@ -69,7 +69,7 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() 
         { 
-            _installationList= new ObservableCollection<string>();
+            InstallationPathsCollection = new ObservableCollection<string>();
             SceneryPathsCollection= new ObservableCollection<string>();
         }
 
@@ -113,12 +113,13 @@ namespace SceneryStream.src.ViewModel
             InstallationToAdd = string.Empty;
         }
 
-        internal void RemoveExtraInstallation()
+        internal void RemoveExtraInstallation(string item)
         {
-            //InstallationPathsCollection.Remove(item);
+            Console.WriteLine(item);
+            Console.WriteLine(InstallationToAdd + SelectedExtraInstallationItem);
+            Console.WriteLine($"Removal success? {InstallationPathsCollection.Remove(InstallationToAdd.ToString())}");
             //the parameter needs to contain the contents of the menuitem, and cannot be called using _selectedExtraInstallation because it just aint working.
             //could potentially cheat and use _installationToAdd
-            Console.WriteLine("button pressed");
         }
     }
 }

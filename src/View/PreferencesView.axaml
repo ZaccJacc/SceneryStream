@@ -73,7 +73,7 @@
 				</Panel>
 			</Button>
 			<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
-			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" KeyDown="SubmitKeyHandler" Text="{Binding InstallationToAdd}"/>
+			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" Text="{Binding InstallationToAdd}"/>
 			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="False">
 				<Panel>
 					<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -93,7 +93,7 @@
 									<ContextMenu.DataContext>
 										<viewModel:PreferencesViewModel/>
 									</ContextMenu.DataContext>
-									<MenuItem Command="{Binding RemoveExtraInstallation}">
+									<MenuItem Command="{Binding RemoveExtraInstallation}" CommandParameter="{Binding $parent[ListBox].SelectedItem}">
 										<MenuItem.Header>
 											<ic:SymbolIcon Symbol="Delete"/>
 										</MenuItem.Header>
@@ -114,7 +114,7 @@
 		<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
 			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
-			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False" KeyDown="SubmitKeyHandler"/>
+			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
 			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
@@ -145,7 +145,7 @@
 					<Image Source="/Assets/Folder.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<Button x:Name="AddDirectoryScenery" Margin="284,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="LogCustomSceneryDirectory">
+			<Button x:Name="AddDirectoryScenery" Margin="284,92,0,0" BorderBrush="Black" BorderThickness="0.5" Background="Transparent" CornerRadius="5" IsVisible="False" Click="">
 				<Panel>
 					<Image Source="/Assets/Plus.png" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>

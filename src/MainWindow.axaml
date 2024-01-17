@@ -83,6 +83,6 @@
 				<Label Content="Credits" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center" />
 			</Panel>
 		</ToggleButton>
-		<ContentControl Margin="280,0,0,0" Content="{Binding ContentToDisplay}"/>
+		<ContentControl Margin="280,15,15,15" Content="{Binding ContentToDisplay}"/>
 	</Panel>
 </Window>
