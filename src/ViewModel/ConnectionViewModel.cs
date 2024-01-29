@@ -7,6 +7,11 @@ using Avalonia.Input;
 using Utility;
 using Avalonia.Media.Imaging;
 using System.Threading;
+using System.Collections.ObjectModel;
+using Avalonia.Platform;
+using BruTile.Wmts.Generated;
+using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -30,6 +35,17 @@ namespace SceneryStream.src.ViewModel
             {
                 _updateText = value;
                 NotifyPropertyChanged(nameof(UpdateText));
+            }
+        }
+
+        private ObservableCollection<ServerUpdateEntry> _serverUpdateEntries = new();
+        public ObservableCollection<ServerUpdateEntry> ServerUpdateEntries
+        {
+            get => _serverUpdateEntries;
+            set
+            {
+                _serverUpdateEntries = value;
+                NotifyPropertyChanged(nameof(ServerUpdateEntries));
             }
         }
 
@@ -116,6 +132,50 @@ namespace SceneryStream.src.ViewModel
                     Console.WriteLine($"[!] Could not load preferences!\n\t=> {ex.Message}");
                 }
             });
+        }
+
+        /// <summary>
+        /// Explanation of the Server Updates formatting.
+        /// <para>
+        /// The Date and Title of each update are found before <c>//d//</c> in the server updates file, on the line below <c>//br//</c> unless it is the top line of the file.</para>
+        /// <para>The newline from the beginning of this is stripped, so as to not end up with the spacing being one line too far down.</para>
+        /// <para>The content of the update message begins immediately after <c>//d//</c> on the same line. New lines are then treated as normal in the updates file.</para>
+        /// <para>The end of an update message is signified by the presence of <c>//br//</c> on a NEW LINE.
+        /// </para>
+        /// </summary>
+        internal void ScanNewUpdates()
+        {
+            try
+            {
+                StreamReader updatesFile = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Resources/ServerUpdates.txt"))); //placeholder
+                string[] split = updatesFile.ReadToEnd().Split("//br//");
+                
+                foreach (string line in split)
+                {
+                    string[] content = line.Split("//d//");
+                    string dateString = Regex.Replace(content[0], @"\t|\n|\r", "");
+                    if (CViewModel.ServerUpdateEntries.Count > 0 && dateString == CViewModel.ServerUpdateEntries[0].Date)
+                    {
+                        Console.WriteLine("[!] Did not refresh server updates\n\t=> Already up to date!");
+                        return;
+                    }
+                    try
+                    {
+                        ServerUpdateEntry entry = new(dateString, content[1]);
+                        CViewModel.ServerUpdateEntries.Add(entry);
+                    }
+                    catch
+                    {
+                        throw new Exception("Could not read updates");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                CViewModel.ServerUpdateEntries.Add(new ServerUpdateEntry("Error", e.GetType() == typeof(FileNotFoundException) ? "File not found" : e.Message));
+            }
+            
+
         }
     }
 }

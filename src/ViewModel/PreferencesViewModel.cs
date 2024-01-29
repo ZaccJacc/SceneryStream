@@ -15,6 +15,15 @@ namespace SceneryStream.src.ViewModel
     internal class PreferencesViewModel : ObservableObject
     {
 
+        public PreferencesViewModel() { }
+
+        private static readonly PreferencesViewModel _pViewModel = new();
+        public static PreferencesViewModel PViewModel
+        {
+            get => _pViewModel;
+        }
+
+
         private bool _installationListVisible = false;
         public bool InstallationListVisible
         {
@@ -54,7 +63,7 @@ namespace SceneryStream.src.ViewModel
         
         public PreferencesModel Preferences = App.Preferences;
     
-        private ObservableCollection<string> _installationList;
+        private ObservableCollection<string> _installationList = new ObservableCollection<string>();
         public ObservableCollection<string> InstallationPathsCollection
         {
             get => _installationList;
@@ -65,12 +74,15 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public ObservableCollection<string> SceneryPathsCollection;
-
-        public PreferencesViewModel() 
-        { 
-            InstallationPathsCollection = new ObservableCollection<string>();
-            SceneryPathsCollection= new ObservableCollection<string>();
+        private ObservableCollection<string> _sceneryList = new ObservableCollection<string>();
+        public ObservableCollection<string> SceneryPathsCollection
+        {
+            get => _sceneryList;
+            set
+            {
+                _sceneryList = value;
+                NotifyPropertyChanged(nameof(SceneryPathsCollection));
+            }
         }
 
         //-//
@@ -106,29 +118,20 @@ namespace SceneryStream.src.ViewModel
             await PreferencesModel.SavePreferences();
         }
 
-        internal void LogInstallationDirectory()
+        public void LogInstallationDirectory()
         {
-            InstallationListVisible = true;
-            InstallationPathsCollection.Add(InstallationToAdd);
+            PViewModel.InstallationListVisible = true;
+            PViewModel.InstallationPathsCollection.Add(InstallationToAdd);
             InstallationToAdd = string.Empty;
-            foreach (string s in InstallationPathsCollection) //the items are included here
-            {
-                Console.WriteLine($"Item: {s}");
-            }
         }
 
-        internal void RemoveExtraInstallation(object? item)
+        public void RemoveExtraInstallation(object? item)
         {
-            Console.WriteLine(InstallationPathsCollection.Count);
-            Console.WriteLine(item as string);
-            foreach (string s in InstallationPathsCollection) //this seems to be referencing a different instance of the installationpathscollection
+            PViewModel.InstallationPathsCollection.Remove((string)item);
+            if(PViewModel.InstallationPathsCollection.Count < 1)
             {
-                Console.WriteLine($"Item: {s}");
+                PViewModel.InstallationListVisible = false;
             }
-            Console.WriteLine(InstallationPathsCollection.Contains(item as string));
-            Console.WriteLine($"Removal success? {InstallationPathsCollection.Remove((string)item)}");
-            //the parameter needs to contain the contents of the menuitem, and cannot be called using _selectedExtraInstallation because it just aint working.
-            //could potentially cheat and use _installationToAdd
         }
     }
 }

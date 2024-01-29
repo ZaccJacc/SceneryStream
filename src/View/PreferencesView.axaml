@@ -84,7 +84,7 @@
 					<ic:SymbolIcon Symbol="FolderAdd" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding InstallationPathsCollection}" SelectedItem="{Binding SelectedExtraInstallationItem}">
+			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding PViewModel.InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding PViewModel.InstallationPathsCollection}" SelectedItem="{Binding PViewModel.SelectedExtraInstallationItem}">
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="ContextMenu">

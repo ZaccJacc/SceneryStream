@@ -10,7 +10,7 @@
 		xmlns:views="clr-namespace:SceneryStream.src.View"
 		xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 		xmlns:ic="using:FluentIcons.Avalonia"
-		
+		Icon="avares://SceneryStream/Assets/Aircraft.png"
 	    
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
@@ -21,6 +21,7 @@
 	<Window.DataContext>
 		<viewModel:MainWindowViewModel/>
 	</Window.DataContext>
+
 
 	<Panel>
 		<!--Acrylic background for the pretties
