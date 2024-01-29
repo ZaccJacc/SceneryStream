@@ -86,5 +86,21 @@
 			<Setter Property="FontFamily" Value="Abadi"/>
 		</Style>
     </Application.Styles>
-	
+
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="avares://SceneryStream/Assets/Aircraft.png"
+					  ToolTipText="X Scenery Stream">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Connect"   />
+						<NativeMenuItem Header="Disconnect"   />
+						<NativeMenuItemSeparator />
+						<NativeMenuItem Header="Quit"  Command="{Binding QuitAppTrayCall}"/>
+						<!--make this work at some point in the future using a command of some sorts. https://github.com/AvaloniaUI/Avalonia/discussions/10960-->
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
 </Application>

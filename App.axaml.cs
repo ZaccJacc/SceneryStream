@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using SceneryStream.src;
 using SceneryStream.src.Model;
@@ -52,5 +53,9 @@ namespace SceneryStream
             base.OnFrameworkInitializationCompleted();
         }
 
+        public void QuitAppTrayCall(object? sender, RoutedEventArgs args)
+        {
+            Console.WriteLine("Feature not yet implemented.");
+        }
     }
 }
