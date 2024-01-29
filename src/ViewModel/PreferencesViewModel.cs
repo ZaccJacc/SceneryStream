@@ -53,7 +53,7 @@ namespace SceneryStream.src.ViewModel
 
         
         public PreferencesModel Preferences = App.Preferences;
-
+    
         private ObservableCollection<string> _installationList;
         public ObservableCollection<string> InstallationPathsCollection
         {
@@ -111,13 +111,22 @@ namespace SceneryStream.src.ViewModel
             InstallationListVisible = true;
             InstallationPathsCollection.Add(InstallationToAdd);
             InstallationToAdd = string.Empty;
+            foreach (string s in InstallationPathsCollection) //the items are included here
+            {
+                Console.WriteLine($"Item: {s}");
+            }
         }
 
-        internal void RemoveExtraInstallation(string item)
+        internal void RemoveExtraInstallation(object? item)
         {
-            Console.WriteLine(item);
-            Console.WriteLine(InstallationToAdd + SelectedExtraInstallationItem);
-            Console.WriteLine($"Removal success? {InstallationPathsCollection.Remove(InstallationToAdd.ToString())}");
+            Console.WriteLine(InstallationPathsCollection.Count);
+            Console.WriteLine(item as string);
+            foreach (string s in InstallationPathsCollection) //this seems to be referencing a different instance of the installationpathscollection
+            {
+                Console.WriteLine($"Item: {s}");
+            }
+            Console.WriteLine(InstallationPathsCollection.Contains(item as string));
+            Console.WriteLine($"Removal success? {InstallationPathsCollection.Remove((string)item)}");
             //the parameter needs to contain the contents of the menuitem, and cannot be called using _selectedExtraInstallation because it just aint working.
             //could potentially cheat and use _installationToAdd
         }

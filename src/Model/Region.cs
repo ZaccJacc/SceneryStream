@@ -20,6 +20,7 @@ namespace SceneryStream.src.Model
         }
 
         internal static Region GLOBE = new($@"avares://SceneryStream/Assets/Map/worldmap.png", RegionID.GLOBE);
+        internal static Region GLOBELINED = new($@"avares://SceneryStream/Assets/Map/worldmaplined.png", RegionID.DEV);
         internal static Region USA = new($@"avares://SceneryStream/Assets/Map/USAmap.png", RegionID.USA);
 
         //----//
@@ -33,7 +34,8 @@ namespace SceneryStream.src.Model
             EUR = 4,
             AFR = 5,
             ASI = 6,
-            OCE = 7
+            OCE = 7,
+            DEV = 8
         }
     }
 }
