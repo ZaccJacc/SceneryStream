@@ -1,9 +1,11 @@
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using SceneryStream.src;
 using SceneryStream.src.Model;
+using SceneryStream.src.ViewModel;
 using System;
 using System.Threading.Tasks;
 
@@ -29,6 +31,7 @@ namespace SceneryStream
             {
                 desktop.MainWindow = new MainWindow();
                 Task platformbuild = ServiceInstance.BuildServiceAuthenticity();
+                desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 //----//
                 await platformbuild;
 

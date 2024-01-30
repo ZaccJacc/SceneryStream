@@ -8,6 +8,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using Utility;
+using Avalonia;
 
 namespace SceneryStream.src
 {
@@ -27,13 +28,14 @@ namespace SceneryStream.src
             {
                 Console.WriteLine("Shutdown incomplete");
             }
+            //WindowState = WindowState.Minimized;
+            //e.Cancel = true;
             await PreferencesModel.SavePreferences();
         }
 
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)

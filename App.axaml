@@ -1,7 +1,14 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SceneryStream.App"
-			 RequestedThemeVariant="Light">
+			 RequestedThemeVariant="Light"
+			 xmlns:views="clr-namespace:SceneryStream.src.View"
+			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:ic="using:FluentIcons.Avalonia"
+			 x:DataType="viewModel:ApplicationViewModel">
+	<Application.DataContext>
+		<viewModel:ApplicationViewModel/>
+	</Application.DataContext>
 
 	<Application.Resources>
 		<SolidColorBrush x:Key="RegionColourLight">#fff6f7ff</SolidColorBrush>
@@ -96,7 +103,7 @@
 						<NativeMenuItem Header="Connect"   />
 						<NativeMenuItem Header="Disconnect"   />
 						<NativeMenuItemSeparator />
-						<NativeMenuItem Header="Quit"  Command="{Binding QuitAppTrayCall}"/>
+						<NativeMenuItem Header="Quit"  Command="{Binding ExitApplication}"/>
 						<!--make this work at some point in the future using a command of some sorts. https://github.com/AvaloniaUI/Avalonia/discussions/10960-->
 					</NativeMenu>
 				</TrayIcon.Menu>
