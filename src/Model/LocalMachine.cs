@@ -28,7 +28,29 @@ namespace SceneryStream.src.Model
             {
                 primary_connection_success = value;
                 NotifyPropertyChanged(nameof(Connected));
-                ConnectionViewModel.CViewModel.ReviewConnecionStatusIndicator();
+                HomeViewModel.HViewModel.ReviewConnecionStatusIndicator();
+            }
+        }
+
+        private PingReply _serverPingReply;
+        public PingReply ServerPingReply
+        {
+            get => _serverPingReply;
+            set
+            {
+                _serverPingReply = value;
+                NotifyPropertyChanged(nameof(ServerPingReply));
+            }
+        }
+
+        private string _pingReplyTime = "-";
+        public string PingReplyTime
+        {
+            get => _pingReplyTime;
+            set
+            {
+                _pingReplyTime = value;
+                NotifyPropertyChanged(nameof(PingReplyTime));
             }
         }
 
@@ -61,66 +83,30 @@ namespace SceneryStream.src.Model
             }).Start();
             try
             { //Delegated this entire thing to a new random thread because the mounting attempt when the preferences load successfully was on the UI thread and froze the whole thing.
-                new Thread(async () =>
+                await Task.Run(async () =>
                 {
                     try
                     {
-                        App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
-                    } catch (Exception)
-                    {
-                        File.WriteAllText("Targets.setup", "Preferences.setup");
+                        App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup"); //Read the location of the preferences file from the known location "targets.setup"
                     }
-                
-                Console.WriteLine("[*] Preferences file found.");
-                Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile);
+                    catch (Exception)
+                    {
+                        File.WriteAllText("Targets.setup", "Preferences.setup"); //If the targets file cannot be found or is null, write into a new one a default location of the preferences file.
+                        App.Preferences.PreferencesFile = "Preferences.setup";
+                    }
+
+                    Console.WriteLine("[*] Preferences file found.");
+                    Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile); //use preferences model to load the preferences from the file.
                     if (await loadPreferenceSuccess)
                     {
-                        Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
-                        if (!await pingServer)
-                        {
-                            Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
-                            Connected = false;
-                        }
-                        else
-                        {
-                            switch (platform)
-                            {
-                                case PlatformID.Win32NT:
-                                    Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
-                                    Connected = await attempt_mounting;
-                                    if (Connected)
-                                    {
-                                        await Task.Run(async () =>
-                                        {
-                                            Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
-                                                                                                                                                                                                                //Currently forced to only airports because the server only has airports :p
-                                            ConnectionViewModel.CViewModel.GatherUpdateInformation();
-                                        });
-                                    }
-                                    break;
-
-                                case PlatformID.Unix:
-                                    Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
-                                    Connected = await attempt_unix_mounting;
-                                    if (Connected)
-                                    {
-                                        await Task.Run(async () =>
-                                        {
-                                            Console.WriteLine("[!] Cannot create shortcuts on unix.");
-                                            ConnectionViewModel.CViewModel.GatherUpdateInformation();
-                                        });
-                                    }
-                                    break;
-                            }
-
-
-                        }
+                        await MakeConnection(); //connect to the server if the preferences were not fatally malformed and there is a server address provided.
                     }
-                }).Start();
+                });
+                
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
-                Console.WriteLine("[!] Could not locate preferences/target file.");
+                Console.WriteLine("[!] Fatal error in initialising application resources.");
             }
         }
 
@@ -152,12 +138,12 @@ namespace SceneryStream.src.Model
 
             try
             {
-                PingReply reply = new Ping().Send(address, 1000);
-                if (reply != null)
+                App.ServiceInstance.ServerPingReply = new Ping().Send(address, 1000);
+                App.ServiceInstance.PingReplyTime = App.ServiceInstance.ServerPingReply.RoundtripTime.ToString();
+                if (App.ServiceInstance.ServerPingReply != null)
                 {
-                    Console.WriteLine("[*] Ping Results \n\tStatus :  " + reply.Status + " \n\t Time : " + reply.RoundtripTime.ToString() + " \n\t Address : " + reply.Address); //DBUG
+                    Console.WriteLine("[*] Ping Results \n\tStatus :  " + App.ServiceInstance.ServerPingReply.Status + " \n\t Time : " + App.ServiceInstance.PingReplyTime + " \n\t Address : " + App.ServiceInstance.ServerPingReply.Address); //DBUG
                 }
-
                 return true;
             }
             catch
@@ -167,9 +153,47 @@ namespace SceneryStream.src.Model
             }
         }
 
+        internal async Task MakeConnection()
+        {
+            Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
+            if (!await pingServer)
+            {
+                Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
+                Connected = false;
+            }
+            else
+            {
+                switch (Platform)
+                {
+                    case PlatformID.Win32NT:
+                        Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
+                        Connected = await attempt_mounting;
+                        if (Connected)
+                        {
+                            await Task.Run(async () =>   
+                            {
+                                Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
+                                                                                                                                                                                                    //Currently forced to only airports because the server only has airports :p
+                            });
+                        }
+                        break;
 
+                    case PlatformID.Unix:
+                        Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
+                        Connected = await attempt_unix_mounting;
+                        if (Connected)
+                        {
+                            await Task.Run(async () =>
+                            {
+                                Console.WriteLine("[!] Cannot create shortcuts on unix.");
+                                //placheolder until the code is made.
+                            });
+                        }
+                        break;
+                }
 
-
+            }
+        }
     }
 }
 
@@ -290,9 +314,9 @@ namespace Utility
             {
                 return false;
             }
-
         }
     }
+
     class Windows
     {
         internal static async void createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
@@ -327,11 +351,7 @@ namespace Utility
                 {
                     Console.WriteLine("[!] Could not create shortcuts!");
                 }
-                
-                
-
             });
-            
         }
 
 
@@ -431,8 +451,8 @@ namespace Utility
         }
         [DllImport("mpr.dll", EntryPoint = "WNetAddConnection2", CallingConvention = CallingConvention.Winapi)]
         private static extern int WNetAddConnection2
-            (ref NETRESOURCE oNetworkResource, string sPassword,
-            string sUserName, int iFlags);
+            (ref NETRESOURCE oNetworkResource, string? sPassword,
+            string? sUserName, int iFlags);
 
         [DllImport("mpr.dll")]
         private static extern int WNetCancelConnection2

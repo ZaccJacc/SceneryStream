@@ -48,9 +48,6 @@ namespace SceneryStream.src
             Console.WriteLine("Button pressed");
         }
 
-
-        //Platform-dependent operations below - Here be dragons!
-
         /*
          * Once the connections page has been completed, or at least the design for it, begin to program the backend to make test connections and receive a hosted piece of data as a handshake gesture
          * of sorts... this kind of thing might take a while now because the tesing is reliant on the whole app running at once, but testing versions of the code will have to be built in then re-written

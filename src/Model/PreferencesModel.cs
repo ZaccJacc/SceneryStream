@@ -102,23 +102,25 @@ namespace SceneryStream.src.Model
         {
             await Task.Run(() =>
             {
+                Console.WriteLine("[*] Attempting to save preferences.");
                 try
                 {
                     string[] lines = new string[4];
-                    lines[0] = App.Preferences._serverAddress != null ? $"A-{App.Preferences._serverAddress}" : $"A-{null}";
-                    lines[1] = App.Preferences._simDirectory != null ? $"S-{App.Preferences._simDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
-                    lines[2] = $"D-{App.Preferences._driveLetter}";
-                    lines[3] = $"M-Multisim:{App.Preferences._multipleSims}";
-                    if (App.Preferences._preferencesFile != null && File.Exists(App.Preferences._preferencesFile))
+                    lines[0] = App.Preferences.ServerAddress != null ? $"A-{App.Preferences.ServerAddress}" : $"A-{null}";
+                    lines[1] = App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
+                    lines[2] = $"D-{App.Preferences.DriveLetter}";
+                    lines[3] = $"M-Multisim:{App.Preferences.MultipleSims}";
+                    if (App.Preferences.PreferencesFile != null && File.Exists(App.Preferences.PreferencesFile))
                     {
-                        File.WriteAllLines(App.Preferences._preferencesFile, lines);
+                        File.WriteAllLines(App.Preferences.PreferencesFile, lines);
                     }
                     else
                     {
                         File.WriteAllLines("Preferences.setup", lines);
-                        App.Preferences._preferencesFile = "Preferences.setup";
+                        App.Preferences.PreferencesFile = "Preferences.setup";
                     }
-                    File.WriteAllText("Targets.setup", App.Preferences._preferencesFile);
+                    File.WriteAllText("Targets.setup", App.Preferences.PreferencesFile);
+                    Console.WriteLine("[*] Preferences Saved.");
 
                 }
                 catch (Exception)
@@ -189,13 +191,12 @@ namespace SceneryStream.src.Model
                                     break;
                             }
                         }
-                        App.Preferences.PreferencesFile = App.Preferences.PreferencesFile == null ? "App.Preferences.setup" : App.Preferences.PreferencesFile;
-                        Console.WriteLine(Path.GetFullPath(App.Preferences.PreferencesFile));
+                        App.Preferences.PreferencesFile = App.Preferences.PreferencesFile == null ? "Preferences.setup" : App.Preferences.PreferencesFile;
                         if (PropertiesIncomplete)
                         {
                             Console.WriteLine("[*] Preferences value is not fully formatted.\n\t=> Did not disrupt loading.");
                         }
-                        return true;
+                        return !string.IsNullOrEmpty(App.Preferences.ServerAddress); //return true if there is a server address provided and nothing else went fatally wrong.
                     }
                     catch (Exception ex)
                     {

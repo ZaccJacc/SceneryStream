@@ -29,7 +29,7 @@
 
 		<!--Scenery installation settings-->
 		<Canvas Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-			<TextBlock Text="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18" FontFamily="Abadi"/>
+			<Label Content="Mounting Drive" Canvas.Top="91" Canvas.Left="5" FontSize="18"/>
 			<ComboBox x:Name="TargetDrive" Canvas.Left="140" Canvas.Top="90" SelectedIndex="{Binding Preferences.DriveIndex}" FontFamily="Abadi" ToolTip.Tip="Select which drive location you want the server to use.">
 				<ComboBoxItem Content="A:"/>
 				<ComboBoxItem Content="B:"/>

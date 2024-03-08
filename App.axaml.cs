@@ -13,8 +13,12 @@ namespace SceneryStream
 {
     public partial class App : Application
     {
-        internal static LocalMachine ServiceInstance = new LocalMachine();
-        private static PreferencesModel _preferences = new PreferencesModel();
+        private static LocalMachine _serviceInstance = new();
+        internal static LocalMachine ServiceInstance
+        {
+            get { return _serviceInstance; }
+        }
+        private static PreferencesModel _preferences = new();
         internal static PreferencesModel Preferences
         {
             get { return _preferences; }
@@ -34,7 +38,7 @@ namespace SceneryStream
                 desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 //----//
                 await platformbuild;
-
+                
                 if (!ServiceInstance.Platform_Verified)
                 {
                     Console.WriteLine("[!] Unable to complete platform verification.");
@@ -51,6 +55,8 @@ namespace SceneryStream
                 Preferences.PreferencesFile = File.ReadAllText("Targets.Setup");
                 Console.WriteLine("[*] Preferences file found.");
                 PreferencesModel.loadPreferences(Preferences.PreferencesFile);*/
+                HomeViewModel.HViewModel.ScanNewUpdates();
+                HomeViewModel.HViewModel.RefreshScenerySpotlight();
             }
 
             base.OnFrameworkInitializationCompleted();

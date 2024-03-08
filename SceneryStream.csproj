@@ -31,6 +31,7 @@
     <None Remove="Assets\OpenFile.png" />
     <None Remove="Assets\Plus.png" />
     <None Remove="Assets\Reset.png" />
+    <None Remove="Assets\Resources\ScenerySpotlight.txt" />
     <None Remove="Assets\Resources\ServerUpdates.txt" />
     <None Remove="Assets\SaveFile.png" />
     <None Remove="Assets\Status\Connected_Circle.png" />
@@ -52,6 +53,7 @@
     <AvaloniaResource Include="Assets\OpenFile.png" />
     <AvaloniaResource Include="Assets\Plus.png" />
     <AvaloniaResource Include="Assets\Reset.png" />
+    <AvaloniaResource Include="Assets\Resources\ScenerySpotlight.txt" />
     <AvaloniaResource Include="Assets\Resources\ServerUpdates.txt" />
     <AvaloniaResource Include="Assets\SaveFile.png" />
     <AvaloniaResource Include="Assets\Status\Connected_Circle.png" />
@@ -86,9 +88,6 @@
     <Compile Update="src\MainWindow.axaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="src\View\ConnectionView.axaml.cs">
-      <DependentUpon>ConnectionView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -18,9 +18,9 @@
 		<SolidColorBrush x:Key="ChromeAltLow">#ff2d4d7a</SolidColorBrush>
 		<SolidColorBrush x:Key="ListLow">#ffdce3f8</SolidColorBrush>
 		<SolidColorBrush x:Key="ChromeHigh">#ffaab2cc</SolidColorBrush>
-		<FontFamily x:Key="Dosis">/Assets/Fonts/Dosis-Variable.ttf</FontFamily>
-		<FontFamily x:Key="Urbanist">/Assets/Fonts/Urbanist-Variable.ttf</FontFamily>
-		<FontFamily x:Key="Urbanist Italic">/Assets/Fonts/Urbanist-Italic-Variable.ttf</FontFamily>
+		<FontFamily x:Key="Dosis">avares://SceneryStream/Assets/Fonts/Dosis-Variable.ttf</FontFamily>
+		<FontFamily x:Key="Urbanist">avares://SceneryStream/Assets/Fonts/Urbanist-Variable.ttf</FontFamily>
+		<FontFamily x:Key="Urbanist Italic">avares://SceneryStream/Assets/Fonts/Urbanist-Italic-Variable.ttf</FontFamily>
 	</Application.Resources>
 
 	<!--Spend some time turning these themes vvvv into a ResourceDictionary.ThemeDictionaries https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants-->
@@ -78,7 +78,7 @@
 		</Style>
 		
 		<Style Selector="TextBlock">
-			<Setter Property="FontFamily" Value="Abadi"/>
+			<Setter Property="FontFamily" Value="Dosis"/>
 		</Style>
 		
 		<Style Selector="FlyoutPresenter.FlyoutPresenter">
@@ -86,11 +86,11 @@
 		</Style>
 
 		<Style Selector="CheckBox">
-			<Setter Property="FontFamily" Value="Abadi"/>
+			<Setter Property="FontFamily" Value="Dosis"/>
 		</Style>
 
 		<Style Selector="Button">
-			<Setter Property="FontFamily" Value="Abadi"/>
+			<Setter Property="FontFamily" Value="Dosis"/>
 		</Style>
     </Application.Styles>
 

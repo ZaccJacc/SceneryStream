@@ -15,7 +15,11 @@ namespace SceneryStream.src.ViewModel
     internal class PreferencesViewModel : ObservableObject
     {
 
-        public PreferencesViewModel() { }
+        public PreferencesViewModel() 
+        {
+            InstallationPathsCollection = new();
+            SceneryPathsCollection = new();
+        }
 
         private static readonly PreferencesViewModel _pViewModel = new();
         public static PreferencesViewModel PViewModel
@@ -62,8 +66,8 @@ namespace SceneryStream.src.ViewModel
 
         
         public PreferencesModel Preferences = App.Preferences;
-    
-        private ObservableCollection<string> _installationList = new ObservableCollection<string>();
+
+        private ObservableCollection<string> _installationList;
         public ObservableCollection<string> InstallationPathsCollection
         {
             get => _installationList;
@@ -74,7 +78,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        private ObservableCollection<string> _sceneryList = new ObservableCollection<string>();
+        private ObservableCollection<string> _sceneryList;
         public ObservableCollection<string> SceneryPathsCollection
         {
             get => _sceneryList;
@@ -92,7 +96,7 @@ namespace SceneryStream.src.ViewModel
             string? prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
             if (prefFile != "" && prefFile != null)
             {
-                PreferencesModel.loadPreferences(prefFile);
+                await PreferencesModel.loadPreferences(prefFile);
             }
         }
 

@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
         x:Class="SceneryStream.src.MainWindow"
-        Title="XSS Alpha0.16.1"
+        Title="XSS Alpha0.21.0"
 		MinWidth="1000"
 		MinHeight="600"
 		xmlns:views="clr-namespace:SceneryStream.src.View"
@@ -15,8 +15,6 @@
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
 		WindowState="Maximized">
-	<!--TransparencyLevelHint="AcrylicBlur"
-	    Background="Transparent"-->
 
 	<Window.DataContext>
 		<viewModel:MainWindowViewModel/>
@@ -24,21 +22,9 @@
 
 
 	<Panel>
-		<!--Acrylic background for the pretties
-		<Panel>
-			<ExperimentalAcrylicBorder IsHitTestVisible="False">
-				<ExperimentalAcrylicBorder.Material>
-					<ExperimentalAcrylicMaterial
-						BackgroundSource="Digger"
-						TintColor="#f0f0f0"
-						TintOpacity="0.8"
-						MaterialOpacity="0.5" />
-				</ExperimentalAcrylicBorder.Material>
-			</ExperimentalAcrylicBorder>
-		</Panel>-->
 		<!--Sidebar-->
 		<Rectangle Width="280" Height="1088" Fill="{DynamicResource ChromeHigh}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-		<Label ZIndex="2" Content="Alpha0.16.1" FontFamily="Consolas" FontWeight="Bold" Foreground="#909193" FontSize="20" VerticalAlignment="Bottom" Margin="25 0 0 15"/>
+		<Label ZIndex="2" Content="Alpha0.21.0" FontFamily="Consolas" FontWeight="Bold" Foreground="#909193" FontSize="20" VerticalAlignment="Bottom" Margin="25 0 0 15"/>
 		<!--New buttons for manual sidebar layout-->
 		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 115 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>

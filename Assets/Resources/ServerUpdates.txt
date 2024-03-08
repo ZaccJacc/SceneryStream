@@ -1,6 +1,2 @@
-﻿January 29th, 2024//d//Server updates test implemented.
-Hopefully this works as a method for scanning the data in.
-//br//
-January 1st, 2024//d//Happy new year!
-//br//
-Server Updates Are Live!//d//This is awesome!
+﻿Error Connecting to Server//d//Server updates could not be loaded.//br//
+Another one//d//Test values.

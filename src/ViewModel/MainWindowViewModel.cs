@@ -10,7 +10,7 @@ namespace SceneryStream.src.ViewModel
     internal class MainWindowViewModel : ObservableObject
     {
         //--Window Views--//
-        private static readonly View.ConnectionView connectionView = new();
+        private static readonly View.HomeView homeView = new();
         private static readonly View.PreferencesView preferencesView = new();
         private static readonly View.MapView mapView = new();
         private static readonly View.SceneryView sceneryView = new();
@@ -132,7 +132,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        private object? _contentToDisplay = connectionView;
+        private object? _contentToDisplay = homeView;
         public object? ContentToDisplay
         {
             get => _contentToDisplay;
@@ -151,7 +151,7 @@ namespace SceneryStream.src.ViewModel
             {
                 default:
                 case 0:
-                    ContentToDisplay = connectionView;
+                    ContentToDisplay = homeView;
                     break;
 
                 case 1:
