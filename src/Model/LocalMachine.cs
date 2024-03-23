@@ -170,7 +170,7 @@ namespace SceneryStream.src.Model
                         Connected = await attempt_mounting;
                         if (Connected)
                         {
-                            await Task.Run(async () =>   
+                            await Task.Run(async () =>
                             {
                                 Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
                                                                                                                                                                                                     //Currently forced to only airports because the server only has airports :p
@@ -191,7 +191,6 @@ namespace SceneryStream.src.Model
                         }
                         break;
                 }
-
             }
         }
     }
@@ -279,9 +278,7 @@ namespace Utility
                     {
                         Console.WriteLine("[!] No directory selected!");
                         return "";
-                    }
-                    
-                    
+                    }    
             }
             return "";
         }

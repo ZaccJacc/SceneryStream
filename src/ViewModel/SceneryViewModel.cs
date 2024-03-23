@@ -17,6 +17,52 @@ namespace SceneryStream.src.ViewModel;
 internal class SceneryViewModel : ObservableObject
 {
 
+    //--Selected Regions--//
+    private bool _washington;
+    public bool Washington
+    {
+        get => _washington;
+        set
+        {
+            _washington = value;
+            NotifyPropertyChanged(nameof(Washington));
+        }
+    }
+
+    private bool _oregon;
+    public bool Oregon
+    {
+        get => _oregon;
+        set
+        {
+            _oregon = value;
+            NotifyPropertyChanged(nameof(Oregon));
+        }
+    }
+
+    private bool _california;
+    public bool California
+    {
+        get => _california;
+        set
+        {
+            _california = value;
+            NotifyPropertyChanged(nameof(California));
+        }
+    }
+
+    private bool _nevada;
+    public bool Nevada
+    {
+        get => _nevada; 
+        set
+        {
+            _nevada = value;
+            NotifyPropertyChanged(nameof(Nevada));
+        }
+    }
+    //--//
+
     private static readonly SceneryViewModel _sViewModel = new();
     public static SceneryViewModel SViewModel
     {
@@ -96,6 +142,49 @@ internal class SceneryViewModel : ObservableObject
                         break;
 
                     case Region.RegionID.USA:
+                        Console.WriteLine($"X:{x}, Y:{y}");
+                        
+                        if (x > 208 && x < 431 && y < 147)
+                        {
+                            Console.WriteLine("Washington");
+                            if (args.ClickCount == 2)
+                            {
+                                Washington = !Washington;
+                            }
+                        }
+                        else
+                        {
+                            if (x > 208 && x < 399 && y > 147 && y < 281)
+                            {
+                                Console.WriteLine("Oregon");
+                                if (args.ClickCount == 2)
+                                {
+                                    Oregon = !Oregon;
+                                }
+                            }
+                            else
+                            {
+                                if (x > 208 && (x < 325 && y > 281 && y < 292 || x < 313 && y > 292 && y < 338 || x < 308 && y > 338 && y < 361 || x < 325 && y > 361 && y < 389 || x < 347 && y > 389 && y < 426 || x < 364 && y > 426 && y < 450 || x < 389 && y > 450 && y < 487 || x < 413 && y > 487 && y < 522 || x < 397 && y > 522 && y < 597))
+                                {
+                                    Console.WriteLine("California");
+                                    if (args.ClickCount == 2)
+                                    {
+                                        California = !California;
+                                    }
+                                }
+                                else
+                                {
+                                    if (x > 332 && x < 472 && y > 300 && y < 332 || x > 308 && x < 453 && y > 332 && y < 390 || x > 328 && x < 452 && y > 390 && y < 406 || x > 355 && x < 443 && y > 406 && y < 442 || x > 388 & x < 428 && y > 442 && y < 497)
+                                    {
+                                        Console.WriteLine("Nevada");
+                                        if (args.ClickCount == 2)
+                                        {
+                                            Nevada = !Nevada;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         break;
 
                     case Region.RegionID.CAN:

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="400"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.SceneryView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
 			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
@@ -25,7 +25,13 @@
 				</Panel>
 			</Button>
 			<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 50 0 0">
-				<Image x:Name="WorldMap" Source="{Binding SViewModel.MapSource}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+				<Panel>
+					<Image x:Name="Map" Source="{Binding SViewModel.MapSource}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+					<Image x:Name="Washington" Source="avares://SceneryStream/Assets/Map/USA/USA_WA.png" IsHitTestVisible="False" IsVisible="{Binding SViewModel.Washington}"/>
+					<Image x:Name="Oregon" Source="avares://SceneryStream/Assets/Map/USA/USA_OR.png" IsHitTestVisible="False" IsVisible="{Binding SViewModel.Oregon}"/>
+					<Image x:Name="California" Source="avares://SceneryStream/Assets/Map/USA/USA_CA.png" IsHitTestVisible="False" IsVisible="{Binding SViewModel.California}"/>
+					<Image x:Name="Nevada" Source="avares://SceneryStream/Assets/Map/USA/USA_NV.png" IsHitTestVisible="False" IsVisible="{Binding SViewModel.Nevada}"/>
+				</Panel>
 			</ScrollViewer>
 		</Grid>
 </UserControl>

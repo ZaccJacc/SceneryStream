@@ -25,6 +25,10 @@
     <None Remove="Assets\Fonts\Urbanist-Italic-Variable.ttf" />
     <None Remove="Assets\Fonts\Urbanist-Variable.ttf" />
     <None Remove="Assets\Map\USAmap.png" />
+    <None Remove="Assets\Map\USA\USA_CA.png" />
+    <None Remove="Assets\Map\USA\USA_NV.png" />
+    <None Remove="Assets\Map\USA\USA_OR.png" />
+    <None Remove="Assets\Map\USA\USA_WA.png" />
     <None Remove="Assets\Map\worldmap.png" />
     <None Remove="Assets\Map\worldmap2.png" />
     <None Remove="Assets\Map\worldmaplined.png" />
@@ -48,6 +52,10 @@
     <AvaloniaResource Include="Assets\Fonts\Urbanist-Variable.ttf" />
     <AvaloniaResource Include="Assets\Aircraft.png" />
     <AvaloniaResource Include="Assets\Map\USAmap.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_CA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NV.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_OR.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_WA.png" />
     <AvaloniaResource Include="Assets\Map\worldmap.png" />
     <AvaloniaResource Include="Assets\Map\worldmaplined.png" />
     <AvaloniaResource Include="Assets\OpenFile.png" />
