@@ -8,7 +8,8 @@
              xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 			 xmlns:model="clr-namespace:SceneryStream.src.Model"
 			 xmlns:app="clr-namespace:SceneryStream"
-			 xmlns:ic="using:FluentIcons.Avalonia">
+			 xmlns:ic="using:FluentIcons.Avalonia"
+			 x:Name="PreferencesControl">
 
 
 	<UserControl.DataContext>
@@ -67,24 +68,29 @@
 					<app:App/>
 				</TextBox.DataContext>
 			</TextBox>
-			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" Command="{Binding SelectSimDirectory}" CommandParameter="Primary" CornerRadius="5">
+			<Button x:Name="Browse" Margin="246,45,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" Command="{Binding SelectSimDirectory}" CommandParameter="PrimarySim" CornerRadius="5">
 				<Panel>
 					<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<CheckBox x:Name="OtherInstallationCheck" IsChecked="False" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Click="UsingMoreInstallations" Tag="0" FontSize="18"/>
-			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="False" Text="{Binding InstallationToAdd}"/>
-			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="False">
+			<CheckBox x:Name="OtherInstallationCheck" IsChecked="{Binding Preferences.MultipleSims}" IsDefault="False" Margin="5,130,0,0" Content="Using multiple simulator installations" Tag="0" FontSize="18">
+				<CheckBox.DataContext>
+					<app:App/>
+				</CheckBox.DataContext>
+			</CheckBox>
+			<TextBox x:Name="OtherInstallationField" Watermark="Other Installation Directories" MinWidth="240" Margin="5,170,0,0" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Text="{Binding InstallationToAdd}"/>
+			<Button x:Name="BrowseCustom" Margin="246,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Command="{Binding SelectSimDirectory}" CommandParameter="ExtraSim">
 				<Panel>
 					<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 				</Panel>
 			</Button>
-			<Button x:Name="AddDirectory" Margin="284,170,0,0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" IsVisible="False" Command="{Binding LogInstallationDirectory}">
-				<Panel>
-					<ic:SymbolIcon Symbol="FolderAdd" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-				</Panel>
-			</Button>
-			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding PViewModel.InstallationListVisible}" SelectionChanged="RecallPathSelection" MaxHeight="200" ItemsSource="{Binding PViewModel.InstallationPathsCollection}" SelectedItem="{Binding PViewModel.SelectedExtraInstallationItem}">
+			<ListBox x:Name="OtherInstallationList" Margin="5,201,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" SelectionChanged="RecallPathSelection" MaxHeight="200" SelectedItem="{Binding PViewModel.SelectedExtraInstallationItem}" ItemsSource="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.InstallationPathsCollection}">
+				<ListBox.IsVisible>
+					<MultiBinding Converter="{x:Static BoolConverters.And}">
+						<Binding ElementName="OtherInstallationCheck" Path="DataContext.Preferences.MultipleSims"/>
+						<Binding ElementName="OtherInstallationCheck" Path="!!DataContext.Preferences.InstallationPathsCollection.Count"/>
+					</MultiBinding>
+				</ListBox.IsVisible>
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="ContextMenu">
@@ -97,7 +103,7 @@
 										<MenuItem.Header>
 											<ic:SymbolIcon Symbol="Delete"/>
 										</MenuItem.Header>
-									</MenuItem> <!--The option for the remove button is greyed out and i can't figure why. Does it need argument routing in the presence of a parameter?-->
+									</MenuItem>
 								</ContextMenu>
 							</Setter.Value>
 						</Setter>
@@ -113,9 +119,16 @@
 		<!--Scenery scanning settings-->
 		<Canvas Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Label Content="Installation Configuration" FontSize="21" FontWeight="Medium" Margin="5 5"/>
-			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Click="UsingCustomLocations" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict."/>
+			<CheckBox x:Name="ScanElsewhere" Content="Addons installed in custom locations" FontSize="18" Margin="5 47" Tag="0" ToolTip.Tip="These locations will be scanned for pre-existent scenery to prevent installation conflict.">
+				<CheckBox.DataContext>
+					<app:App/>
+				</CheckBox.DataContext>
+			</CheckBox>
 			<TextBox x:Name="OtherDirectoryField" Watermark="Custom Scenery Directories" MinWidth="240" Margin="5 92" IsVisible="False"/>
-			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="False" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200">
+			<ListBox x:Name="OtherDirectoryList" Margin="5,123,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="0.5" FontSize="11" CornerRadius="5" MinWidth="240" IsVisible="{Binding ElementName=PreferencesControl,Path=DataContext.PViewModel.SceneryListVisible}" SelectionChanged="RecallPathSelection" Tag="0" MaxHeight="200" ItemsSource="{Binding Preferences.SceneryPathsCollection}">
+				<ListBox.DataContext>
+					<app:App/>
+				</ListBox.DataContext>
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="ContextMenu">
@@ -124,7 +137,7 @@
 									<ContextMenu.DataContext>
 										<viewModel:PreferencesViewModel/>
 									</ContextMenu.DataContext>
-									<MenuItem Command="">
+									<MenuItem Command="{Binding RemoveExtraSceneryLocation}">
 										<MenuItem.Header>
 											<ic:SymbolIcon Symbol="Delete"/>
 										</MenuItem.Header>

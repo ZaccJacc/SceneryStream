@@ -17,8 +17,6 @@ namespace SceneryStream.src.ViewModel
 
         public PreferencesViewModel() 
         {
-            InstallationPathsCollection = new();
-            SceneryPathsCollection = new();
         }
 
         private static readonly PreferencesViewModel _pViewModel = new();
@@ -39,6 +37,20 @@ namespace SceneryStream.src.ViewModel
             get
             {
                 return _installationListVisible;
+            }
+        }
+
+        private bool _sceneryListVisible = false;
+        public bool SceneryListVisible
+        {
+            set
+            {
+                _sceneryListVisible = value;
+                NotifyPropertyChanged(nameof(SceneryListVisible));
+            }
+            get
+            {
+                return _sceneryListVisible;
             }
         }
 
@@ -65,45 +77,35 @@ namespace SceneryStream.src.ViewModel
         }
 
         
-        public PreferencesModel Preferences = App.Preferences;
 
-        private ObservableCollection<string> _installationList;
-        public ObservableCollection<string> InstallationPathsCollection
-        {
-            get => _installationList;
-            set
-            {
-                _installationList = value;
-                NotifyPropertyChanged(nameof(InstallationPathsCollection));
-            }
-        }
-
-        private ObservableCollection<string> _sceneryList;
-        public ObservableCollection<string> SceneryPathsCollection
-        {
-            get => _sceneryList;
-            set
-            {
-                _sceneryList = value;
-                NotifyPropertyChanged(nameof(SceneryPathsCollection));
-            }
-        }
+        
 
         //-//
 
         public async void LoadPreferences()
         {
             string? prefFile = (await Utility.FileBrowser.produceBrowser("File")).ToString();
-            if (prefFile != "" && prefFile != null)
+            if (!string.IsNullOrEmpty(prefFile))
             {
                 await PreferencesModel.loadPreferences(prefFile);
             }
         }
 
-        public async void SelectSimDirectory(string install_type) //this needs to eventually check if this is for the main sim directory or for other installations
+        public async void SelectSimDirectory(object? install_type) //this needs to eventually check if this is for the main sim directory or for other installations
         {
             string? directory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
-            App.Preferences.SimDirectory = directory != "" ? directory : App.Preferences.SimDirectory;
+            switch (install_type)
+            {
+                case "PrimarySim":
+                    App.Preferences.SimDirectory = directory != "" ? directory : App.Preferences.SimDirectory;
+                    break;
+
+                case "ExtraSim":
+                    InstallationToAdd = directory;
+                    LogInstallationDirectory();
+                    break;
+            }
+            
         }
 
         public async void ResetPreferences()
@@ -125,16 +127,25 @@ namespace SceneryStream.src.ViewModel
         public void LogInstallationDirectory()
         {
             PViewModel.InstallationListVisible = true;
-            PViewModel.InstallationPathsCollection.Add(InstallationToAdd);
+            App.Preferences.InstallationPathsCollection.Add(InstallationToAdd);
             InstallationToAdd = string.Empty;
         }
 
         public void RemoveExtraInstallation(object? item)
         {
-            PViewModel.InstallationPathsCollection.Remove((string)item);
-            if(PViewModel.InstallationPathsCollection.Count < 1)
+            App.Preferences.InstallationPathsCollection.Remove((string)item);
+            if(App.Preferences.InstallationPathsCollection.Count < 1)
             {
                 PViewModel.InstallationListVisible = false;
+            }
+        }
+
+        public void RemoveExtraSceneryDirectory(object? item)
+        {
+            App.Preferences.SceneryPathsCollection.Remove((string)item);
+            if(App.Preferences.SceneryPathsCollection.Count < 1)
+            {
+                PViewModel.SceneryListVisible = false;
             }
         }
     }

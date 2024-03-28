@@ -14,65 +14,9 @@ namespace SceneryStream.src.View
         public PreferencesView()
         {
             InitializeComponent();
-
-
-            //getting the checkboxes into their correct state based on the loadeed preferences - currently all this happens before the preferences get read... somehow need to find a way to fix this.
-            //could do a re-check when the window comes into focus / is selected?
-            switch(App.Preferences.MultipleSims)
-            {
-                case true:
-                    OtherInstallationField.IsVisible = true;
-                    BrowseCustom.IsVisible = true;
-                    AddDirectory.IsVisible = true;
-                    if ((string)OtherInstallationList.Tag == "1")
-                    {
-                        OtherDirectoryList.IsVisible = true;
-                    }
-                    OtherInstallationCheck.Tag = 1;
-                    OtherInstallationCheck.IsChecked = true;
-                    break;
-
-                default:
-                    OtherInstallationField.IsVisible = false;
-                    BrowseCustom.IsVisible = false;
-                    OtherInstallationList.IsVisible = false;
-                    AddDirectory.IsVisible = false;
-                    OtherInstallationCheck.Tag = 0;
-                    OtherInstallationCheck.IsChecked = false;
-                    break;
-            }
         }
 
-        public void UsingMoreInstallations(object? sender, RoutedEventArgs args)
-        {
-            switch (((CheckBox)sender).Tag.ToString())
-            {
-                case "0":
-                    OtherInstallationField.IsVisible = true;
-                    BrowseCustom.IsVisible = true;
-                    AddDirectory.IsVisible = true;
-                    if ((string)OtherInstallationList.Tag == "1")
-                    {
-                        OtherDirectoryList.IsVisible = true;
-                    }
-                    ((CheckBox)sender).Tag = 1;
-                    App.Preferences.MultipleSims = true;
-                    break;
-                case "1":
-                    OtherInstallationField.IsVisible = false;
-                    BrowseCustom.IsVisible = false;
-                    OtherInstallationList.IsVisible = false;
-                    AddDirectory.IsVisible = false;
-                    ((CheckBox)sender).Tag = 0;
-                    App.Preferences.MultipleSims = false;
-                    break;
-
-                default:
-                    break;
-
-            }
-
-        }
+        
 
         public void RecallPathSelection(object? sender, SelectionChangedEventArgs e)
         {

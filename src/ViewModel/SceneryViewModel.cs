@@ -1,67 +1,25 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using SceneryStream.src.Model;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using static SceneryStream.src.Model.RegionHandling;
 
 namespace SceneryStream.src.ViewModel;
 
 internal class SceneryViewModel : ObservableObject
 {
 
-    //--Selected Regions--//
-    private bool _washington;
-    public bool Washington
+    private string test = "Hello World";
+    public string Test
     {
-        get => _washington;
+        get => test;
         set
         {
-            _washington = value;
-            NotifyPropertyChanged(nameof(Washington));
+            test = value;
+            NotifyPropertyChanged(nameof(Test));
         }
     }
-
-    private bool _oregon;
-    public bool Oregon
-    {
-        get => _oregon;
-        set
-        {
-            _oregon = value;
-            NotifyPropertyChanged(nameof(Oregon));
-        }
-    }
-
-    private bool _california;
-    public bool California
-    {
-        get => _california;
-        set
-        {
-            _california = value;
-            NotifyPropertyChanged(nameof(California));
-        }
-    }
-
-    private bool _nevada;
-    public bool Nevada
-    {
-        get => _nevada; 
-        set
-        {
-            _nevada = value;
-            NotifyPropertyChanged(nameof(Nevada));
-        }
-    }
-    //--//
 
     private static readonly SceneryViewModel _sViewModel = new();
     public static SceneryViewModel SViewModel
@@ -81,19 +39,28 @@ internal class SceneryViewModel : ObservableObject
     }
 
 
-    private static Region _displayedRegion = Region.GLOBE;
+    private Region _displayedRegion = Region.GLOBE;
+    public Region DisplayedRegion
+    {
+        get => _displayedRegion;
+        set
+        {
+            _displayedRegion = value;
+            NotifyPropertyChanged(nameof(DisplayedRegion));
+        }
+    }
 
     internal void FocusRegion(object? sender, PointerPressedEventArgs args)
     {
 
         try
         {
-            var point = args.GetCurrentPoint((Avalonia.Visual?)args.Source);
+            var point = args.GetCurrentPoint((Visual?)args.Source);
             var x = point.Position.X;
             var y = point.Position.Y;
             if (point.Properties.IsLeftButtonPressed)
             {
-                switch (_displayedRegion.ID)
+                switch (SViewModel.DisplayedRegion.ID)
                 {
                     case Region.RegionID.GLOBE:
                         if (((x < 530 && y > 228) || (x < 192 && y < 228)) && y < 404)
@@ -149,7 +116,7 @@ internal class SceneryViewModel : ObservableObject
                             Console.WriteLine("Washington");
                             if (args.ClickCount == 2)
                             {
-                                Washington = !Washington;
+                                Regions.USA_WA.Selected = !Regions.USA_WA.Selected;
                             }
                         }
                         else
@@ -159,7 +126,7 @@ internal class SceneryViewModel : ObservableObject
                                 Console.WriteLine("Oregon");
                                 if (args.ClickCount == 2)
                                 {
-                                    Oregon = !Oregon;
+                                    Regions.USA_OR.Selected = !Regions.USA_OR.Selected;
                                 }
                             }
                             else
@@ -169,7 +136,7 @@ internal class SceneryViewModel : ObservableObject
                                     Console.WriteLine("California");
                                     if (args.ClickCount == 2)
                                     {
-                                        California = !California;
+                                        Regions.USA_CA.Selected = !Regions.USA_CA.Selected;
                                     }
                                 }
                                 else
@@ -179,7 +146,7 @@ internal class SceneryViewModel : ObservableObject
                                         Console.WriteLine("Nevada");
                                         if (args.ClickCount == 2)
                                         {
-                                            Nevada = !Nevada;
+                                            Regions.USA_NV.Selected = !Regions.USA_NV.Selected;
                                         }
                                     }
                                 }
@@ -214,10 +181,16 @@ internal class SceneryViewModel : ObservableObject
         }
     }
 
+    internal void SelectChildRegion(ChildRegion region)
+    {
+        region.Selected = !region.Selected;
+        SelectedChildRegions.Add(region);
+    }
+
     private void DisplayRegion(Region region)
     {
         SViewModel.MapSource = region.Map;
-        _displayedRegion = region;
+        SViewModel.DisplayedRegion = region;
     }
 
     internal void ResetMap()

@@ -100,11 +100,10 @@
 					  ToolTipText="X Scenery Stream">
 				<TrayIcon.Menu>
 					<NativeMenu>
-						<NativeMenuItem Header="Connect"   />
-						<NativeMenuItem Header="Disconnect"   />
+						<NativeMenuItem Header="Connect" Command="{Binding ToggleConnection}"/>
+						<NativeMenuItem Header="Disconnect" Command="{Binding ToggleConnection}"/>
 						<NativeMenuItemSeparator />
 						<NativeMenuItem Header="Quit"  Command="{Binding ExitApplication}"/>
-						<!--make this work at some point in the future using a command of some sorts. https://github.com/AvaloniaUI/Avalonia/discussions/10960-->
 					</NativeMenu>
 				</TrayIcon.Menu>
 			</TrayIcon>

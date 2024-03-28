@@ -19,5 +19,10 @@ namespace SceneryStream.src.ViewModel
                 application.Shutdown();
             }
         }
+
+        public static void ToggleConnection()
+        {
+            HomeViewModel.HViewModel.ToggleConnection();
+        }
     }
 }

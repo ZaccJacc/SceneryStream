@@ -16,7 +16,7 @@ using DynamicData;
 
 namespace SceneryStream.src.ViewModel
 {
-    internal class HomeViewModel : ObservableObject
+    internal partial class HomeViewModel : ObservableObject
     {
 
         public HomeViewModel() 
@@ -25,7 +25,7 @@ namespace SceneryStream.src.ViewModel
             ScenerySpotlightEntries = new();
         }
 
-        private static HomeViewModel _hViewModel = new();
+        private static readonly HomeViewModel _hViewModel = new();
         public static HomeViewModel HViewModel
         {
             get => _hViewModel;
@@ -52,8 +52,6 @@ namespace SceneryStream.src.ViewModel
                 NotifyPropertyChanged(nameof(ScenerySpotlightEntries));
             }
         }
-
-        private static string _spotlightRevision;
 
         private Bitmap? _source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
         public Bitmap? Source
@@ -127,7 +125,7 @@ namespace SceneryStream.src.ViewModel
         /// <para>The end of an update message is signified by the presence of <c>//br//</c> on the SAME LINE.
         /// </para>
         /// </summary>
-        internal void ScanNewUpdates()
+        internal static void ScanNewUpdates()
         {
             Console.WriteLine("[*] Attempting to read server updates info");
             try
@@ -153,7 +151,7 @@ namespace SceneryStream.src.ViewModel
                 foreach (string line in split)
                 {
                     string[] content = line.Split("//d//");
-                    string dateString = Regex.Replace(content[0], @"\t|\n|\r", "");
+                    string dateString = WhitespaceRegex().Replace(content[0], "");
                     if (HViewModel.ServerUpdateEntries.Count > 0 && dateString == HViewModel.ServerUpdateEntries[0].Date)
                     {
                         Console.WriteLine("[!] Did not refresh server updates\n\t=> Already up to date!");
@@ -185,7 +183,7 @@ namespace SceneryStream.src.ViewModel
         /// <para>The ScenerySpotlight file MUST start with an empty line.</para>
         /// </para>
         /// </summary>
-        internal void RefreshScenerySpotlight()
+        internal static void RefreshScenerySpotlight()
         {
             Console.WriteLine("[*] Attempting to read spotlight entries.");
             try
@@ -219,6 +217,9 @@ namespace SceneryStream.src.ViewModel
                 Console.WriteLine($"[!] Could not load spotlight!\n\t=> {ex.Message}\n{ex.InnerException}");
             }
         }
+
+        [GeneratedRegex("\\t|\\n|\\r")]
+        private static partial Regex WhitespaceRegex();
     }
 }
 

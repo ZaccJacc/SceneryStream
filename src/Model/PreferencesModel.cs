@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -9,17 +11,6 @@ namespace SceneryStream.src.Model
     internal class PreferencesModel : ObservableObject
     {
         public PreferencesModel() { }
-
-        private string _test = "hello world";
-        public string Test
-        {
-            get => _test;
-            set
-            {
-                _test = value;
-                NotifyPropertyChanged(nameof(Test));
-            }
-        }
 
 
         private string? _simDirectory;
@@ -55,6 +46,17 @@ namespace SceneryStream.src.Model
             {
                 _multipleSims = value;
                 NotifyPropertyChanged(nameof(MultipleSims));
+            }
+        }
+
+        private bool _multipleScenes;
+        public bool MultipleScenes
+        {
+            get => _multipleScenes;
+            set
+            {
+                _multipleScenes = value;
+                NotifyPropertyChanged(nameof(MultipleScenes));
             }
         }
 
@@ -96,6 +98,28 @@ namespace SceneryStream.src.Model
             }
         }
 
+        private ObservableCollection<string> _installationList = new();
+        public ObservableCollection<string> InstallationPathsCollection
+        {
+            get => _installationList;
+            set
+            {
+                _installationList = value;
+                NotifyPropertyChanged(nameof(InstallationPathsCollection));
+            }
+        }
+
+        private ObservableCollection<string> _sceneryList = new();
+        public ObservableCollection<string> SceneryPathsCollection
+        {
+            get => _sceneryList;
+            set
+            {
+                _sceneryList = value;
+                NotifyPropertyChanged(nameof(SceneryPathsCollection));
+            }
+        }
+
         //--//
 
         public static async Task SavePreferences()
@@ -105,11 +129,23 @@ namespace SceneryStream.src.Model
                 Console.WriteLine("[*] Attempting to save preferences.");
                 try
                 {
-                    string[] lines = new string[4];
-                    lines[0] = App.Preferences.ServerAddress != null ? $"A-{App.Preferences.ServerAddress}" : $"A-{null}";
-                    lines[1] = App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}"; //Add this binding to the right window so the preferences can autosave.
-                    lines[2] = $"D-{App.Preferences.DriveLetter}";
-                    lines[3] = $"M-Multisim:{App.Preferences.MultipleSims}";
+                    List<string> lines = new() 
+                    {
+                        App.Preferences.ServerAddress != null ? $"A-{App.Preferences.ServerAddress}" : $"A-{null}",
+                        App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}", //Add this binding to the right window so the preferences can autosave.
+                        $"D-{App.Preferences.DriveLetter}",
+                        $"M-Multisim:{App.Preferences.MultipleSims}",
+                        $"M-Multiscene:{App.Preferences.MultipleScenes}"
+                    };
+                    
+                    foreach (object installation in App.Preferences.InstallationPathsCollection)
+                    {
+                        lines.Add($"§-{installation}");
+                    }
+                    foreach (object directory in App.Preferences.SceneryPathsCollection)
+                    {
+                        lines.Add($"&-{directory}");
+                    }
                     if (App.Preferences.PreferencesFile != null && File.Exists(App.Preferences.PreferencesFile))
                     {
                         File.WriteAllLines(App.Preferences.PreferencesFile, lines);
@@ -123,9 +159,9 @@ namespace SceneryStream.src.Model
                     Console.WriteLine("[*] Preferences Saved.");
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Console.WriteLine("[!] Could not write to preferences file!");
+                    Console.WriteLine($"[!] Could not write to preferences file!\n\t=> {e.Message}");
                 }
             });
         }
@@ -146,7 +182,7 @@ namespace SceneryStream.src.Model
                             switch (line[0])
                             {
                                 case 'A':
-                                    if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
+                                    if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
                                         Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
@@ -157,7 +193,7 @@ namespace SceneryStream.src.Model
                                     break;
 
                                 case 'S':
-                                    if (!(line.Substring(2).Contains("\\") || line.Substring(2).Contains("/")))
+                                    if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
                                         Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
@@ -175,7 +211,16 @@ namespace SceneryStream.src.Model
                                         Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
-                                    App.Preferences.MultipleSims = split[1].Equals("True") ? true : false;
+                                    switch (split[0].Contains("M-Multisim"))
+                                    {
+                                        case true:
+                                            App.Preferences.MultipleSims = split[1].Equals("True"); //for some reason this is updating fine, but the UI isn't. The variable is observable though?
+                                            break;
+
+                                        case false:
+                                            App.Preferences.MultipleScenes = split[1].Equals("True");
+                                            break;
+                                    }
                                     Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
@@ -189,13 +234,37 @@ namespace SceneryStream.src.Model
                                     App.Preferences.DriveLetter = line[2].ToString();
                                     Console.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
+
+                                case '§':
+                                    if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        break;
+                                    }
+                                    App.Preferences.InstallationPathsCollection.Add(line.Substring(2));
+                                    break;
+                                
+                                case '&':
+                                    if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
+                                    {
+                                        PropertiesIncomplete = true;
+                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        break;
+                                    }
+                                    App.Preferences.SceneryPathsCollection.Add(line[2..]);
+                                    break;
                             }
                         }
-                        App.Preferences.PreferencesFile = App.Preferences.PreferencesFile == null ? "Preferences.setup" : App.Preferences.PreferencesFile;
+                        App.Preferences.PreferencesFile = App.Preferences.PreferencesFile ?? "Preferences.setup";
                         if (PropertiesIncomplete)
                         {
                             Console.WriteLine("[*] Preferences value is not fully formatted.\n\t=> Did not disrupt loading.");
                         }
+
+                        App.Preferences.MultipleSims = App.Preferences.MultipleSims && App.Preferences.InstallationPathsCollection.Count > 0;
+                        App.Preferences.MultipleScenes = App.Preferences.MultipleScenes && App.Preferences.SceneryPathsCollection.Count > 0;
+
                         return !string.IsNullOrEmpty(App.Preferences.ServerAddress); //return true if there is a server address provided and nothing else went fatally wrong.
                     }
                     catch (Exception ex)
