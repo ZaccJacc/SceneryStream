@@ -27,19 +27,8 @@ internal class SceneryViewModel : ObservableObject
         get => _sViewModel;
     }
 
-    private Bitmap _mapSource = Region.GLOBE.Map;
-    public Bitmap MapSource
-    {
-        get => _mapSource;
-        set
-        {
-            _mapSource = value;
-            NotifyPropertyChanged(nameof(MapSource));
-        }
-    }
 
-
-    private Region _displayedRegion = Region.GLOBE;
+    private Region _displayedRegion = Regions.GLOBE;
     public Region DisplayedRegion
     {
         get => _displayedRegion;
@@ -65,7 +54,7 @@ internal class SceneryViewModel : ObservableObject
                     case Region.RegionID.GLOBE:
                         if (((x < 530 && y > 228) || (x < 192 && y < 228)) && y < 404)
                         {
-                            DisplayRegion(Region.USA);
+                            DisplayRegion(Regions.USA);
                         }
                         else
                         {
@@ -116,7 +105,7 @@ internal class SceneryViewModel : ObservableObject
                             Console.WriteLine("Washington");
                             if (args.ClickCount == 2)
                             {
-                                Regions.USA_WA.Selected = !Regions.USA_WA.Selected;
+                                SelectChildRegion(Regions.USA_WA);
                             }
                         }
                         else
@@ -126,7 +115,7 @@ internal class SceneryViewModel : ObservableObject
                                 Console.WriteLine("Oregon");
                                 if (args.ClickCount == 2)
                                 {
-                                    Regions.USA_OR.Selected = !Regions.USA_OR.Selected;
+                                    SelectChildRegion(Regions.USA_OR);
                                 }
                             }
                             else
@@ -136,7 +125,7 @@ internal class SceneryViewModel : ObservableObject
                                     Console.WriteLine("California");
                                     if (args.ClickCount == 2)
                                     {
-                                        Regions.USA_CA.Selected = !Regions.USA_CA.Selected;
+                                        SelectChildRegion(Regions.USA_CA);
                                     }
                                 }
                                 else
@@ -146,8 +135,12 @@ internal class SceneryViewModel : ObservableObject
                                         Console.WriteLine("Nevada");
                                         if (args.ClickCount == 2)
                                         {
-                                            Regions.USA_NV.Selected = !Regions.USA_NV.Selected;
+                                            SelectChildRegion(Regions.USA_NV);
                                         }
+                                    }
+                                    else
+                                    {
+                                        if (true) { }
                                     }
                                 }
                             }
@@ -189,12 +182,11 @@ internal class SceneryViewModel : ObservableObject
 
     private void DisplayRegion(Region region)
     {
-        SViewModel.MapSource = region.Map;
         SViewModel.DisplayedRegion = region;
     }
 
     internal void ResetMap()
     {
-        DisplayRegion(Region.GLOBE);
+        DisplayRegion(Regions.GLOBE);
     }
 }

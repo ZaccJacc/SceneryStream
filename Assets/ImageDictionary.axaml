@@ -1,5 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Image x:Key="WorldMap" Source="/Assets/Map/worldmap.png"/>
-	<Image x:Key="USAMap" Source="/Assets/Map/USAmap.png"/>
+	<Image x:Key="USAMap" Source="/Assets/Map/USA/Selectedmap.png"/>
 </ResourceDictionary>

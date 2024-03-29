@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.IO;
 using Utility;
 using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using SceneryStream.src.ViewModel;
 
 namespace SceneryStream.src
 {
@@ -31,6 +33,7 @@ namespace SceneryStream.src
             //WindowState = WindowState.Minimized;
             //e.Cancel = true;
             await PreferencesModel.SavePreferences();
+            ApplicationViewModel.ExitApplication();
         }
 
         public MainWindow()
@@ -38,22 +41,5 @@ namespace SceneryStream.src
             InitializeComponent();
         }
 
-        public void FlyoutHandle_Pointer(object? sender, PointerWheelEventArgs args)
-        {
-            FlyoutBase.ShowAttachedFlyout(sender as Control);
-        }
-
-        public void buttonTest(object? sender, RoutedEventArgs args)
-        {
-            Console.WriteLine("Button pressed");
-        }
-
-        /*
-         * Once the connections page has been completed, or at least the design for it, begin to program the backend to make test connections and receive a hosted piece of data as a handshake gesture
-         * of sorts... this kind of thing might take a while now because the tesing is reliant on the whole app running at once, but testing versions of the code will have to be built in then re-written
-         * before the actual service goes out. Try to keep the only thing being changed before release the location of inserting values (e.g. a backend constant rather than typing the actual address)
-         * but make sure the premise works first.
-         * 
-         */
     }
 }
