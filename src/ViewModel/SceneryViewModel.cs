@@ -99,7 +99,7 @@ internal class SceneryViewModel : ObservableObject
 
                     case Region.RegionID.USA:
                         Console.WriteLine($"X:{x}, Y:{y}");
-                        
+
                         if (x > 208 && x < 431 && y < 147)
                         {
                             Console.WriteLine("Washington");
@@ -140,7 +140,14 @@ internal class SceneryViewModel : ObservableObject
                                     }
                                     else
                                     {
-                                        if (true) { }
+                                        if (x > 451 && x < 468 && y > 58 || x > 446 && x < 248 && y > 58 && y < 80 || x > 440 && x < 468 && y > 80 && y < 99 || x > 439 && x < 475 && y > 99 && y < 118 || x > 433 && x < 491 && y > 118 && y < 143 || x > 424 && x < 485 && y > 143 && y < 173 || x > 418 && x < 506 && y > 173 && y < 206 || x > 415 && x < 557 && y > 206 && y < 227 || x > 399 && x < 545 && y > 227 && y < 304)
+                                        {
+                                            Console.WriteLine("Idaho");
+                                            if (args.ClickCount == 2)
+                                            {
+                                                SelectChildRegion(Regions.USA_ID);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -150,21 +157,21 @@ internal class SceneryViewModel : ObservableObject
                     case Region.RegionID.CAN:
                         break;
 
-                    case Region.RegionID.LATAM: 
+                    case Region.RegionID.LATAM:
                         break;
 
-                    case Region.RegionID.EUR: 
+                    case Region.RegionID.EUR:
                         break;
 
-                    case Region.RegionID.AFR: 
+                    case Region.RegionID.AFR:
                         break;
 
-                    case Region.RegionID.ASI: 
+                    case Region.RegionID.ASI:
                         break;
 
-                    case Region.RegionID.OCE: 
+                    case Region.RegionID.OCE:
                         break;
-                
+
                 }
             }
         }

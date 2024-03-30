@@ -31,7 +31,16 @@ namespace SceneryStream.src.Model
             }
         }
 
-        internal RegionID ID;
+        private RegionID _ID;
+        public RegionID ID
+        {
+            get => _ID;
+            set
+            {
+                _ID = value;
+                NotifyPropertyChanged(nameof(ID));
+            }
+        }
 
         internal Region(string MapURI, RegionID regionID)
         {
@@ -75,10 +84,6 @@ namespace SceneryStream.src.Model
             ParentID = parentID;
         }
 
-        //--Child Regions--//
-        
-        
-
         internal enum ChildRegionID
         {
             WA,
@@ -92,8 +97,14 @@ namespace SceneryStream.src.Model
             AZ,
             CO,
             NM,
-            WY
-
+            WY,
+            MT,
+            ND,
+            SD,
+            NE,
+            KS,
+            OK,
+            TX
         }
     }
 
@@ -103,12 +114,14 @@ namespace SceneryStream.src.Model
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is Bitmap displayedRegion && parameter is string targetRegion)
+            Console.WriteLine(value.ToString() + " " + parameter.ToString());
+            if (value is RegionID displayedRegionID && parameter is string targetRegion)
             {
+                
                 switch (targetRegion)
                 {
                     case "USA":
-                        return displayedRegion == RegionHandling.Regions.USA.Map;
+                        return displayedRegionID == RegionHandling.Regions.USA.ID;
                 }
             }
             return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
@@ -325,6 +338,83 @@ namespace SceneryStream.src.Model
             {
                 _USA_WY = value;
                 NotifyPropertyChanged(nameof(USA_WY));
+            }
+        }
+
+        private ChildRegion _USA_MT = new(ChildRegionID.MT, RegionID.USA);
+        public ChildRegion USA_MT
+        {
+            get => _USA_MT;
+            set
+            {
+                _USA_MT = value;
+                NotifyPropertyChanged(nameof(USA_MT));
+            }
+        }
+
+        private ChildRegion _USA_ND = new(ChildRegionID.ND, RegionID.USA);
+        public ChildRegion USA_ND
+        {
+            get => _USA_ND;
+            set
+            {
+                _USA_ND = value;
+                NotifyPropertyChanged(nameof(USA_ND));
+            }
+        }
+
+        private ChildRegion _USA_SD = new(ChildRegionID.SD, RegionID.USA);
+        public ChildRegion USA_SD
+        {
+            get => _USA_SD;
+            set
+            {
+                _USA_SD = value;
+                NotifyPropertyChanged(nameof(USA_SD));
+            }
+        }
+
+        private ChildRegion _USA_NE = new(ChildRegionID.NE, RegionID.USA);
+        public ChildRegion USA_NE
+        {
+            get => _USA_NE;
+            set
+            {
+                _USA_NE = value;
+                NotifyPropertyChanged(nameof(USA_NE));
+            }
+        }
+
+        private ChildRegion _USA_KS = new(ChildRegionID.KS, RegionID.USA);
+        public ChildRegion USA_KS
+        {
+            get => _USA_KS;
+            set
+            {
+                _USA_KS = value;
+                NotifyPropertyChanged(nameof(USA_KS));
+            }
+        }
+
+        private ChildRegion _USA_OK = new(ChildRegionID.OK, RegionID.USA);
+        public ChildRegion USA_OK
+        {
+            get => _USA_OK;
+            set
+            {
+                _USA_OK = value;
+                NotifyPropertyChanged(nameof(USA_OK));
+            }
+        }
+
+        private ChildRegion _USA_TX = new(ChildRegionID.TX, RegionID.USA);
+        public ChildRegion USA_TX
+        {
+            get => _USA_TX;
+            set
+            {
+                _USA_TX = value;
+                NotifyPropertyChanged(nameof(USA_TX));
             }
         }
     }

@@ -92,7 +92,10 @@
     <None Remove="Assets\Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Assets\Map\USA\USA_MT.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_TX.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\Map\USA\USA_AR.png" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\Chain.png" />
@@ -152,7 +155,54 @@
     <AvaloniaResource Include="Assets\Map\USA\Selected\USA_WI.png" />
     <AvaloniaResource Include="Assets\Map\USA\Selected\USA_WV.png" />
     <AvaloniaResource Include="Assets\Map\USA\Selected\USA_WY.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_AK.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_AL.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_AZ.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_CA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_CO.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_CT.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_DE.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_FL.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_GA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_HI.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_IA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_ID.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_IL.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_IN.png" />
     <AvaloniaResource Include="Assets\Map\USA\USA_KS.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_KY.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_LA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MD.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_ME.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MI.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MN.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MO.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MS.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_MT.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NC.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_ND.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NE.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NH.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NJ.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NM.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NV.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_NY.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_OH.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_OK.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_OR.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_PA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_RI.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_SC.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_SD.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_TN.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_UT.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_VA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_VT.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_WA.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_WI.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_WV.png" />
+    <AvaloniaResource Include="Assets\Map\USA\USA_WY.png" />
     <AvaloniaResource Include="Assets\Map\worldmap.png" />
     <AvaloniaResource Include="Assets\Map\worldmaplined.png" />
     <AvaloniaResource Include="Assets\OpenFile.png" />
