@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -126,7 +127,7 @@ namespace SceneryStream.src.Model
         {
             await Task.Run(() =>
             {
-                Console.WriteLine("[*] Attempting to save preferences.");
+                Debug.WriteLine("[*] Attempting to save preferences.");
                 try
                 {
                     List<string> lines = new() 
@@ -146,22 +147,16 @@ namespace SceneryStream.src.Model
                     {
                         lines.Add($"&-{directory}");
                     }
-                    if (App.Preferences.PreferencesFile != null && File.Exists(App.Preferences.PreferencesFile))
+                    if (App.Preferences.PreferencesFile != null)
                     {
                         File.WriteAllLines(App.Preferences.PreferencesFile, lines);
                     }
-                    else
-                    {
-                        File.WriteAllLines("Preferences.setup", lines);
-                        App.Preferences.PreferencesFile = "Preferences.setup";
-                    }
-                    File.WriteAllText("Targets.setup", App.Preferences.PreferencesFile);
-                    Console.WriteLine("[*] Preferences Saved.");
+                    Debug.WriteLine("[*] Preferences Saved.");
 
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"[!] Could not write to preferences file!\n\t=> {e.Message}");
+                    Debug.WriteLine($"[!] Could not write to preferences file!\n\t=> {e.Message}");
                 }
             });
         }
@@ -185,22 +180,22 @@ namespace SceneryStream.src.Model
                                     if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     App.Preferences.ServerAddress = line.Substring(2);
-                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    Debug.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
                                 case 'S':
                                     if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     App.Preferences.SimDirectory = line.Substring(2);
-                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    Debug.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
                                 case 'M':
@@ -208,7 +203,7 @@ namespace SceneryStream.src.Model
                                     if (!split[1].Contains("True") && !split[1].Contains("False"))
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     switch (split[0].Contains("M-Multisim"))
@@ -221,25 +216,25 @@ namespace SceneryStream.src.Model
                                             App.Preferences.MultipleScenes = split[1].Equals("True");
                                             break;
                                     }
-                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    Debug.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
                                 case 'D':
                                     if (line.Length < 3)
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     App.Preferences.DriveLetter = line[2].ToString();
-                                    Console.WriteLine($"[*] Preferences value: {line} Loaded");
+                                    Debug.WriteLine($"[*] Preferences value: {line} Loaded");
                                     break;
 
                                 case '§':
                                     if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     App.Preferences.InstallationPathsCollection.Add(line.Substring(2));
@@ -249,7 +244,7 @@ namespace SceneryStream.src.Model
                                     if (!(line[2..].Contains('\\') || line[2..].Contains('/')))
                                     {
                                         PropertiesIncomplete = true;
-                                        Console.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
+                                        Debug.WriteLine($"[!] Could not load value {line}\n\t=> Preferences loading will resume");
                                         break;
                                     }
                                     App.Preferences.SceneryPathsCollection.Add(line[2..]);
@@ -259,7 +254,7 @@ namespace SceneryStream.src.Model
                         App.Preferences.PreferencesFile = App.Preferences.PreferencesFile ?? "Preferences.setup";
                         if (PropertiesIncomplete)
                         {
-                            Console.WriteLine("[*] Preferences value is not fully formatted.\n\t=> Did not disrupt loading.");
+                            Debug.WriteLine("[*] Preferences value is not fully formatted.\n\t=> Did not disrupt loading.");
                         }
 
                         App.Preferences.MultipleSims = App.Preferences.MultipleSims && App.Preferences.InstallationPathsCollection.Count > 0;
@@ -269,14 +264,14 @@ namespace SceneryStream.src.Model
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated. {ex.Message}");
+                        Debug.WriteLine($"[!] Preferences file fatally misformatted!\n\t=> Preferences loading terminated. {ex.Message}");
                         return false;
                     }
 
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("[!] Could not locate file at read time!");
+                    Debug.WriteLine("[!] Could not locate file at read time!");
                     return false;
                 }
 

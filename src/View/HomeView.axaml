@@ -35,14 +35,15 @@
 								</ItemsControl.ItemsPanel>
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
-										<Border Margin="10" Padding="5" CornerRadius="5" Background="{StaticResource RegionColourLight}" BoxShadow="3 3 6 0 #fff6f7ff" Width="300">
+										<Border Margin="10" Padding="9" CornerRadius="5" Background="{StaticResource RegionColourLight}" BoxShadow="3 3 6 0 #fff6f7ff" Width="364">
 											<Panel>
-												<Label Content="{Binding Title}" Margin="15 15 5 0" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-												<TextBlock Margin="17 43 5 0" Text="{Binding Creator}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="12" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-												<TextBlock Margin="15 365 5 0" Text="{Binding Description}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-												<Border Background="#d8dae3" CornerRadius="3" Height="250" MinWidth="250"  Margin="0 100 0 0" VerticalAlignment="Top" HorizontalAlignment="Center">
+												<Label Content="{Binding Title}" Margin="15 15 5 0" FontSize="28" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
+												<TextBlock Margin="18 54 5 0" Text="{Binding Creator}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="18" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
+												<TextBlock Margin="15 365 5 0" Text="{Binding Description}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
+												<Border Background="#d8dae3" CornerRadius="3" Height="350" MinWidth="350" VerticalAlignment="Top" HorizontalAlignment="Center" ClipToBounds="True">
 													<Panel>
-														<Image Source="{Binding Image}"/>
+														<Image Source="avares://SceneryStream/Assets/WhiteGradient.png" Stretch="Fill" Height="280" ZIndex="3" VerticalAlignment="Top"/>
+														<Image Source="{Binding Image}" Stretch="Fill"/>
 													</Panel>
 												</Border>
 											</Panel>
@@ -60,29 +61,33 @@
 				<Border CornerRadius="15" BorderBrush="Black" Background="#d8dae3" BoxShadow="3 3 8 0 #d8dae3">
 					<Panel>
 						<Label Content="Server Information" FontSize="32" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25" FontStyle="Italic"/>
-						<TextBlock Text="Scenery Server Address" VerticalAlignment="Top" Margin="22 150 0 0" FontSize="18" FontFamily="Dosis" HorizontalAlignment="Left"/>
-						<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" Width="350" HorizontalAlignment="Left" Margin="22 185 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}">
-							<TextBox.DataContext>
-								<app:App/>
-							</TextBox.DataContext>
-						</TextBox>
-						<Button x:Name="Connect" Margin="375 185 0 0" BorderBrush="Black" BorderThickness="1" Background="Transparent" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ToggleConnection}">
-							<Panel>
-								<ic:SymbolIcon Symbol="Link" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19"/>
-							</Panel>
-						</Button>
-						<Label Content="Connection Status:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25 85 0 0"/>
-						<Image x:Name="StatusIndicator" Margin="195 88 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding HViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Connect / Disconnect" ToolTip.Placement="Left"/>
-						<Label Content="Ping Response:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250 85 0 0"/>
-						<StackPanel Orientation="Horizontal" Margin="390 87 0 0">
-							<TextBlock x:Name="PingBox"  FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding ServiceInstance.PingReplyTime}">
+						<Label Content="Connection Status:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25 95 0 0"/>
+						<Image x:Name="StatusIndicator" Margin="195 98 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding HViewModel.Source}" Height="25" Width="25" ToolTip.Tip="Click To Connect / Disconnect" ToolTip.Placement="Left"/>
+						<StackPanel Orientation="Horizontal" Margin="280 95 0 0">
+							<Label Content="Ping Response:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" />
+							<TextBlock x:Name="PingBox" Margin="5 2 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding ServiceInstance.PingReplyTime}">
 								<TextBlock.DataContext>
 									<app:App/>
 								</TextBlock.DataContext>
 							</TextBlock>
-							<TextBlock Text="ms" Margin="2 7"/>
+							<TextBlock Text="ms" Margin="3 9 0 0"/>
 						</StackPanel>
-						
+						<StackPanel Orientation="Horizontal" Margin="25 150 0 0">
+							<Label Content="Server Location:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" />
+							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerLocation}">
+								<TextBlock.DataContext>
+									<model:ServerFormat/>
+								</TextBlock.DataContext>
+							</TextBlock>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="280 150 0 0">
+							<Label Content="Server Provider:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" />
+							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerProvider}">
+								<TextBlock.DataContext>
+									<model:ServerFormat/>
+								</TextBlock.DataContext>
+							</TextBlock>
+						</StackPanel>
 					</Panel>
 				</Border>
 			</Panel>

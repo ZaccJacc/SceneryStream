@@ -4,27 +4,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
         x:Class="SceneryStream.src.MainWindow"
-        Title="XSS Alpha0.21.0"
+        Title="X Scenery Streaming"
 		MinWidth="1000"
 		MinHeight="600"
 		xmlns:views="clr-namespace:SceneryStream.src.View"
 		xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 		xmlns:ic="using:FluentIcons.Avalonia"
 		Icon="avares://SceneryStream/Assets/Aircraft.png"
-	    
+		SystemDecorations="None"
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
-		WindowState="Maximized">
+		WindowState="Maximized"
+		x:Name="TitleWindow"
+		>
 
 	<Window.DataContext>
 		<viewModel:MainWindowViewModel/>
 	</Window.DataContext>
+	<Window.Styles>
+		<Style Selector="Button.CloseWindow:pointerover /template/ ContentPresenter">
+			<Setter Property="Background" Value="#8f1b25"/>
+			<Setter Property="Opacity" Value="0.8"/>
+			<Setter Property="Foreground" Value="{DynamicResource RegionColourLight}"/>
+		</Style>
+		<Style Selector="Button.CloseWindow:pressed /template/ ContentPresenter">
+			<Setter Property="Background" Value="#8f1b25"/>
+			<Setter Property="Opacity" Value="1"/>
+			<Setter Property="Foreground" Value="{DynamicResource RegionColourLight}"/>
+		</Style>
+		<Style Selector="Button.WindowStateControl:pressed /template/ ContentPresenter">
+			<Setter Property="Background" Value="Gray"/>
+			<Setter Property="Opacity" Value="0.8"/>
+		</Style>
+	</Window.Styles>
 
 
 	<Panel>
+		<Rectangle x:Name="MovementRegion" Width="1640" Height="25" Fill="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="3" Margin="280 0 0 0"/>
+		<Button Classes="CloseWindow" Command="{Binding CloseMainWindowCommand}" CommandParameter="{Binding ElementName=TitleWindow}" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 10">
+			<Panel>
+				<ic:SymbolIcon Symbol="DismissSquareMultiple" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</Panel>
+		</Button>
+		<Button Classes="WindowStateControl" Command="{Binding MaximiseMainWindowCommand}" CommandParameter="{Binding ElementName=TitleWindow}" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="75 10">
+			<Panel>
+				<ic:SymbolIcon Symbol="SquareMultiple" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</Panel>
+		</Button>
+		<Button Classes="WindowStateControl" Command="{Binding MinimiseMainWindowCommand}" CommandParameter="{Binding ElementName=TitleWindow}" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="135 10">
+			<Panel>
+				<ic:SymbolIcon Symbol="ArrowMinimize" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</Panel>
+		</Button>
 		<!--Sidebar-->
 		<Rectangle Width="280" Height="1088" Fill="{DynamicResource ChromeHigh}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-		<Label ZIndex="2" Content="Alpha0.21.0" FontFamily="Consolas" FontWeight="Bold" Foreground="#909193" FontSize="20" VerticalAlignment="Bottom" Margin="25 0 0 15"/>
+		<!--Label ZIndex="2" Content="Alpha0.21.0" FontFamily="Consolas" FontWeight="Bold" Foreground="#909193" FontSize="20" VerticalAlignment="Bottom" Margin="25 0 0 15"/-->
 		<!--New buttons for manual sidebar layout-->
 		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 115 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
@@ -34,31 +68,32 @@
 				<Label Content="Home" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>	
 		</ToggleButton>
-		
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 225 0 0" Width="250" Padding="10" IsChecked="{Binding PreferencesSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
-			<Panel>
-				<ic:SymbolIcon Symbol="SettingsCogMultiple" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
-				<Label Content="Options" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
-			</Panel>
-		</ToggleButton>
-		
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 335 0 0" Width="250" Padding="10" IsChecked="{Binding MapSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
-			<Panel>
-				<ic:SymbolIcon Symbol="Map" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
-				<Label Content="Map" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
-			</Panel>
-		</ToggleButton>
-		
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 445 0 0" Width="250" Padding="10" IsChecked="{Binding SceneryViewSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 225 0 0" Width="250" Padding="10" IsChecked="{Binding SceneryViewSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
 				<ic:SymbolIcon Symbol="MultiselectLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
     {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
     Path=IsChecked}"/>
 				<Label Content="Scenery" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+		
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 335 0 0" Width="250" Padding="10" IsChecked="{Binding ConfigSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="Server" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Server" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
+			</Panel>
+		</ToggleButton>
+		
+
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 445 0 0" Width="250" Padding="10" IsChecked="{Binding PreferencesSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<Panel>
+				<ic:SymbolIcon Symbol="SettingsCogMultiple" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+    Path=IsChecked}"/>
+				<Label Content="Options" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>
 		</ToggleButton>
 		

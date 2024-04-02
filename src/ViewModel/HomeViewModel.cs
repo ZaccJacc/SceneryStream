@@ -13,6 +13,7 @@ using BruTile.Wmts.Generated;
 using System.Collections;
 using System.Text.RegularExpressions;
 using DynamicData;
+using System.Diagnostics;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -77,44 +78,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        internal async void ToggleConnection(object? sender, PointerPressedEventArgs args)
-        {
-            Console.WriteLine("[*] Connection Manually Triggered");
-            switch (App.ServiceInstance.Connected)
-            {
-                case true:
-                    NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
-                    break;
-
-                case false:
-                    if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
-                    {
-                        Source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
-                        await App.ServiceInstance.MakeConnection();
-                    }
-                    break;
-            }
-        }
-
-
-        internal async void ToggleConnection()
-        {
-            Console.WriteLine("[*] Connection Manually Triggered");
-            switch (App.ServiceInstance.Connected)
-            {
-                case true:
-                    NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
-                    break;
-
-                case false:
-                    if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
-                    {
-                        Source = new (AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
-                        await App.ServiceInstance.MakeConnection();
-                    }
-                    break;
-            }
-        }
+        
 
         /// <summary>
         /// Explanation of the Server Updates formatting.
@@ -127,7 +91,7 @@ namespace SceneryStream.src.ViewModel
         /// </summary>
         internal static void ScanNewUpdates()
         {
-            Console.WriteLine("[*] Attempting to read server updates info");
+            Debug.WriteLine("[*] Attempting to read server updates info");
             try
             {
                 StreamReader updatesFile = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Resources/ServerUpdates.txt"))); //placeholder
@@ -154,7 +118,7 @@ namespace SceneryStream.src.ViewModel
                     string dateString = WhitespaceRegex().Replace(content[0], "");
                     if (HViewModel.ServerUpdateEntries.Count > 0 && dateString == HViewModel.ServerUpdateEntries[0].Date)
                     {
-                        Console.WriteLine("[!] Did not refresh server updates\n\t=> Already up to date!");
+                        Debug.WriteLine("[!] Did not refresh server updates\n\t=> Already up to date!");
                         return;
                     }
                     try
@@ -171,7 +135,7 @@ namespace SceneryStream.src.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[!] Could not load updates!\n\t=> {ex.Message}");
+                Debug.WriteLine($"[!] Could not load updates!\n\t=> {ex.Message}");
             }
         }
 
@@ -185,7 +149,7 @@ namespace SceneryStream.src.ViewModel
         /// </summary>
         internal static void RefreshScenerySpotlight()
         {
-            Console.WriteLine("[*] Attempting to read spotlight entries.");
+            Debug.WriteLine("[*] Attempting to read spotlight entries.");
             try
             {
                 StreamReader spotlightFile = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Resources/ScenerySpotlight.txt")));
@@ -214,7 +178,7 @@ namespace SceneryStream.src.ViewModel
                 }
             } catch (Exception ex)
             {
-                Console.WriteLine($"[!] Could not load spotlight!\n\t=> {ex.Message}\n{ex.InnerException}");
+                Debug.WriteLine($"[!] Could not load spotlight!\n\t=> {ex.Message}\n{ex.InnerException}");
             }
         }
 

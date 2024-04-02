@@ -1,0 +1,309 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="SceneryStream.src.View.ServerFormattingView"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model"
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia"
+			 x:Name="FormattingControl">
+
+	<UserControl.DataContext>
+		<viewModel:ServerFormattingViewModel/>
+	</UserControl.DataContext>
+	<UserControl.Styles>
+		<Style Selector="Border.SceneryItemCreation">
+			<Setter Property="Height" Value="0"/>
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="Height" Duration="0:0:0.15" Easing="CircularEaseInOut"/>
+				</Transitions>
+			</Setter>
+		</Style>
+		<Style Selector="Border.SceneryItemCreation.Open">
+			<Setter Property="Height" Value="800"/>
+		</Style>
+	</UserControl.Styles>
+
+	<Panel>
+		<!--Scenery Creation Dialog-->
+		<Border Classes="SceneryItemCreation" Classes.Open="{Binding SFViewModel.SceneryItemDialogOpen}" CornerRadius="15" BoxShadow="3 3 8 0 #ffffff"  Background="{DynamicResource RegionColourLight}" Width="590" ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<Panel IsVisible="{Binding SFViewModel.SceneryItemDialogOpen}">
+				<Button Command="{Binding ToggleDialogCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 20 25 0" Background="Transparent">
+					<Panel>
+						<ic:SymbolIcon Symbol="DismissSquare" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Panel>
+				</Button>
+				<StackPanel Orientation="Vertical">
+					<Label Content="Scenery Item Creation" FontSize="24" FontStyle="Italic" Foreground="{DynamicResource ChromeAltLow}" Margin="25 25 0 15"/>
+					<TextBox Text="{Binding SFViewModel.SceneryIDToAdd}" Margin="15" Height="35" Watermark="SceneryID"/>
+					<TextBox Text="{Binding SFViewModel.RegionIDToAdd}" Margin="15" Height="35" Watermark="RegionID"/>
+					<TextBox Text="{Binding SFViewModel.ParentIDToAdd}" Margin="15" Height="35" Watermark="ParentID"/>
+					<TextBox Text="{Binding SFViewModel.TitleToAdd}" Margin="15" Height="35" Watermark="Title"/>
+					<TextBox Text="{Binding SFViewModel.DeveloperToAdd}" Margin="15" Height="35" Watermark="Developer"/>
+					<TextBox Text="{Binding SFViewModel.DescriptionToAdd}" Margin="15" Height="135" Watermark="Description" AcceptsReturn="True"/>
+					<TextBox FontFamily="Dosis" Watermark="Ortho Path" Text="{Binding SFViewModel.PathToAdd}" Height="35" Margin="15"/>
+					<Button CornerRadius="5" Command="{Binding SFViewModel.CreateFromDialog}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="35">
+						<Panel>
+							<ic:SymbolIcon Symbol="CheckboxChecked" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+							<Label Content="Create Scenery Item" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+						</Panel>
+					</Button>
+				</StackPanel>
+			</Panel>
+		</Border>
+
+		<Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" Background="{DynamicResource RegionColourLight}">
+			<!--Server Formatting Tool-->
+			<Border CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3"  Background="#d8dae3" Margin="15" Grid.RowSpan="3" Grid.Row="0" Grid.Column="0" Padding="15">
+				<StackPanel Orientation="Vertical">
+					<Label Content="Server Formatting Page" FontSize="32" Margin="25"/>
+					<StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+						<TextBox FontFamily="Dosis" FontSize="16" Watermark="Server Root Directory" Text="{Binding SFViewModel.ServerRootPath}" MinWidth="240" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
+						<Button Margin="5" CornerRadius="5" Command="{Binding SFViewModel.SelectServerDirectory}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+							<Panel>
+								<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+								<Label Content="Browse" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+							</Panel>
+						</Button>
+					</StackPanel>
+					<TextBox FontFamily="Dosis" FontSize="16" Watermark="Server ID" Text="{Binding SFViewModel.ServerID}" MinWidth="240" Margin="5 10 0 10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
+					<TextBox FontFamily="Dosis" FontSize="16" Watermark="Server Location" Text="{Binding SFViewModel.ServerLocation}" MinWidth="240" Margin="5 10 0 10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
+					<TextBox FontFamily="Dosis" FontSize="16" Watermark="Server Provider" Text="{Binding SFViewModel.ServerProvider}" MinWidth="240" Margin="5 10 0 10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
+					<StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+						<ListBox x:Name="OrthoList" Margin="5" BorderBrush="{DynamicResource ChromeAltLow}" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" MaxHeight="200" ItemsSource="{Binding SFViewModel.OrthoList}" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="35">
+							<ListBox.Styles>
+								<Style Selector="ListBoxItem">
+									<Setter Property="ContextMenu">
+										<Setter.Value>
+											<ContextMenu>
+												<ContextMenu.DataContext>
+													<viewModel:ServerFormattingViewModel/>
+												</ContextMenu.DataContext>
+												<MenuItem Command="{Binding SFViewModel.RemoveOrthoItem}" CommandParameter="{Binding $parent[ListBox].SelectedItem}">
+													<MenuItem.Header>
+														<ic:SymbolIcon Symbol="Delete"/>
+													</MenuItem.Header>
+												</MenuItem>
+											</ContextMenu>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.Styles>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Vertical">
+										<Label>
+											<Label.Content>
+												<MultiBinding StringFormat="{}{0} | {1} | {2} | {3}">
+													<Binding Path="Title"/>
+													<Binding Path="SceneryID"/>
+													<Binding Path="RegionID"/>
+													<Binding Path="ParentID"/>
+												</MultiBinding>
+											</Label.Content>
+										</Label>
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="{Binding Developer}"/>
+											<TextBlock Text="{Binding Description}"/>
+											<TextBlock Text="{Binding Path}"/>
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+						<Button Margin="5" CornerRadius="5" Command="{Binding CreateNewSceneryItem}" CommandParameter="Ortho" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+							<Panel>
+								<ic:SymbolIcon Symbol="Open" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+								<Label Content="Create New Ortho" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+							</Panel>
+						</Button>
+					</StackPanel>
+					<!--Airport List-->
+					<StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+						<ListBox x:Name="AirportList" Margin="5" BorderBrush="{DynamicResource ChromeAltLow}" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" MaxHeight="200" ItemsSource="{Binding SFViewModel.AirportList}" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="35">
+							<ListBox.Styles>
+								<Style Selector="ListBoxItem">
+									<Setter Property="ContextMenu">
+										<Setter.Value>
+											<ContextMenu>
+												<ContextMenu.DataContext>
+													<viewModel:ServerFormattingViewModel/>
+												</ContextMenu.DataContext>
+												<MenuItem Command="{Binding SFViewModel.RemoveAirportItem}" CommandParameter="{Binding $parent[ListBox].SelectedItem}">
+													<MenuItem.Header>
+														<ic:SymbolIcon Symbol="Delete"/>
+													</MenuItem.Header>
+												</MenuItem>
+											</ContextMenu>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.Styles>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Vertical">
+										<Label>
+											<Label.Content>
+												<MultiBinding StringFormat="{}{0} | {1} | {2} | {3}">
+													<Binding Path="Title"/>
+													<Binding Path="SceneryID"/>
+													<Binding Path="RegionID"/>
+													<Binding Path="ParentID"/>
+												</MultiBinding>
+											</Label.Content>
+										</Label>
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="{Binding Developer}"/>
+											<TextBlock Text="{Binding Description}"/>
+											<TextBlock Text="{Binding Path}"/>
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+						<Button Margin="5" CornerRadius="5" Command="{Binding CreateNewSceneryItem}" CommandParameter="Airport" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+							<Panel>
+								<ic:SymbolIcon Symbol="Open" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+								<Label Content="Create New Airport" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+							</Panel>
+						</Button>
+					</StackPanel>
+				<!--Library List-->
+					<StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+						<ListBox x:Name="LibraryList" Margin="5" BorderBrush="{DynamicResource ChromeAltLow}" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" MaxHeight="200" ItemsSource="{Binding SFViewModel.LibraryList}" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="35">
+							<ListBox.Styles>
+								<Style Selector="ListBoxItem">
+									<Setter Property="ContextMenu">
+										<Setter.Value>
+											<ContextMenu>
+												<ContextMenu.DataContext>
+													<viewModel:ServerFormattingViewModel/>
+												</ContextMenu.DataContext>
+												<MenuItem Command="{Binding SFViewModel.RemoveLibraryItem}" CommandParameter="{Binding $parent[ListBox].SelectedItem}">
+													<MenuItem.Header>
+														<ic:SymbolIcon Symbol="Delete"/>
+													</MenuItem.Header>
+												</MenuItem>
+											</ContextMenu>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.Styles>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Vertical">
+										<Label>
+											<Label.Content>
+												<MultiBinding StringFormat="{}{0} | {1} | {2} | {3}">
+													<Binding Path="Title"/>
+													<Binding Path="SceneryID"/>
+													<Binding Path="RegionID"/>
+													<Binding Path="ParentID"/>
+												</MultiBinding>
+											</Label.Content>
+										</Label>
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="{Binding Developer}"/>
+											<TextBlock Text="{Binding Description}"/>
+											<TextBlock Text="{Binding Path}"/>
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+						<Button Margin="5" CornerRadius="5" Command="{Binding CreateNewSceneryItem}" CommandParameter="Library" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+							<Panel>
+								<ic:SymbolIcon Symbol="Open" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+								<Label Content="Create New Library" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+							</Panel>
+						</Button>
+					</StackPanel>
+					<Button Margin="5 10" CornerRadius="5" Command="{Binding CreateServerConfigFile}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" ToolTip.Tip="The ServerConfig.xml file created will be exported to the hidden .data directory in the root directory you specified earlier.">
+						<Panel>
+							<ic:SymbolIcon Symbol="ArrowExport" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+							<Label Content="Export Server Config" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+						</Panel>
+					</Button>
+				</StackPanel>
+			</Border>
+			<!--Loaded XML-->
+			<Border CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3"  Background="#d8dae3" Margin="15" Grid.RowSpan="3" Grid.Row="0" Grid.Column="1" Padding="15">
+				<Panel>
+					<Carousel Name="CentrePages" >
+						<Carousel.PageTransition >
+							<CompositePageTransition>
+								<PageSlide Duration="0:00:00.150" Orientation="Horizontal"/>
+							</CompositePageTransition>
+						</Carousel.PageTransition>
+						<Carousel.Items>
+							<Panel>
+								<Label Content="Loaded Scenery Information" FontSize="32" Margin="25"/>
+								<Border BorderBrush="Black" CornerRadius="15" Margin="0 115 0 115" Background="{DynamicResource RegionColourLight}" BoxShadow="inset 1 1 6 2 #d8dae3" Padding="5">
+									<ScrollViewer HorizontalScrollBarVisibility="Auto">
+										<TextBlock x:Name="LoadedXMLBox" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" Text="{Binding Format.LoadedXML}" FontFamily="Courier New">
+											<TextBlock.DataContext>
+												<model:ServerFormat/>
+											</TextBlock.DataContext>
+										</TextBlock>
+									</ScrollViewer>
+								</Border>
+							</Panel>
+							<Panel>
+								<Border CornerRadius="15" ClipToBounds="True" Margin="0 0 0 115">
+									<ScrollViewer HorizontalScrollBarVisibility="Auto">
+										<ItemsControl ItemsSource="{Binding Path=DataContext.Format.SceneryLoaded,ElementName=LoadedXMLBox}" Padding="5">
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" CornerRadius="15" Margin="0 5 0 5" Background="{DynamicResource RegionColourLight}" BoxShadow="inset 1 1 6 2 #d8dae3" Padding="5">
+														<StackPanel Orientation="Vertical">
+															<Label FontSize="24" Margin="15 15 0 0" ZIndex="3">
+																<Label.Content>
+																	<MultiBinding StringFormat="{}{0} | {1}-{2}">
+																		<Binding Path="Title"/>
+																		<Binding Path="ParentID"/>
+																		<Binding Path="RegionID"/>
+																	</MultiBinding>
+																</Label.Content>
+															</Label>
+															<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
+															<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3"/>
+														</StackPanel>
+													</Border>
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+									</ScrollViewer>
+								</Border>
+							</Panel>
+						</Carousel.Items>
+					</Carousel>
+					<Panel VerticalAlignment="Bottom">
+						<Button Background="Transparent" Click="Previous" HorizontalAlignment="Center" Margin="0 0 55 70">
+							<ic:SymbolIcon Symbol="ArrowLeft" FontSize="28"/>
+						</Button>
+						<Button Background="Transparent" Click="Next" HorizontalAlignment="Center" Margin="55 0 0 70">
+							<ic:SymbolIcon Symbol="ArrowRight" FontSize="28"/>
+						</Button>
+						<Button Margin="0 0 0 -35" HorizontalAlignment="Center" Command="{Binding LoadConfigurationCommand}" CommandParameter="Manual">
+							<Panel>
+								<Label Content="Select Server Configuaration File" HorizontalAlignment="Right" FontSize="18" Margin="30 0 0 0"/>
+								<ic:SymbolIcon Symbol="OpenFolder" FontSize="28" HorizontalAlignment="Left"/>
+							</Panel>
+						</Button>
+					</Panel>
+				</Panel>
+			</Border>
+			<!--Section 3-->
+			<Border CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3"  Background="#d8dae3" Margin="15" Grid.RowSpan="3" Grid.Row="0" Grid.Column="2" Padding="15">
+				<Panel>
+					<Label Content="Data Formatting Controls" FontSize="32" Margin="25"/>
+				</Panel>
+			</Border>
+		</Grid>
+	</Panel>
+  
+</UserControl>

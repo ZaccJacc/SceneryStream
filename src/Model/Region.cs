@@ -7,12 +7,15 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using static SceneryStream.src.Model.ChildRegion;
 using static SceneryStream.src.Model.Region;
 
@@ -62,21 +65,31 @@ namespace SceneryStream.src.Model
         }
     }
 
-    internal class ChildRegion : ObservableObject
+    internal partial class ChildRegion : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
     {
-        internal ChildRegionID ID;
-        internal RegionID ParentID;
+        [ObservableProperty]
+        private ChildRegionID _ID;
 
-        private bool selected = false;
-        internal bool Selected
+        [ObservableProperty]
+        private RegionID _parentID;
+
+        internal SceneryItem PrimaryOrtho = null;
+
+        public bool PrimaryOrthoAvailable
         {
-            get => selected;
-            set
+            get
             {
-                selected = value;
-                NotifyPropertyChanged(nameof(Selected));
+                return PrimaryOrtho != null;
             }
         }
+        
+
+        [ObservableProperty]
+        private ObservableCollection<SceneryItem> _sceneryItems = new();
+
+        [ObservableProperty]
+        private bool selected = false;
+
 
         public ChildRegion(ChildRegionID regionID, RegionID parentID)
         {
@@ -108,20 +121,20 @@ namespace SceneryStream.src.Model
         }
     }
 
+
     public class DisplayedRegionValidator : IValueConverter
     {
         public static readonly DisplayedRegionValidator Instance = new();
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            Console.WriteLine(value.ToString() + " " + parameter.ToString());
             if (value is RegionID displayedRegionID && parameter is string targetRegion)
             {
                 
                 switch (targetRegion)
                 {
                     case "USA":
-                        return displayedRegionID == RegionHandling.Regions.USA.ID;
+                        return displayedRegionID == RegionID.USA;
                 }
             }
             return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
@@ -133,289 +146,254 @@ namespace SceneryStream.src.Model
         }
     }
 
-    internal partial class RegionHandling : ObservableObject
+    public class RegionLocator
     {
+        private object region;
+        public RegionLocator(string _childId, string _parentId)
+        {
+            region = RegionHandling.Regions.GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), _childId), (RegionID)Enum.Parse(typeof(RegionID), _parentId));
+        }
+
+        public RegionLocator(string _Id)
+        {
+            region = RegionHandling.Regions.GetRegionByID((RegionID)Enum.Parse(typeof(RegionID), _Id));
+        }
+
+        public RegionLocator(BindingBase _childId, BindingBase _parentId)
+        {
+            region = new MultiBinding()
+            {
+                Bindings = new[] { _childId, _parentId },
+                Converter = new FuncMultiValueConverter<object, object>(IDs => IDs.Aggregate((childId, parentID) => RegionHandling.Regions.GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), childId.ToString()), (RegionID)Enum.Parse(typeof(RegionID), parentID.ToString()))))
+            };
+        }
+
+        public object ProvideValue()
+        {
+            return region;
+        }
+    }
+
+
+
+    internal partial class RegionHandling : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
+    {
+        //--Internal Utility--//
+
         private static readonly RegionHandling _regions = new();
         public static RegionHandling Regions
         {
             get => _regions;
         }
 
+        private static List<string> SessionGeneratedShellLinksRemote = new();
+        private static List<string> SessionGeneratedShellLinksLocal = new();
+
+        //--Selected Sceneries--//
+
         internal static ObservableCollection<ChildRegion> SelectedChildRegions = new();
+        internal static ObservableCollection<SceneryItem> SelectedSceneryItems = new();
+
+        //--Child Regions--//
+
+        internal static ObservableCollection<ChildRegion> ChildRegions = new()
+        {
+            new(ChildRegionID.WA, RegionID.USA),
+            new(ChildRegionID.OR, RegionID.USA),
+            new(ChildRegionID.CA, RegionID.USA),
+            new(ChildRegionID.NV, RegionID.USA),
+            new(ChildRegionID.ID, RegionID.USA),
+            new(ChildRegionID.UT, RegionID.USA),
+            new(ChildRegionID.AK, RegionID.USA),
+            new(ChildRegionID.HI, RegionID.USA),
+            new(ChildRegionID.AZ, RegionID.USA),
+            new(ChildRegionID.CO, RegionID.USA),
+            new(ChildRegionID.NM, RegionID.USA),
+            new(ChildRegionID.WY, RegionID.USA),
+            new(ChildRegionID.MT, RegionID.USA),
+            new(ChildRegionID.ND, RegionID.USA),
+            new(ChildRegionID.SD, RegionID.USA),
+            new(ChildRegionID.NE, RegionID.USA),
+            new(ChildRegionID.KS, RegionID.USA),
+            new(ChildRegionID.OK, RegionID.USA),
+            new(ChildRegionID.TX, RegionID.USA)
+    };
+
+        //--Parent Regions--//
+        internal static ObservableCollection<Region> ParentRegions = new()
+        {
+            new($@"avares://SceneryStream/Assets/Map/worldmap.png", RegionID.GLOBE),
+            new($@"avares://SceneryStream/Assets/Map/worldmaplined.png", RegionID.DEV),
+            new($@"avares://SceneryStream/Assets/Map/USAmap.png", RegionID.USA)
+        };
+
+        //--//
+
+        internal ChildRegion? GetRegionByID(ChildRegionID childID, RegionID parentID)
+        {
+            foreach (ChildRegion childRegion in ChildRegions)
+            {
+                if (childRegion.ID == childID && childRegion.ParentID == parentID)
+                { return childRegion; }
+            }
+            return null;
+        }
+
+        internal Region? GetRegionByID(RegionID ID)
+        {
+            foreach (Region region in ParentRegions)
+            {
+                if (region.ID == ID) { return region; }
+            }
+                return null;
+        }
 
         /// <summary>
         /// Saves all the selected regions to an XML file with their ID, parentID, and their selection state for posterity (in case they are erroneously added to the list but not actually intended to be selected).
         /// </summary>
         internal void SaveSelectedRegions()
         {
+            XElement Root = new("SavedItems");
+            XElement originServer = new("OriginServer", ServerFormat.Format.ServerID);
             XElement savedRegions = new("Regions");
+            XElement savedScenery = new("Scenery");
             foreach (var region in SelectedChildRegions)
             {
-                savedRegions.Add(new XElement("childRegion", region.ID, region.ParentID, region.Selected));
+                savedRegions.Add(new XElement("ChildRegion", new XElement("ID", region.ID), new XElement("ParentID", region.ParentID), new XElement("Selected", region.Selected)));
             }
+            foreach (SceneryItem item in SelectedSceneryItems)
+            {
+                savedScenery.Add(new XElement("SceneryItem", new XElement("SceneryID", item.SceneryID), new XElement("RegionID", item.RegionID), new XElement("ParentID", item.ParentID)));
+            }
+            Root.Add(originServer);
+            Root.Add(savedRegions);
+            Root.Add(savedScenery);
             try
             {
-                savedRegions.Save(AssetLoader.Open(new Uri($"avares://SceneryStream/Assets/Data/Scenery.xml")));
+                using StreamWriter sw = new(File.Open($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Scenery.xml", FileMode.Create), Encoding.UTF8); //this only saves the first childregion. why?
+                Root.Save(sw);
             }
-            catch (FileNotFoundException)
+            catch (Exception e)
+            {
+                Debug.WriteLine($"[!] Fatal saving error, will not retry.\n\t=> {e.Message}");
+            }
+        }
+
+        internal void LoadSelectedRegions()
+        {
+            using StreamReader sr = new(File.Open($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Scenery.xml", FileMode.Open), Encoding.UTF8);
+            XElement loadedRegions = XElement.Load(sr);
+            if(loadedRegions.Descendants("OriginServer").ElementAt(0).Value != ServerFormat.Format.ServerID)
+            {
+                Debug.WriteLine("[!] Servers do not match. Cannot load scenery from an unknown server.");
+                return;
+            }
+            IEnumerable<XElement> NodeChildRegions = loadedRegions.Descendants("ChildRegion");
+            foreach (XElement node in NodeChildRegions)
             {
                 try
                 {
-                    File.Create($"avares://SceneryStream/Assets/Data/Scenery.xml");
+                    ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), node.Descendants("ID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), node.Descendants("ParentID").ElementAt(0).Value));
+                    currentRegion.Selected = (bool)node.Descendants("Selected").ElementAt(0);
+                    if (currentRegion.Selected && !SelectedChildRegions.Contains(currentRegion))
+                    {
+                        SelectedChildRegions.Add(currentRegion);
+                    }
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("[!] Could not save scenery.");
-                    return;
+                    Debug.WriteLine($"[!] Could not locate region.\n\t=>{e.Message}");
                 }
-                SaveSelectedRegions();
+                
             }
-            
-        }
-
-        //--Parent Regions--//
-        private Region _GLOBE = new($@"avares://SceneryStream/Assets/Map/worldmap.png", RegionID.GLOBE);
-        public Region GLOBE
-        {
-            get => _GLOBE;
-            set
+            foreach(XElement SceneryNode in loadedRegions.Descendants("SceneryItem")) 
             {
-                _GLOBE = value;
-                NotifyPropertyChanged(nameof(GLOBE));
-            }
-        }
-
-        private Region _GLOBELINED = new($@"avares://SceneryStream/Assets/Map/worldmaplined.png", RegionID.DEV);
-        public Region GLOBELINED
-        {
-            get => _GLOBELINED;
-            set
-            {
-                _GLOBELINED = value;
-                NotifyPropertyChanged(nameof(GLOBELINED));
-            }
-        }
-
-        private Region _USA = new($@"avares://SceneryStream/Assets/Map/USAmap.png", RegionID.USA);
-        public Region USA
-        {
-            get => _USA;
-            set
-            {
-                _USA = value;
-                NotifyPropertyChanged(nameof(USA));
+                try
+                {
+                    ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), SceneryNode.Descendants("RegionID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), SceneryNode.Descendants("ParentID").ElementAt(0).Value));
+                    foreach (SceneryItem scenery in currentRegion.SceneryItems)
+                    {
+                        if (scenery.SceneryID == SceneryNode.Descendants("SceneryID").ElementAt(0).Value)
+                        {
+                            scenery.Selected = true;
+                            if (!SelectedSceneryItems.Contains(scenery))
+                            {
+                                SelectedSceneryItems.Add(scenery);
+                            }
+                            
+                        }
+                    }
+                }
+                catch(Exception e) 
+                { 
+                    Debug.WriteLine($"[!] Could not locate scenery item.\n\t=> {e.Message}"); 
+                }
             }
         }
 
-        //--Child Regions--//
+        internal async void GenerateShellLinks(object? devparam)
+        {
+            foreach (ChildRegion primaryOrthoRegion in SelectedChildRegions)
+            {
+                if (primaryOrthoRegion.PrimaryOrtho == null || SessionGeneratedShellLinksRemote.Contains(primaryOrthoRegion.PrimaryOrtho.Path) || !primaryOrthoRegion.PrimaryOrtho.Path.Contains("srvload:"))
+                {
+                    Debug.WriteLine("[*] Skipped an item.\n\t=> Will not create ortho shell link.");
+                    continue;
+                }
+                if (string.IsNullOrEmpty(devparam.ToString()))
+                {
+                    
+                    switch (App.ServiceInstance.Platform)
+                    {
+                        default:
+                            return;
 
-        private ChildRegion _USA_WA = new(ChildRegionID.WA, RegionID.USA);
-        public ChildRegion USA_WA
-        {
-            get => _USA_WA;
-            set
-            {
-                _USA_WA = value;
-                NotifyPropertyChanged(nameof(USA_WA));
+                        case PlatformID.Win32NT:
+                            SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, primaryOrthoRegion.PrimaryOrtho.Path.Split("srvload:")[1], @$"{App.Preferences.SimDirectory}\Custom Scenery", primaryOrthoRegion.PrimaryOrtho.Type, $"{primaryOrthoRegion.PrimaryOrtho.Title}"));
+                            foreach (string ExtraPath in App.Preferences.InstallationPathsCollection)
+                            {
+                                SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, primaryOrthoRegion.PrimaryOrtho.Path.Split("srvload:")[1], @$"{ExtraPath}\Custom Scenery", primaryOrthoRegion.PrimaryOrtho.Type, $"{primaryOrthoRegion.PrimaryOrtho.Title}"));
+                            }
+                            SessionGeneratedShellLinksRemote.Add(primaryOrthoRegion.PrimaryOrtho.Path);
+                            break;
+                    }
+                }
+                
             }
-        }
-        
-        private ChildRegion _USA_OR = new(ChildRegionID.OR, RegionID.USA);
-        public ChildRegion USA_OR
-        {
-            get => _USA_OR;
-            set
+            foreach (SceneryItem item in SelectedSceneryItems)
             {
-                _USA_OR = value;
-                NotifyPropertyChanged(nameof(USA_OR));
-            }
-        }
+                if (SessionGeneratedShellLinksRemote.Contains(item.Path) || !item.Path.Contains("srvload:"))
+                {
+                    Debug.WriteLine("[*] Skipped an item.\n\t=> Will not create shell link.");
+                    continue;
+                }
+                if (string.IsNullOrEmpty(devparam.ToString()))
+                {
+                    switch (App.ServiceInstance.Platform)
+                    {
+                        default:
+                            return;
 
-        private ChildRegion _USA_CA = new(ChildRegionID.CA, RegionID.USA);
-        public ChildRegion USA_CA
-        {
-            get => _USA_CA;
-            set
-            {
-                _USA_CA = value;
-                NotifyPropertyChanged(nameof(USA_CA));
-            }
-        }
-
-        private ChildRegion _USA_NV = new(ChildRegionID.NV, RegionID.USA);
-        public ChildRegion USA_NV
-        {
-            get => _USA_NV;
-            set
-            {
-                _USA_NV = value;
-                NotifyPropertyChanged(nameof(USA_NV));
-            }
-        }
-
-        private ChildRegion _USA_ID = new(ChildRegionID.ID, RegionID.USA);
-        public ChildRegion USA_ID
-        {
-            get => _USA_ID;
-            set
-            {
-                _USA_ID = value;
-                NotifyPropertyChanged(nameof(USA_ID));
-            }
-        }
-
-        private ChildRegion _USA_UT = new(ChildRegionID.UT, RegionID.USA);
-        public ChildRegion USA_UT
-        {
-            get => _USA_UT;
-            set
-            {
-                _USA_UT = value;
-                NotifyPropertyChanged(nameof(USA_UT));
+                        case PlatformID.Win32NT:
+                            SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, item.Path.Split("srvload:")[1], @$"{App.Preferences.SimDirectory}\Custom Scenery", item.Type, $"{item.Title}"));
+                            foreach (string ExtraPath in App.Preferences.InstallationPathsCollection)
+                            {
+                                SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, item.Path.Split("srvload:")[1], @$"{ExtraPath}\Custom Scenery", item.Type, $"{item.Title}"));
+                            }
+                            SessionGeneratedShellLinksRemote.Add(item.Path);
+                            break;
+                    }
+                }
             }
         }
 
-        private ChildRegion _USA_AK = new(ChildRegionID.AK, RegionID.USA);
-        public ChildRegion USA_AK
+        internal void RemoveShellLinks()
         {
-            get => _USA_AK;
-            set
+            foreach (string path in SessionGeneratedShellLinksLocal)
             {
-                _USA_AK = value;
-                NotifyPropertyChanged(nameof(USA_AK));
+                File.Delete(path);
             }
         }
 
-        private ChildRegion _USA_HI = new(ChildRegionID.HI, RegionID.USA);
-        public ChildRegion USA_HI
-        {
-            get => _USA_HI;
-            set
-            {
-                _USA_HI = value;
-                NotifyPropertyChanged(nameof(USA_HI));
-            }
-        }
-        
-        private ChildRegion _USA_AZ = new(ChildRegionID.AZ, RegionID.USA);
-        public ChildRegion USA_AZ
-        {
-            get => _USA_AZ;
-            set
-            {
-                _USA_AZ = value;
-                NotifyPropertyChanged(nameof(USA_AZ));
-            }
-        }
-
-        private ChildRegion _USA_CO = new(ChildRegionID.CO, RegionID.USA);
-        public ChildRegion USA_CO
-        {
-            get => _USA_CO;
-            set
-            {
-                _USA_CO = value;
-                NotifyPropertyChanged(nameof(USA_CO));
-            }
-        }
-
-        private ChildRegion _USA_NM = new(ChildRegionID.NM, RegionID.USA);
-        public ChildRegion USA_NM
-        {
-            get => _USA_NM;
-            set
-            {
-                _USA_NM = value;
-                NotifyPropertyChanged(nameof(USA_NM));
-            }
-        }
-
-        private ChildRegion _USA_WY = new(ChildRegionID.WY, RegionID.USA);
-        public ChildRegion USA_WY
-        {
-            get => _USA_WY;
-            set
-            {
-                _USA_WY = value;
-                NotifyPropertyChanged(nameof(USA_WY));
-            }
-        }
-
-        private ChildRegion _USA_MT = new(ChildRegionID.MT, RegionID.USA);
-        public ChildRegion USA_MT
-        {
-            get => _USA_MT;
-            set
-            {
-                _USA_MT = value;
-                NotifyPropertyChanged(nameof(USA_MT));
-            }
-        }
-
-        private ChildRegion _USA_ND = new(ChildRegionID.ND, RegionID.USA);
-        public ChildRegion USA_ND
-        {
-            get => _USA_ND;
-            set
-            {
-                _USA_ND = value;
-                NotifyPropertyChanged(nameof(USA_ND));
-            }
-        }
-
-        private ChildRegion _USA_SD = new(ChildRegionID.SD, RegionID.USA);
-        public ChildRegion USA_SD
-        {
-            get => _USA_SD;
-            set
-            {
-                _USA_SD = value;
-                NotifyPropertyChanged(nameof(USA_SD));
-            }
-        }
-
-        private ChildRegion _USA_NE = new(ChildRegionID.NE, RegionID.USA);
-        public ChildRegion USA_NE
-        {
-            get => _USA_NE;
-            set
-            {
-                _USA_NE = value;
-                NotifyPropertyChanged(nameof(USA_NE));
-            }
-        }
-
-        private ChildRegion _USA_KS = new(ChildRegionID.KS, RegionID.USA);
-        public ChildRegion USA_KS
-        {
-            get => _USA_KS;
-            set
-            {
-                _USA_KS = value;
-                NotifyPropertyChanged(nameof(USA_KS));
-            }
-        }
-
-        private ChildRegion _USA_OK = new(ChildRegionID.OK, RegionID.USA);
-        public ChildRegion USA_OK
-        {
-            get => _USA_OK;
-            set
-            {
-                _USA_OK = value;
-                NotifyPropertyChanged(nameof(USA_OK));
-            }
-        }
-
-        private ChildRegion _USA_TX = new(ChildRegionID.TX, RegionID.USA);
-        public ChildRegion USA_TX
-        {
-            get => _USA_TX;
-            set
-            {
-                _USA_TX = value;
-                NotifyPropertyChanged(nameof(USA_TX));
-            }
-        }
-    }
+    }                      
 }

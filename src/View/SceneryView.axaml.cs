@@ -10,5 +10,10 @@ namespace SceneryStream.src.View
             InitializeComponent();
             Map.AddHandler(PointerPressedEvent, ViewModel.SceneryViewModel.SViewModel.FocusRegion, Avalonia.Interactivity.RoutingStrategies.Bubble);
         }
+
+        internal void ShowHelp(object? sender, EventArgs e)
+        {
+            //HelpButton.Flyout.Is
+        }
     }
 }

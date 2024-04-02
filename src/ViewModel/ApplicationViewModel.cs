@@ -22,7 +22,7 @@ namespace SceneryStream.src.ViewModel
 
         public static void ToggleConnection()
         {
-            HomeViewModel.HViewModel.ToggleConnection();
+            PreferencesViewModel.PViewModel.ToggleConnection();
         }
     }
 }

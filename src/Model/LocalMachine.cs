@@ -1,5 +1,4 @@
-﻿#pragma warning disable CS1998
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using SceneryStream;
 using SceneryStream.src.Model;
@@ -30,6 +29,8 @@ namespace SceneryStream.src.Model
                 primary_connection_success = value;
                 NotifyPropertyChanged(nameof(Connected));
                 HomeViewModel.HViewModel.ReviewConnecionStatusIndicator();
+                HomeViewModel.ScanNewUpdates();
+                HomeViewModel.RefreshScenerySpotlight();
             }
         }
 
@@ -74,7 +75,7 @@ namespace SceneryStream.src.Model
         /// </summary>
         public async Task BuildServiceAuthenticity()
         {
-            Console.WriteLine("[*] Verifying local platform");
+            Debug.WriteLine("[*] Verifying local platform");
             new Thread(async () =>
             {
                 Task<(bool, PlatformID)> platformData = VerifyLocalPlatform();
@@ -83,31 +84,41 @@ namespace SceneryStream.src.Model
                 platform = platformdata.Item2;
             }).Start();
             try
-            { //Delegated this entire thing to a new random thread because the mounting attempt when the preferences load successfully was on the UI thread and froze the whole thing.
+            {
                 await Task.Run(async () =>
                 {
                     try
                     {
-                        App.Preferences.PreferencesFile = File.ReadAllText("Targets.Setup"); //Read the location of the preferences file from the known location "targets.setup"
+                        if (!File.Exists($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Preferences.setup"))
+                        {
+                            File.Create($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Preferences.setup");
+                            Debug.WriteLine("[*] Created new preferences file.");
+                        }
                     }
                     catch (Exception)
                     {
-                        File.WriteAllText("Targets.setup", "Preferences.setup"); //If the targets file cannot be found or is null, write into a new one a default location of the preferences file.
-                        App.Preferences.PreferencesFile = "Preferences.setup";
+                        Debug.WriteLine("[!] Could not create preferences file!\n\t=> Connection will not be attempted.");
+                        return;
                     }
-
-                    Console.WriteLine("[*] Preferences file found.");
+                    App.Preferences.PreferencesFile = ($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Preferences.setup");
+                    Debug.WriteLine("[*] Preferences file located.");
                     Task<bool> loadPreferenceSuccess = PreferencesModel.loadPreferences(App.Preferences.PreferencesFile); //use preferences model to load the preferences from the file.
                     if (await loadPreferenceSuccess)
                     {
                         await MakeConnection(); //connect to the server if the preferences were not fatally malformed and there is a server address provided.
                     }
+                    if (Connected)
+                    {
+                        await ServerFormat.Format.LoadServerConfiguration(string.Empty);
+                        RegionHandling.Regions.LoadSelectedRegions();
+                        RegionHandling.Regions.GenerateShellLinks(string.Empty);
+                    }
                 });
                 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("[!] Fatal error in initialising application resources.");
+                Debug.WriteLine($"[!] Fatal error in initialising application resources.\n\t=> {e.Message}");
             }
         }
 
@@ -115,7 +126,7 @@ namespace SceneryStream.src.Model
         private static async Task<(bool, PlatformID)> VerifyLocalPlatform()
         {
             PlatformID system = Environment.OSVersion.Platform;
-            Console.WriteLine("[*] System platform: " + system); //DEBUG
+            Debug.WriteLine("[*] System platform: " + system); //DEBUG
             switch (system)
             {
                 case PlatformID.Win32NT:
@@ -134,7 +145,7 @@ namespace SceneryStream.src.Model
             }
             catch (Exception)
             {
-                Console.WriteLine($"[!] Server address is not formatted correctly!\n\t=> Address: {address}");
+                Debug.WriteLine($"[!] Server address is not formatted correctly!\n\t=> Address: {address}");
             }
 
             try
@@ -143,13 +154,13 @@ namespace SceneryStream.src.Model
                 App.ServiceInstance.PingReplyTime = App.ServiceInstance.ServerPingReply.RoundtripTime.ToString();
                 if (App.ServiceInstance.ServerPingReply != null)
                 {
-                    Console.WriteLine("[*] Ping Results \n\tStatus :  " + App.ServiceInstance.ServerPingReply.Status + " \n\t Time : " + App.ServiceInstance.PingReplyTime + " \n\t Address : " + App.ServiceInstance.ServerPingReply.Address); //DBUG
+                    Debug.WriteLine("[*] Ping Results \n\tStatus :  " + App.ServiceInstance.ServerPingReply.Status + " \n\t Time : " + App.ServiceInstance.PingReplyTime + " \n\t Address : " + App.ServiceInstance.ServerPingReply.Address); //DBUG
                 }
                 return true;
             }
             catch
             {
-                Console.WriteLine("[!] Untraced connection error."); //DBUG
+                Debug.WriteLine("[!] Untraced connection error."); //DBUG
                 return false;
             }
         }
@@ -159,7 +170,7 @@ namespace SceneryStream.src.Model
             Task<bool> pingServer = AttemptAddressPing(App.Preferences.ServerAddress);
             if (!await pingServer)
             {
-                Console.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
+                Debug.WriteLine("[!] Initial server connection could not be made.\n\tVerify target socket in connection settings."); //Replace with viewable output in final production
                 Connected = false;
             }
             else
@@ -167,29 +178,13 @@ namespace SceneryStream.src.Model
                 switch (Platform)
                 {
                     case PlatformID.Win32NT:
-                        Task<bool> attempt_mounting = Utility.Windows.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
+                        Task<bool> attempt_mounting = Utility.Win32.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter, 0);
                         Connected = await attempt_mounting;
-                        if (Connected)
-                        {
-                            await Task.Run(async () =>
-                            {
-                                Utility.Windows.createShortcut(App.Preferences.DriveLetter, @"airports\Airport - MDSD by RooCkArt", App.Preferences.SimDirectory + @"\Custom Scenery", "airports"); //This will need to be changed at some point to mount for all the different scenery the user has selected. For now, everything though.
-                                                                                                                                                                                                    //Currently forced to only airports because the server only has airports :p
-                            });
-                        }
                         break;
 
                     case PlatformID.Unix:
                         Task<bool> attempt_unix_mounting = Utility.Unix.PerformTargetLocationMounting(App.Preferences.ServerAddress, App.Preferences.DriveLetter);
                         Connected = await attempt_unix_mounting;
-                        if (Connected)
-                        {
-                            await Task.Run(async () =>
-                            {
-                                Console.WriteLine("[!] Cannot create shortcuts on unix.");
-                                //placheolder until the code is made.
-                            });
-                        }
                         break;
                 }
             }
@@ -238,9 +233,10 @@ namespace Utility
 
         internal static async Task<object?> produceBrowser(string callback)
         {
-            switch (callback)
+            switch (callback.ToUpper())
             {
-                case "File":
+                case "F":
+                case "FILE":
                     try
                     {
                         var result = await App.Storage.OpenFilePickerAsync(new FilePickerOpenOptions()
@@ -252,12 +248,12 @@ namespace Utility
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("[!] No could not select file");
+                        Debug.WriteLine("[!] No could not select file");
                         return "";
                     }
 
-
-                case "Directory":
+                case "D":
+                case "DIRECTORY":
                     try
                     {
                         var result = await App.Storage.OpenFolderPickerAsync(new FolderPickerOpenOptions()
@@ -268,7 +264,7 @@ namespace Utility
                         
                         if (result.Count < 1)
                         {
-                            Console.WriteLine("[!] No directory selected!");
+                            Debug.WriteLine("[!] No directory selected!");
                             return "";
                         }
                         else
@@ -278,9 +274,62 @@ namespace Utility
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("[!] Could not select directory!");
+                        Debug.WriteLine("[!] Could not select directory!");
                         return "";
                     }    
+            }
+            return "";
+        }
+
+        internal static async Task<object?> produceBrowser(string callback, string startpoint)
+        {
+            switch (callback.ToUpper())
+            {
+                case "F":
+                case "FILE":
+                    try
+                    {
+                        var result = await App.Storage.OpenFilePickerAsync(new FilePickerOpenOptions()
+                        {
+                            Title = "Select a file.",
+                            AllowMultiple = false,
+                            SuggestedStartLocation = await App.Storage.TryGetFolderFromPathAsync(startpoint)
+                        });
+                        return result[0].TryGetLocalPath();
+                    }
+                    catch (Exception)
+                    {
+                        Debug.WriteLine("[!] No could not select file");
+                        return "";
+                    }
+
+
+                case "D":
+                case "DIRECTORY":
+                    try
+                    {
+                        var result = await App.Storage.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                        {
+                            Title = "Choose a directory.",
+                            AllowMultiple = false,
+                            SuggestedStartLocation = await App.Storage.TryGetFolderFromPathAsync(startpoint)
+                        });
+
+                        if (result.Count < 1)
+                        {
+                            Debug.WriteLine("[!] No directory selected!");
+                            return "";
+                        }
+                        else
+                        {
+                            return result[0].TryGetLocalPath();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Debug.WriteLine("[!] Could not select directory!");
+                        return "";
+                    }
             }
             return "";
         }
@@ -316,13 +365,13 @@ namespace Utility
         }
     }
 
-    class Windows
+    class Win32
     {
-        internal static async void createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type) //code from stackoverflow, credit to Simon Mourier.
+        internal static async Task<string> createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type, string link_name) //code from stackoverflow, credit to Simon Mourier.
         {
-            await Task.Run(async () =>
+            return await Task.Run(() =>
             {
-                Console.WriteLine("[*] Attempting shell links.");
+                Debug.WriteLine("[*] Attempting shell link.");
                 try
                 {
                     IShellLink link = (IShellLink)new ShellLink();
@@ -330,25 +379,38 @@ namespace Utility
                     // setup shortcut information
                     link.SetDescription($"XSS Mount for {scenery_type}");
                     link.SetPath($@"{mounted_drive}:\{link_path}");
+                    
 
                     // save it
                     IPersistFile file = (IPersistFile)link;
-                    switch (scenery_type)
+                    switch (scenery_type.ToLower())
                     {
+                        case "o":
                         case "ortho":
-                            file.Save(Path.Combine(link_location, "zOrtho_xss_mount.lnk"), false);
-                            Console.WriteLine("\t=> Made ortho shortcut");
-                            break;
+                            file.Save(Path.Combine(link_location, $"zOrtho_xss_{link_name}.lnk"), false);
+                            Debug.WriteLine("\t=> Made ortho shortcut");
+                            return Path.Combine(link_location, $"zOrtho_xss_{link_name}.lnk");
 
-                        case "airports":
-                            file.Save(Path.Combine(link_location, "airports_xss_mount.lnk"), false);
-                            Console.WriteLine("\t=> Made airports shortcut");
-                            break;
+                        case "a":
+                        case "airport":
+                            file.Save(Path.Combine(link_location, $"airports_xss_{link_name}.lnk"), false);
+                            Debug.WriteLine("\t=> Made airports shortcut");
+                            return Path.Combine(link_location, $"airports_xss_{link_name}.lnk");
+
+                        case "l":
+                        case "library":
+                            file.Save(Path.Combine(link_location, $"lib_xss_{link_name}.lnk"), false);
+                            Debug.WriteLine("\t=> Made library shortcut");
+                            return Path.Combine(link_location, $"lib_xss_{link_name}.lnk");
+
+                        default:
+                            return "";
                     }
                 }
-                catch(Exception) 
+                catch(Exception e) 
                 {
-                    Console.WriteLine("[!] Could not create shortcuts!");
+                    Debug.WriteLine($"[!] Could not create shortcuts!\n\t=> {e.Message}");
+                    return "";
                 }
             });
         }
@@ -358,7 +420,7 @@ namespace Utility
 
         internal static async Task<bool> PerformTargetLocationMounting(string address, string drive, int processType)
         {
-            Console.WriteLine("[*] Attempting target mounting");
+            Debug.WriteLine("[*] Attempting target mounting");
             try
             {
                 return await Task.Run(async () =>
@@ -370,7 +432,7 @@ namespace Utility
                             case 1:
                                 //NetworkDrive.MapNetworkDrive(drive, address);
                                 throw new NotImplementedException();
-                                Console.WriteLine("Directories: " + Directory.GetDirectories("X"));
+                                Debug.WriteLine("Directories: " + Directory.GetDirectories("X"));
                                 return NetworkDrive.IsDriveMapped(drive);
 
 
@@ -382,14 +444,14 @@ namespace Utility
                     }
                     catch
                     {
-                        Console.WriteLine("[!] Untraced mounting error.");
+                        Debug.WriteLine("[!] Untraced mounting error.");
                         return false;
                     }
                 }).WaitAsync(TimeSpan.FromMilliseconds(12000)); //The drive mounting has 12 seconds to complete, or the task will timeout.
             }
             catch (TimeoutException)
             {
-                Console.WriteLine("[!] Drive mounting timed out!");
+                Debug.WriteLine("[!] Drive mounting timed out!");
                 return false;
             }
 
@@ -414,11 +476,11 @@ namespace Utility
 
         internal static bool MapDriveByConsole(string drive, string address)
         {
-            Console.WriteLine("[*] Attempting to map drive");
+            Debug.WriteLine("[*] Attempting to map drive");
             foreach(string s in Environment.GetLogicalDrives())
             {
                 if (char.ToUpper(s[0]).ToString().Equals(drive.ToUpper())){
-                    Console.WriteLine($"[*] Drive conflict found!\n\t=> Will override {drive}");
+                    Debug.WriteLine($"[*] Drive conflict found!\n\t=> Will override {drive}");
                     RemoveDriveByConsole(drive);
                 }
             }
@@ -444,7 +506,7 @@ namespace Utility
             catch (Exception ex)
             {
                 process.Dispose();
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 return false;
 
             }
@@ -453,7 +515,7 @@ namespace Utility
 
         internal static void RemoveDriveByConsole(string drive)
         {
-            Console.WriteLine($"[*] Attempting to remove {drive}");
+            Debug.WriteLine($"[*] Attempting to remove {drive}");
             Process process = new Process();
             try
             {
@@ -471,7 +533,7 @@ namespace Utility
                 string output = process.StandardOutput.ReadToEnd();
                 if (!output.Contains("success"))
                 {
-                    Console.WriteLine("[!] Could not remove mounted drive!");
+                    Debug.WriteLine("[!] Could not remove mounted drive!");
                     throw new Exception("\t=> Drive removal failed");
                 }
                 process.Dispose();
@@ -479,7 +541,7 @@ namespace Utility
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message}");
+                Debug.WriteLine($"{ex.Message}");
                 process.Dispose();
             }
 

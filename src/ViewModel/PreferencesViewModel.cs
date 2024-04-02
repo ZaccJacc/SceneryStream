@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Platform;
+using Utility;
+using System.Diagnostics;
 
 namespace SceneryStream.src.ViewModel
 {
@@ -65,6 +69,17 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
+        private string? _sceneryToAdd;
+        public string SceneryToAdd
+        {
+            get => _sceneryToAdd ?? string.Empty;
+            set
+            {
+                _sceneryToAdd= value;
+                NotifyPropertyChanged(nameof(SceneryToAdd));
+            }
+        }
+
         private string? _selectedExtraInstallationItem;
         public string SelectedExtraInstallationItem
         {
@@ -75,10 +90,6 @@ namespace SceneryStream.src.ViewModel
                 NotifyPropertyChanged(nameof(SelectedExtraInstallationItem));
             }
         }
-
-        
-
-        
 
         //-//
 
@@ -105,7 +116,12 @@ namespace SceneryStream.src.ViewModel
                     LogInstallationDirectory();
                     break;
             }
-            
+        }
+
+        public async void SelectSceneryLocation()
+        {
+            SceneryToAdd = (await Utility.FileBrowser.produceBrowser("Directory")).ToString() ?? string.Empty;
+            LogSceneryDirectory();
         }
 
         public async void ResetPreferences()
@@ -114,8 +130,11 @@ namespace SceneryStream.src.ViewModel
             {
                 App.Preferences.ServerAddress = null;
                 App.Preferences.MultipleSims = false;
+                App.Preferences.MultipleScenes = false;
                 App.Preferences.DriveLetter = "A";
                 App.Preferences.SimDirectory = null;
+                App.Preferences.InstallationPathsCollection.Clear();
+                App.Preferences.SceneryPathsCollection.Clear();
             });
         }
 
@@ -126,7 +145,6 @@ namespace SceneryStream.src.ViewModel
 
         public void LogInstallationDirectory()
         {
-            PViewModel.InstallationListVisible = true;
             App.Preferences.InstallationPathsCollection.Add(InstallationToAdd);
             InstallationToAdd = string.Empty;
         }
@@ -134,19 +152,65 @@ namespace SceneryStream.src.ViewModel
         public void RemoveExtraInstallation(object? item)
         {
             App.Preferences.InstallationPathsCollection.Remove((string)item);
-            if(App.Preferences.InstallationPathsCollection.Count < 1)
-            {
-                PViewModel.InstallationListVisible = false;
-            }
+        }
+
+        public void LogSceneryDirectory()
+        {
+            App.Preferences.SceneryPathsCollection.Add(SceneryToAdd);
+            SceneryToAdd = string.Empty;
         }
 
         public void RemoveExtraSceneryDirectory(object? item)
         {
             App.Preferences.SceneryPathsCollection.Remove((string)item);
-            if(App.Preferences.SceneryPathsCollection.Count < 1)
+        }
+
+        internal async void ToggleConnection(object? sender, PointerPressedEventArgs args)
+        {
+            Debug.WriteLine("[*] Connection Manually Triggered");
+            switch (App.ServiceInstance.Connected)
             {
-                PViewModel.SceneryListVisible = false;
+                case true:
+                    NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    break;
+
+                case false:
+                    if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
+                    {
+                        HomeViewModel.HViewModel.Source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
+                        await App.ServiceInstance.MakeConnection();
+                        if (App.ServiceInstance.Connected)
+                        {
+                            ServerFormat.Format.LoadServerConfiguration(string.Empty);
+                        }
+                    }
+                    break;
             }
         }
+
+
+        internal async void ToggleConnection()
+        {
+            Debug.WriteLine("[*] Connection Manually Triggered");
+            switch (App.ServiceInstance.Connected)
+            {
+                case true:
+                    NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    break;
+
+                case false:
+                    if (!string.IsNullOrEmpty(App.Preferences.ServerAddress))
+                    {
+                        HomeViewModel.HViewModel.Source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
+                        await App.ServiceInstance.MakeConnection();
+                        if (App.ServiceInstance.Connected)
+                        {
+                            ServerFormat.Format.LoadServerConfiguration(string.Empty);
+                        }
+                    }
+                    break;
+            }
+        }
+
     }
 }

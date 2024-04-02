@@ -2,6 +2,7 @@
 using Avalonia.Platform;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -76,9 +77,32 @@ namespace SceneryStream.src.Model
                 Image = new(AssetLoader.Open(ImageLocation)); 
             }
             else 
-            { if (ImageLocation.ToString().ToUpper().Contains("HTTP://") || ImageLocation.ToString().ToUpper().Contains("HTTPS://"))
+            { 
+                if (ImageLocation.ToString().ToUpper().Contains("HTTP://") || ImageLocation.ToString().ToUpper().Contains("HTTPS://"))
                 {
                     LoadFromWeb(ImageLocation);
+                }
+                else
+                {
+                    if (ImageLocation.ToString().Contains("srvload"))
+                    {
+                        string[] locationSplit = ImageLocation.OriginalString.Split(':');
+                        switch (App.ServiceInstance.Platform.ToString())
+                        {
+                            case "Win32NT":
+                                Image = new Bitmap($@"{App.Preferences.DriveLetter}:\{locationSplit[1]}");
+                                break;
+
+                            case "Unix":
+                                Image = new Bitmap($@"~/mnt/{App.Preferences.DriveLetter}:\{locationSplit[1]}");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Image = new Bitmap(ImageLocation.OriginalString);
+                    }
+                    
                 }
             }
             _title = title;
@@ -98,7 +122,7 @@ namespace SceneryStream.src.Model
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"An error occurred while downloading image '{url}' : {ex.Message}");
+                Debug.WriteLine($"An error occurred while downloading image '{url}' : {ex.Message}");
             }
         }
     }

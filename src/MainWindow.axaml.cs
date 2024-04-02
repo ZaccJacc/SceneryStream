@@ -11,6 +11,7 @@ using Utility;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using SceneryStream.src.ViewModel;
+using System.Diagnostics;
 
 namespace SceneryStream.src
 {
@@ -23,12 +24,11 @@ namespace SceneryStream.src
             try
             {
                 NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
-                File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\zOrtho_xss_mount.lnk");
-                File.Delete(App.Preferences.SimDirectory + @"\Custom Scenery\airports_xss_mount.lnk");
+                RegionHandling.Regions.RemoveShellLinks();
             }
             catch (Exception)
             {
-                Console.WriteLine("Shutdown incomplete");
+                Debug.WriteLine("Shutdown incomplete");
             }
             //WindowState = WindowState.Minimized;
             //e.Cancel = true;
@@ -39,7 +39,38 @@ namespace SceneryStream.src
         public MainWindow()
         {
             InitializeComponent();
+            MovementRegion.PointerPressed += MovementRegion_PointerPressed;
+            MovementRegion.PointerMoved += MovemenetRegion_PointerMoved;
+            MovementRegion.PointerReleased += MovementRegion_PointerReleased;
         }
 
+        private bool _mouseDownForWindowMoving = false;
+        private PointerPoint _originalPoint;
+
+        private void MovemenetRegion_PointerMoved(object? sender, PointerEventArgs e)
+        {
+            if (!_mouseDownForWindowMoving) return;
+            WindowState = WindowState.Normal;
+            PointerPoint currentPoint = e.GetCurrentPoint(this);
+            Position = new PixelPoint(Position.X + (int)(currentPoint.Position.X - _originalPoint.Position.X),
+                Position.Y + (int)(currentPoint.Position.Y - _originalPoint.Position.Y));
+        }
+
+        private void MovementRegion_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                WindowState = WindowState == WindowState.Normal ? WindowState.FullScreen : WindowState.Normal;
+                return;
+            }
+            _mouseDownForWindowMoving = true;
+            _originalPoint = e.GetCurrentPoint(this);
+            
+        }
+
+        private void MovementRegion_PointerReleased(object? sender, PointerReleasedEventArgs e)
+        {
+            _mouseDownForWindowMoving = false;
+        }
     }
 }

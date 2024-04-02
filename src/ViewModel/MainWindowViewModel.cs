@@ -1,4 +1,8 @@
-﻿using SceneryStream.src.Model;
+﻿using Avalonia;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.CodeAnalysis.Operations;
+using SceneryStream.src.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SceneryStream.src.ViewModel
 {
-    internal class MainWindowViewModel : ObservableObject
+    internal partial class MainWindowViewModel : ObservableObject
     {
         //--Window Views--//
         private static readonly View.HomeView homeView = new();
@@ -15,7 +19,17 @@ namespace SceneryStream.src.ViewModel
         private static readonly View.MapView mapView = new();
         private static readonly View.SceneryView sceneryView = new();
         private static readonly View.CreditsView creditsView = new();
+        private static readonly View.ServerFormattingView serverFormattingView = new();
         //--//
+
+        [RelayCommand]
+        private static void CloseMainWindow(object? window) => ((Window)window).Close();
+
+        [RelayCommand]
+        private static void MaximiseMainWindow(object? window) => ((Window)window).WindowState = ((Window)window).WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+
+        [RelayCommand]
+        private static void MinimiseMainWindow(object? window) => ((Window)window).WindowState = WindowState.Minimized;
 
         private bool _homePageSelected = true;
         public bool HomePageSelected
@@ -30,6 +44,7 @@ namespace SceneryStream.src.ViewModel
                     MapSelected = false;
                     SceneryViewSelected = false;
                     CreditsSelected = false;
+                    ConfigSelected = false;
                 }
                 SetContentByIndex(0);
                 NotifyPropertyChanged(nameof(HomePageSelected));
@@ -54,6 +69,7 @@ namespace SceneryStream.src.ViewModel
                     MapSelected = false;
                     SceneryViewSelected = false;
                     CreditsSelected = false;
+                    ConfigSelected = false;
                     SetContentByIndex(1);
                 }
                 NotifyPropertyChanged(nameof(PreferencesSelected));
@@ -78,6 +94,7 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     SceneryViewSelected =false;
                     CreditsSelected = false;
+                    ConfigSelected = false;
                     SetContentByIndex(2);
                 }
                 NotifyPropertyChanged(nameof(MapSelected));
@@ -102,6 +119,7 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     MapSelected = false;
                     CreditsSelected = false;
+                    ConfigSelected = false;
                     SetContentByIndex(3);
                 }
                 NotifyPropertyChanged(nameof(SceneryViewSelected));
@@ -126,9 +144,35 @@ namespace SceneryStream.src.ViewModel
                     PreferencesSelected = false;
                     MapSelected = false;
                     SceneryViewSelected = false;
+                    ConfigSelected = false;
                     SetContentByIndex(4);
                 }
                 NotifyPropertyChanged(nameof(CreditsSelected));
+            }
+        }
+
+        private bool _configSelected;
+        public bool ConfigSelected
+        {
+            get => _configSelected;
+            set
+            {
+                if (_configSelected == true != value)
+                {
+                    _configSelected = value;
+                    HomePageSelected = true;
+                }
+                _configSelected = value;
+                if(value != false)
+                {
+                    HomePageSelected = false;
+                    PreferencesSelected = false;
+                    MapSelected = false;
+                    SceneryViewSelected = false;
+                    CreditsSelected = false;
+                    SetContentByIndex(5);
+                }
+                NotifyPropertyChanged(nameof(ConfigSelected));
             }
         }
 
@@ -147,6 +191,7 @@ namespace SceneryStream.src.ViewModel
 
         private void SetContentByIndex(int index)
         {
+
             switch (index)
             {
                 default:
@@ -168,6 +213,10 @@ namespace SceneryStream.src.ViewModel
 
                 case 4:
                     ContentToDisplay = creditsView;
+                    break;
+
+                case 5:
+                    ContentToDisplay = serverFormattingView;
                     break;
             }
         }

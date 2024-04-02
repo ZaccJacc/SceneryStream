@@ -6,10 +6,13 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using SceneryStream.src;
 using SceneryStream.src.Model;
-using SceneryStream.src.View;
 using SceneryStream.src.ViewModel;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+
+
+
 
 namespace SceneryStream
 {
@@ -39,6 +42,7 @@ namespace SceneryStream
             get => _storage;
         }
 
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -60,15 +64,15 @@ namespace SceneryStream
                 
                 if (!ServiceInstance.Platform_Verified)
                 {
-                    Console.WriteLine("[!] Unable to complete platform verification.");
+                    Debug.WriteLine("[!] Unable to complete platform verification.");
                 }
                 if (!ServiceInstance.Connected)
                 {
-                    Console.WriteLine("[!] Drive connection unsuccessful.\n\t=> Application initialisation complete.");
+                    Debug.WriteLine("[!] Drive connection unsuccessful.\n\t=> Application initialisation complete.");
                 }
                 if (ServiceInstance.Connected && ServiceInstance.Platform_Verified)
                 {
-                    Console.WriteLine("[#] Automatic initialisation success!");
+                    Debug.WriteLine("[#] Automatic initialisation success!");
                 }
                 HomeViewModel.ScanNewUpdates();
                 HomeViewModel.RefreshScenerySpotlight();
@@ -79,7 +83,7 @@ namespace SceneryStream
 
         public void QuitAppTrayCall(object? sender, RoutedEventArgs args)
         {
-            Console.WriteLine("Feature not yet implemented.");
+            Debug.WriteLine("Feature not yet implemented.");
         }
     }
 }
