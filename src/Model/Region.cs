@@ -281,54 +281,62 @@ namespace SceneryStream.src.Model
 
         internal void LoadSelectedRegions()
         {
-            using StreamReader sr = new(File.Open($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Scenery.xml", FileMode.Open), Encoding.UTF8);
-            XElement loadedRegions = XElement.Load(sr);
-            if(loadedRegions.Descendants("OriginServer").ElementAt(0).Value != ServerFormat.Format.ServerID)
+            try
             {
-                Debug.WriteLine("[!] Servers do not match. Cannot load scenery from an unknown server.");
-                return;
-            }
-            IEnumerable<XElement> NodeChildRegions = loadedRegions.Descendants("ChildRegion");
-            foreach (XElement node in NodeChildRegions)
-            {
-                try
+                StreamReader sr = new(File.Open($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/SceneryStream/Data/Scenery.xml", FileMode.OpenOrCreate), Encoding.UTF8);
+                XElement loadedRegions = XElement.Load(sr);
+                if (loadedRegions.Descendants("OriginServer").ElementAt(0).Value != ServerFormat.Format.ServerID)
                 {
-                    ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), node.Descendants("ID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), node.Descendants("ParentID").ElementAt(0).Value));
-                    currentRegion.Selected = (bool)node.Descendants("Selected").ElementAt(0);
-                    if (currentRegion.Selected && !SelectedChildRegions.Contains(currentRegion))
-                    {
-                        SelectedChildRegions.Add(currentRegion);
-                    }
+                    Debug.WriteLine("[!] Servers do not match. Cannot load scenery from an unknown server.");
+                    return;
                 }
-                catch (Exception e)
+                IEnumerable<XElement> NodeChildRegions = loadedRegions.Descendants("ChildRegion");
+                foreach (XElement node in NodeChildRegions)
                 {
-                    Debug.WriteLine($"[!] Could not locate region.\n\t=>{e.Message}");
-                }
-                
-            }
-            foreach(XElement SceneryNode in loadedRegions.Descendants("SceneryItem")) 
-            {
-                try
-                {
-                    ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), SceneryNode.Descendants("RegionID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), SceneryNode.Descendants("ParentID").ElementAt(0).Value));
-                    foreach (SceneryItem scenery in currentRegion.SceneryItems)
+                    try
                     {
-                        if (scenery.SceneryID == SceneryNode.Descendants("SceneryID").ElementAt(0).Value)
+                        ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), node.Descendants("ID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), node.Descendants("ParentID").ElementAt(0).Value));
+                        currentRegion.Selected = (bool)node.Descendants("Selected").ElementAt(0);
+                        if (currentRegion.Selected && !SelectedChildRegions.Contains(currentRegion))
                         {
-                            scenery.Selected = true;
-                            if (!SelectedSceneryItems.Contains(scenery))
-                            {
-                                SelectedSceneryItems.Add(scenery);
-                            }
-                            
+                            SelectedChildRegions.Add(currentRegion);
                         }
                     }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"[!] Could not locate region.\n\t=>{e.Message}");
+                    }
+
                 }
-                catch(Exception e) 
-                { 
-                    Debug.WriteLine($"[!] Could not locate scenery item.\n\t=> {e.Message}"); 
+                foreach (XElement SceneryNode in loadedRegions.Descendants("SceneryItem"))
+                {
+                    try
+                    {
+                        ChildRegion currentRegion = GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), SceneryNode.Descendants("RegionID").ElementAt(0).Value), (RegionID)Enum.Parse(typeof(RegionID), SceneryNode.Descendants("ParentID").ElementAt(0).Value));
+                        foreach (SceneryItem scenery in currentRegion.SceneryItems)
+                        {
+                            if (scenery.SceneryID == SceneryNode.Descendants("SceneryID").ElementAt(0).Value)
+                            {
+                                scenery.Selected = true;
+                                if (!SelectedSceneryItems.Contains(scenery))
+                                {
+                                    SelectedSceneryItems.Add(scenery);
+                                }
+
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"[!] Could not locate scenery item.\n\t=> {e.Message}");
+                    }
                 }
             }
+            catch (Exception)
+            {
+                Debug.WriteLine("[!] Could not load the savefile.");
+            }
+                      
         }
 
         internal async void GenerateShellLinks(object? devparam)
