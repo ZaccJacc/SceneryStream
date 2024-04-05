@@ -172,6 +172,7 @@ namespace SceneryStream.src.ViewModel
             {
                 case true:
                     NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    ServerFormat.FlushAttributedSceneries();
                     break;
 
                 case false:
@@ -179,10 +180,7 @@ namespace SceneryStream.src.ViewModel
                     {
                         HomeViewModel.HViewModel.Source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
                         await App.ServiceInstance.MakeConnection();
-                        if (App.ServiceInstance.Connected)
-                        {
-                            ServerFormat.Format.LoadServerConfiguration(string.Empty);
-                        }
+                        App.ServiceInstance.LoadDataPostConnection();
                     }
                     break;
             }
@@ -196,6 +194,7 @@ namespace SceneryStream.src.ViewModel
             {
                 case true:
                     NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    ServerFormat.FlushAttributedSceneries();
                     break;
 
                 case false:
@@ -203,10 +202,7 @@ namespace SceneryStream.src.ViewModel
                     {
                         HomeViewModel.HViewModel.Source = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Status/Connecting_Circle.png")));
                         await App.ServiceInstance.MakeConnection();
-                        if (App.ServiceInstance.Connected)
-                        {
-                            ServerFormat.Format.LoadServerConfiguration(string.Empty);
-                        }
+                        App.ServiceInstance.LoadDataPostConnection();
                     }
                     break;
             }

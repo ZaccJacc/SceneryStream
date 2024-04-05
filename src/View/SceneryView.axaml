@@ -29,7 +29,7 @@
 		</Style>
 		
 		<Style Selector="Border.Help.Open">
-			<Setter Property="Height" Value="320"/>
+			<Setter Property="Height" Value="420"/>
 		</Style>
 		
 		<Style Selector="Border.SceneryDialog">
@@ -75,7 +75,7 @@
 								<Label Content="Back" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 							</Panel>
 						</Button>
-						<Button Command="{Binding SaveSelectedRegions}" Width="110" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 183 0">
+						<Button Command="{Binding Regions.SaveSelectedRegions}" Width="110" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 183 0">
 							<Button.DataContext>
 								<model:RegionHandling/>
 							</Button.DataContext>
@@ -101,9 +101,12 @@
 						Use the maps to focus on different regions and select scenery.
 					</TextBlock>
 					<TextBlock TextWrapping="Wrap" Margin="15 120 15 15" FontSize="18">
-						In some regions (like the USA) double clicking will allow you to select states, whilst right clicking will provide you with a list of smaller scenery items such as airports to choose from in each of the marked areas.
+						In some regions (like the USA) double clicking will allow you to select / deselect states, whilst right clicking will provide you with a list of smaller scenery items such as airports to choose from in each of the marked areas.
 					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Margin="15 215 15 15" FontSize="18">
+					<TextBlock TextWrapping="Wrap" Margin="15 235 15 15" FontSize="18">
+						When you select a new region or scenery item, it will be automatically attached to your simulator. Deselecting scenery items will not take effect until you restart the application.
+					</TextBlock>
+					<TextBlock TextWrapping="Wrap" Margin="15 330 15 15" FontSize="18">
 						Some regions will not have further scenery offerings beyond their orthographic imagery, and some may not have any offerings at all. Keep an eye out on the scenery spotlight for new releases and updates.
 					</TextBlock>
 					<Button x:Name="CloseHelpButton" Command="{Binding ToggleHelpCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 15 0" Background="Transparent" IsVisible="{Binding HelpOpen}">
@@ -143,9 +146,9 @@
 														</Label.Content>
 													</Label>
 													<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
-													<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3"/>
+													<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3" TextWrapping="Wrap"/>
 												</StackPanel>
-												<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{model:RegionLocator {Binding RegionID}, {Binding ParentID}}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" Margin="0 0 15 0"/>
+												<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{model:RegionLocator {Binding RegionID}, {Binding ParentID}}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" Margin="0 45 15 0"/>
 											</Panel>
 										</Border>
 									</DataTemplate>

@@ -326,6 +326,10 @@ internal partial class SceneryViewModel : CommunityToolkit.Mvvm.ComponentModel.O
                         }
                     }
                 }
+                if(App.ServiceInstance.Connected && region.PrimaryOrtho != null)
+                {
+                    RegionHandling.Regions.AddOneShellLink(region.PrimaryOrtho);
+                }
                 break;
 
             case false:
@@ -349,6 +353,7 @@ internal partial class SceneryViewModel : CommunityToolkit.Mvvm.ComponentModel.O
             if(item.Selected && !SelectedSceneryItems.Contains(item))
             {
                 SelectedSceneryItems.Add(item);
+                Regions.AddOneShellLink(item);
             } 
             else
             {

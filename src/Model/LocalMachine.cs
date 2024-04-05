@@ -107,12 +107,7 @@ namespace SceneryStream.src.Model
                     {
                         await MakeConnection(); //connect to the server if the preferences were not fatally malformed and there is a server address provided.
                     }
-                    if (Connected)
-                    {
-                        await ServerFormat.Format.LoadServerConfiguration(string.Empty);
-                        RegionHandling.Regions.LoadSelectedRegions();
-                        RegionHandling.Regions.GenerateShellLinks(string.Empty);
-                    }
+                    LoadDataPostConnection();
                 });
                 
             }
@@ -161,6 +156,7 @@ namespace SceneryStream.src.Model
             catch
             {
                 Debug.WriteLine("[!] Untraced connection error."); //DBUG
+                App.ServiceInstance.PingReplyTime = "-";
                 return false;
             }
         }
@@ -187,6 +183,16 @@ namespace SceneryStream.src.Model
                         Connected = await attempt_unix_mounting;
                         break;
                 }
+            }
+        }
+
+        internal async void LoadDataPostConnection()
+        {
+            if (Connected)
+            {
+                await ServerFormat.Format.LoadServerConfiguration(string.Empty);
+                RegionHandling.Regions.LoadSelectedRegions();
+                RegionHandling.Regions.GenerateShellLinks(string.Empty);
             }
         }
     }
@@ -493,7 +499,7 @@ namespace Utility
                 {
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     FileName = $"net",
                     Arguments = $"use {drive}: {address} password /USER:Guest"
                 };
@@ -523,7 +529,7 @@ namespace Utility
                 {
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     FileName = $"net",
                     Arguments = $"use {drive}: /delete /y"
                 };

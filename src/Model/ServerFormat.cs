@@ -213,6 +213,7 @@ namespace SceneryStream.src.Model
                         if (bool.Parse(OrthoItem.Attribute("Primary").Value) == true)
                         {
                             targetRegion.PrimaryOrtho = item;
+                            targetRegion.PrimaryOrthoAvailable = true;
                         }
                         else
                         {

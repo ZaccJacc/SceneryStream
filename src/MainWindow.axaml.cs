@@ -33,6 +33,7 @@ namespace SceneryStream.src
             //WindowState = WindowState.Minimized;
             //e.Cancel = true;
             await PreferencesModel.SavePreferences();
+            RegionHandling.Regions.SaveSelectedRegions();
             ApplicationViewModel.ExitApplication();
         }
 

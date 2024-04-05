@@ -74,7 +74,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="25 150 0 0">
 							<Label Content="Server Location:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" />
-							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerLocation}">
+							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerLocation}" IsVisible="{Binding Path=DataContext.ServiceInstance.Connected, ElementName=PingBox}">
 								<TextBlock.DataContext>
 									<model:ServerFormat/>
 								</TextBlock.DataContext>
@@ -82,7 +82,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="280 150 0 0">
 							<Label Content="Server Provider:" FontSize="20" FontWeight="Light" HorizontalAlignment="Left" VerticalAlignment="Top" />
-							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerProvider}">
+							<TextBlock FontStyle="Italic" Margin="5 1 0 0" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{Binding Format.ServerProvider}" IsVisible="{Binding Path=DataContext.ServiceInstance.Connected, ElementName=PingBox}">
 								<TextBlock.DataContext>
 									<model:ServerFormat/>
 								</TextBlock.DataContext>

@@ -75,13 +75,8 @@ namespace SceneryStream.src.Model
 
         internal SceneryItem PrimaryOrtho = null;
 
-        public bool PrimaryOrthoAvailable
-        {
-            get
-            {
-                return PrimaryOrtho != null;
-            }
-        }
+        [ObservableProperty]
+        private bool _primaryOrthoAvailable = false;
         
 
         [ObservableProperty]
@@ -337,6 +332,27 @@ namespace SceneryStream.src.Model
                 Debug.WriteLine("[!] Could not load the savefile.");
             }
                       
+        }
+
+        internal async void AddOneShellLink(SceneryItem item)
+        {
+            if (item.Path.Contains("srvload:"))
+            {
+                switch (App.ServiceInstance.Platform)
+                {
+                    default:
+                        return;
+
+                    case PlatformID.Win32NT:
+                        SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, item.Path.Split("srvload:")[1], @$"{App.Preferences.SimDirectory}\Custom Scenery", item.Type, $"{item.Title}"));
+                        foreach (string ExtraPath in App.Preferences.InstallationPathsCollection)
+                        {
+                            SessionGeneratedShellLinksLocal.Add(await Utility.Win32.createShortcut(App.Preferences.DriveLetter, item.Path.Split("srvload:")[1], @$"{ExtraPath}\Custom Scenery", item.Type, $"{item.Title}"));
+                        }
+                        SessionGeneratedShellLinksRemote.Add(item.Path);
+                        break;
+                }
+            }
         }
 
         internal async void GenerateShellLinks(object? devparam)
