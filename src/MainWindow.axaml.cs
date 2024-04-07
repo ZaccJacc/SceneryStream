@@ -1,17 +1,7 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using SceneryStream.src.Model;
-using SceneryStream.src.View;
-using System;
-using System.ComponentModel;
-using System.IO;
-using Utility;
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using SceneryStream.src.ViewModel;
-using System.Diagnostics;
 
 namespace SceneryStream.src
 {
@@ -21,34 +11,24 @@ namespace SceneryStream.src
         protected override async void OnClosing(WindowClosingEventArgs e)
         {
             base.OnClosing(e);
-            try
-            {
-                NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
-                RegionHandling.Regions.RemoveShellLinks();
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Shutdown incomplete");
-            }
-            //WindowState = WindowState.Minimized;
-            //e.Cancel = true;
+            this.Hide();
+            e.Cancel = true;
             await PreferencesModel.SavePreferences();
             RegionHandling.Regions.SaveSelectedRegions();
-            ApplicationViewModel.ExitApplication();
         }
 
         public MainWindow()
         {
             InitializeComponent();
             MovementRegion.PointerPressed += MovementRegion_PointerPressed;
-            MovementRegion.PointerMoved += MovemenetRegion_PointerMoved;
+            MovementRegion.PointerMoved += MovementRegion_PointerMoved;
             MovementRegion.PointerReleased += MovementRegion_PointerReleased;
         }
 
         private bool _mouseDownForWindowMoving = false;
         private PointerPoint _originalPoint;
 
-        private void MovemenetRegion_PointerMoved(object? sender, PointerEventArgs e)
+        private void MovementRegion_PointerMoved(object? sender, PointerEventArgs e)
         {
             if (!_mouseDownForWindowMoving) return;
             WindowState = WindowState.Normal;

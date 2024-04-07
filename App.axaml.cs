@@ -74,16 +74,9 @@ namespace SceneryStream
                 {
                     Debug.WriteLine("[#] Automatic initialisation success!");
                 }
-                HomeViewModel.ScanNewUpdates();
-                HomeViewModel.RefreshScenerySpotlight();
             }
 
             base.OnFrameworkInitializationCompleted();
-        }
-
-        public void QuitAppTrayCall(object? sender, RoutedEventArgs args)
-        {
-            Debug.WriteLine("Feature not yet implemented.");
         }
     }
 }

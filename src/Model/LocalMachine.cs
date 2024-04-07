@@ -1,14 +1,9 @@
-﻿using Avalonia.Controls;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 using SceneryStream;
-using SceneryStream.src.Model;
-using SceneryStream.src.View;
 using SceneryStream.src.ViewModel;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -71,7 +66,7 @@ namespace SceneryStream.src.Model
         /// <summary>
         /// Verify the operating system that .NET is running on so that the correct method for target server mounting can be used.<br/>
         /// Verify that the target socket is responsive.<br/>
-        /// Attempt to mount the target server location specified in the application configuration settings (TBC)
+        /// Attempt to mount the target server location specified in the application configuration settings.
         /// </summary>
         public async Task BuildServiceAuthenticity()
         {
@@ -373,7 +368,7 @@ namespace Utility
 
     class Win32
     {
-        internal static async Task<string> createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type, string link_name) //code from stackoverflow, credit to Simon Mourier.
+        internal static async Task<string> createShortcut(string mounted_drive,string link_path, string link_location, string scenery_type, string link_name)
         {
             return await Task.Run(() =>
             {
@@ -393,21 +388,21 @@ namespace Utility
                     {
                         case "o":
                         case "ortho":
-                            file.Save(Path.Combine(link_location, $"zOrtho_xss_{link_name}.lnk"), false);
+                            file.Save(Path.Combine(link_location, $"zOrtho - XSS - {link_name}.lnk"), false);
                             Debug.WriteLine("\t=> Made ortho shortcut");
-                            return Path.Combine(link_location, $"zOrtho_xss_{link_name}.lnk");
+                            return Path.Combine(link_location, $"zOrtho - XSS - {link_name}.lnk");
 
                         case "a":
                         case "airport":
-                            file.Save(Path.Combine(link_location, $"airports_xss_{link_name}.lnk"), false);
-                            Debug.WriteLine("\t=> Made airports shortcut");
-                            return Path.Combine(link_location, $"airports_xss_{link_name}.lnk");
+                            file.Save(Path.Combine(link_location, $"Airport - XSS - {link_name}.lnk"), false);
+                            Debug.WriteLine("\t=> Made airport shortcut");
+                            return Path.Combine(link_location, $"Airport - XSS-{link_name}.lnk");
 
                         case "l":
                         case "library":
-                            file.Save(Path.Combine(link_location, $"lib_xss_{link_name}.lnk"), false);
+                            file.Save(Path.Combine(link_location, $"Lib - XSS - {link_name}.lnk"), false);
                             Debug.WriteLine("\t=> Made library shortcut");
-                            return Path.Combine(link_location, $"lib_xss_{link_name}.lnk");
+                            return Path.Combine(link_location, $"Lib - XSS - {link_name}.lnk");
 
                         default:
                             return "";

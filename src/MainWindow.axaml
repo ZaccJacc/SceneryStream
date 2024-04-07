@@ -1,10 +1,10 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-        x:Class="SceneryStream.src.MainWindow"
-        Title="X Scenery Streaming"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+		x:Class="SceneryStream.src.MainWindow"
+		Title="X Scenery Streaming"
 		MinWidth="1000"
 		MinHeight="600"
 		xmlns:views="clr-namespace:SceneryStream.src.View"
@@ -58,50 +58,49 @@
 		</Button>
 		<!--Sidebar-->
 		<Rectangle Width="280" Height="1088" Fill="{DynamicResource ChromeHigh}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-		<!--Label ZIndex="2" Content="Alpha0.21.0" FontFamily="Consolas" FontWeight="Bold" Foreground="#909193" FontSize="20" VerticalAlignment="Bottom" Margin="25 0 0 15"/-->
 		<!--New buttons for manual sidebar layout-->
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 115 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 145 0 0" Width="250" Padding="10" IsChecked="{Binding HomePageSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
 				<ic:SymbolIcon Symbol="Home" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
+	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+	Path=IsChecked}"/>
 				<Label Content="Home" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>	
 		</ToggleButton>
 
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 225 0 0" Width="250" Padding="10" IsChecked="{Binding SceneryViewSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 255 0 0" Width="250" Padding="10" IsChecked="{Binding SceneryViewSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
-				<ic:SymbolIcon Symbol="MultiselectLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
+				<ic:SymbolIcon Symbol="Map" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+	Path=IsChecked}"/>
 				<Label Content="Scenery" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>
 		</ToggleButton>
 		
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 335 0 0" Width="250" Padding="10" IsChecked="{Binding ConfigSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 365 0 0" Width="250" Padding="10" IsChecked="{Binding ConfigSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
 				<ic:SymbolIcon Symbol="Server" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
+	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+	Path=IsChecked}"/>
 				<Label Content="Server" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>
 		</ToggleButton>
 		
 
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 445 0 0" Width="250" Padding="10" IsChecked="{Binding PreferencesSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 475 0 0" Width="250" Padding="10" IsChecked="{Binding PreferencesSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
 				<ic:SymbolIcon Symbol="SettingsCogMultiple" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
+	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+	Path=IsChecked}"/>
 				<Label Content="Options" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center"/>
 			</Panel>
 		</ToggleButton>
 		
-		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 555 0 0" Width="250" Padding="10" IsChecked="{Binding CreditsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
+		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 585 0 0" Width="250" Padding="10" IsChecked="{Binding CreditsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
-				<ic:SymbolIcon Symbol="ClipboardTaskListLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
-    {RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
-    Path=IsChecked}"/>
+				<ic:SymbolIcon Symbol="ClipboardTextLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
+	Path=IsChecked}"/>
 				<Label Content="Credits" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center" />
 			</Panel>
 		</ToggleButton>

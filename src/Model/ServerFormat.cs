@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DynamicData;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -106,7 +104,7 @@ namespace SceneryStream.src.Model
 
         /// <summary>
         /// Will load the server configuration information from the xml file on the server and display it. This allows for servers to have their sceneries attributed to certain regions without the need for a strong file structure.<br/>
-        /// The config file will not be loaded if there is an XSS.Block file present, to allow for better data protection on publicly accessible servers.
+        /// The config file will not be loaded if there is an .SCAN.Block file present, to allow for better data protection on publicly accessible servers.
         /// </summary>
         /// <param name="param">When not empty or null, will trigger loading from the test folder in the AppData directory rather than the server.</param>
         internal async Task LoadServerConfiguration(object? param)

@@ -1,6 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="SceneryStream.App"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 x:Class="SceneryStream.App"
 			 RequestedThemeVariant="Light"
 			 xmlns:views="clr-namespace:SceneryStream.src.View"
 			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
@@ -25,7 +25,7 @@
 
 	<!--Spend some time turning these themes vvvv into a ResourceDictionary.ThemeDictionaries https://docs.avaloniaui.net/docs/guides/styles-and-resources/how-to-use-theme-variants-->
 	
-    <Application.Styles>
+	<Application.Styles>
 		<FluentTheme>
 			<FluentTheme.Palettes>
 				<ColorPaletteResources x:Key="Light" Accent="#ff004d8b" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ffaab2cc" BaseMedium="#ff5f759b" BaseMediumHigh="#ff2d4d7a" BaseMediumLow="#ff46618a" ChromeAltLow="#ff2d4d7a" ChromeBlackHigh="Black" ChromeBlackLow="#ffaab2cc" ChromeBlackMedium="#ff2d4d7a" ChromeBlackMediumLow="#ff5f759b" ChromeDisabledHigh="#ffaab2cc" ChromeDisabledLow="#ff5f759b" ChromeGray="#ff46618a" ChromeHigh="#ffaab2cc" ChromeLow="#ffdce3f8" ChromeMedium="#ffd2d9ef" ChromeMediumLow="#ffdce3f8" ChromeWhite="White" ListLow="#ffd2d9ef" ListMedium="#ffaab2cc" RegionColor="#fff6f7ff" />
@@ -92,7 +92,7 @@
 		<Style Selector="Button">
 			<Setter Property="FontFamily" Value="Dosis"/>
 		</Style>
-    </Application.Styles>
+	</Application.Styles>
 
 	<TrayIcon.Icons>
 		<TrayIcons>
@@ -103,6 +103,7 @@
 						<NativeMenuItem Header="Connect" Command="{Binding ToggleConnection}"/>
 						<NativeMenuItem Header="Disconnect" Command="{Binding ToggleConnection}"/>
 						<NativeMenuItemSeparator />
+						<NativeMenuItem Header="Show"  Command="{Binding OpenWindow}"/>
 						<NativeMenuItem Header="Quit"  Command="{Binding ExitApplication}"/>
 					</NativeMenu>
 				</TrayIcon.Menu>

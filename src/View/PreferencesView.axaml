@@ -128,7 +128,7 @@
 		<!--Scenery scanning settings-->
 		<Border Grid.Column="0" Grid.Row="1" CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3" Background="#d8dae3" Margin="15" Padding="15">
 			<Panel>
-				<Label Content="Installation Settings" FontSize="32" FontWeight="Medium" Margin="5 5"/>
+				<Label Content="Server Settings" FontSize="32" FontWeight="Medium" Margin="5 5"/>
 				<Label Content="Scenery Server Address" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 75"/>
 				<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" FontFamily="Dosis" FontSize="16" Height="35" Width="240" HorizontalAlignment="Left" Margin="8 115 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}">
 					<TextBox.DataContext>

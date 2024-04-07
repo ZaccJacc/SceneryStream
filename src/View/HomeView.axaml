@@ -40,10 +40,10 @@
 												<Label Content="{Binding Title}" Margin="15 15 5 0" FontSize="28" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
 												<TextBlock Margin="18 54 5 0" Text="{Binding Creator}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="18" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
 												<TextBlock Margin="15 365 5 0" Text="{Binding Description}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
-												<Border Background="#d8dae3" CornerRadius="3" Height="350" MinWidth="350" VerticalAlignment="Top" HorizontalAlignment="Center" ClipToBounds="True">
+												<Border Background="Transparent" CornerRadius="3" Height="350" MinWidth="350" VerticalAlignment="Top" HorizontalAlignment="Center" ClipToBounds="True">
 													<Panel>
-														<Image Source="avares://SceneryStream/Assets/WhiteGradient.png" Stretch="Fill" Height="280" ZIndex="3" VerticalAlignment="Top"/>
-														<Image Source="{Binding Image}" Stretch="Fill"/>
+														<Image Source="avares://SceneryStream/Assets/WhiteGradient.png" Stretch="Fill" Height="160" ZIndex="3" VerticalAlignment="Top"/>
+														<Image Source="{Binding Image}" Stretch="UniformToFill"/>
 													</Panel>
 												</Border>
 											</Panel>

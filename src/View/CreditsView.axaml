@@ -5,39 +5,23 @@
              mc:Ignorable="d" d:DesignWidth="1620" d:DesignHeight="1080"
              x:Class="SceneryStream.src.View.CreditsView">
 	<Grid>
-		<Panel>
-			<ExperimentalAcrylicBorder IsHitTestVisible="False">
-				<ExperimentalAcrylicBorder.Material>
-					<ExperimentalAcrylicMaterial
-						BackgroundSource="Digger"
-						TintColor="#f0f0f0"
-						TintOpacity="0.8"
-						MaterialOpacity="0.5" />
-				</ExperimentalAcrylicBorder.Material>
-			</ExperimentalAcrylicBorder>
-		</Panel>
 		<Label Content="Credits" Margin="90,80,0,0" FontFamily="Abadi" FontSize="25" FontWeight="Medium" VerticalAlignment="Top"/>
 		<Label Content="This software was developed and designed by" Margin="90,130,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium" VerticalAlignment="Top"/>
-		<Label Content="Croissant	and	Simleybob" Margin="90,160,0,0" FontSize="15" VerticalAlignment="Top"/>
+		<Label Content="Zac Jackson" Margin="90,160,0,0" FontSize="15" VerticalAlignment="Top"/>
 		<Label Content="This software was built using" Margin="90,200,0,0" FontFamily="Abadi" FontSize="18" FontWeight="Medium" FontStyle="Italic" VerticalAlignment="Top"/>
-		<Label Content="Avalonia UI, MapsUI" Margin="90,230,0,0" FontSize="15" FontStyle="Italic" VerticalAlignment="Top"/>
+		<Label Content="Avalonia UI, FluentIcons" Margin="90,230,0,0" FontSize="15" FontStyle="Italic" VerticalAlignment="Top"/>
 		<!---->
-		<TextBlock Margin="90 700 0 0" FontFamily="Consolas" FontSize="15" VerticalAlignment="Bottom" TextWrapping="Wrap" Width="900">
-Software copyright © XSS 2022-23
+		<TextBlock Margin="0 0 0 150" HorizontalAlignment="Center" FontFamily="Consolas" FontSize="15" VerticalAlignment="Bottom" TextWrapping="Wrap" xml:space="preserve">
+Software copyright © XSS 2022-24
 
 Unauthorised redistribution, modification, or other usage of this software is a punishable offence. Please contact the team directly to report this or ask for authorisation.
 
-This 'X-Plane Scenery Streaming' (XSS) software was made by CTDevelopments. All software attributions go to the CTDevelopments team.
+This 'X Scenery Streaming' (XSS) software was made by Zac Jackson.
 
 All Laminar Research associated branding including "X-Plane", "X-Plane 11", "X-Plane 12", "X-Plane Flight Simulator" and the X-Plane Logo are property of Laminar Research
-and Austin Meyer, copyright © X-Plane 2023. X-Plane® is registered trademark of Austin Meyer who maintains all the rights and privileges associated with the registration
-and ownership of the X-Plane® name. 'X-Plane Scenery Streaming' is in no way associated with Laminar Research or Austin Meyer. It makes no attempt to profit from the 'X-Plane' name.
+and Austin Meyer, copyright © X-Plane 2024. 'X Scenery Streaming' is in no way associated with Laminar Research or Austin Meyer. It makes no attempt to profit from the 'X-Plane' name.
 
-No orthophotos or scenery generated or hosted, are owned by XSS. All attribution goes to the individual service providers and contributors where relevant.
-Please see the website for further information and for proof of permission from each service provider.
-
-Please read the Terms of Service and further information on the website for more details.
-
+No orthophotos or scenery hosted are owned by XSS. All attribution goes to the individual providers and contributors.
 		</TextBlock>
 	</Grid>
 </UserControl>

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace SceneryStream.src.Model
@@ -133,7 +131,7 @@ namespace SceneryStream.src.Model
                     List<string> lines = new() 
                     {
                         App.Preferences.ServerAddress != null ? $"A-{App.Preferences.ServerAddress}" : $"A-{null}",
-                        App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}", //Add this binding to the right window so the preferences can autosave.
+                        App.Preferences.SimDirectory != null ? $"S-{App.Preferences.SimDirectory}" : $"S-{null}",
                         $"D-{App.Preferences.DriveLetter}",
                         $"M-Multisim:{App.Preferences.MultipleSims}",
                         $"M-Multiscene:{App.Preferences.MultipleScenes}"
@@ -209,7 +207,7 @@ namespace SceneryStream.src.Model
                                     switch (split[0].Contains("M-Multisim"))
                                     {
                                         case true:
-                                            App.Preferences.MultipleSims = split[1].Equals("True"); //for some reason this is updating fine, but the UI isn't. The variable is observable though?
+                                            App.Preferences.MultipleSims = split[1].Equals("True");
                                             break;
 
                                         case false:
