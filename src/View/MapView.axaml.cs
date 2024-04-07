@@ -1,9 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Mapsui;
-using Mapsui.UI;
 using Mapsui.UI.Avalonia;
-using System;
 
 namespace SceneryStream.src.View
 {

@@ -1,11 +1,11 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-             x:Class="SceneryStream.src.View.ServerFormattingView"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+			 x:Class="SceneryStream.src.View.ServerFormattingView"
 			 xmlns:local="clr-namespace:SceneryStream.src.View"
-             xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 			 xmlns:model="clr-namespace:SceneryStream.src.Model"
 			 xmlns:app="clr-namespace:SceneryStream"
 			 xmlns:ic="using:FluentIcons.Avalonia"
@@ -296,7 +296,7 @@
 						</Button>
 						<Button Margin="0 0 0 -35" HorizontalAlignment="Center" Command="{Binding LoadConfigurationCommand}" CommandParameter="Manual">
 							<Panel>
-								<Label Content="Select Server Configuaration File" HorizontalAlignment="Right" FontSize="18" Margin="30 0 0 0"/>
+								<Label Content="Select Server Configuration File" HorizontalAlignment="Right" FontSize="18" Margin="30 0 0 0"/>
 								<ic:SymbolIcon Symbol="OpenFolder" FontSize="28" HorizontalAlignment="Left"/>
 							</Panel>
 						</Button>
@@ -314,7 +314,7 @@ By entering the relevant information into each dialog box you can produce a Serv
 
 The region IDs you enter must match those already in use by the application for the scenery assignment to work for each region at load time.
 
-The scenery ID may be entirely custom to your server, as the server identification number will be used to corellate saved sceneries with the server from which their IDs were issued.
+The scenery ID may be entirely custom to your server, as the server identification number will be used to correlate saved scenery items with the server from which their IDs were issued.
 
 
 

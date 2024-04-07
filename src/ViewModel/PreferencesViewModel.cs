@@ -1,14 +1,6 @@
-﻿using Avalonia.Interactivity;
-using ReactiveUI;
-using SceneryStream.src.Model;
-using SceneryStream.src.View;
+﻿using SceneryStream.src.Model;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Threading;
-using System.Collections.ObjectModel;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform;
 using Utility;
@@ -102,7 +94,7 @@ namespace SceneryStream.src.ViewModel
             }
         }
 
-        public async void SelectSimDirectory(object? install_type) //this needs to eventually check if this is for the main sim directory or for other installations
+        public async void SelectSimDirectory(object? install_type)
         {
             string? directory = (await Utility.FileBrowser.produceBrowser("Directory")).ToString();
             switch (install_type)

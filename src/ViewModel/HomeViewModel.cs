@@ -1,18 +1,10 @@
 ﻿using SceneryStream.src.Model;
 using System;
-using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
-using Avalonia.Input;
-using Utility;
 using Avalonia.Media.Imaging;
-using System.Threading;
 using System.Collections.ObjectModel;
 using Avalonia.Platform;
-using BruTile.Wmts.Generated;
-using System.Collections;
 using System.Text.RegularExpressions;
-using DynamicData;
 using System.Diagnostics;
 
 namespace SceneryStream.src.ViewModel
@@ -94,19 +86,17 @@ namespace SceneryStream.src.ViewModel
             Debug.WriteLine("[*] Attempting to read server updates info");
             try
             {
-                StreamReader updatesFile = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Resources/ServerUpdates.txt"))); //placeholder
+                StreamReader updatesFile = new(AssetLoader.Open(new Uri($@"avares://SceneryStream/Assets/Resources/ServerUpdates.txt")));
                 if (App.ServiceInstance.Connected)
                 {
                     switch (App.ServiceInstance.Platform.ToString())
                     {
                         case "Win32NT":
-                            updatesFile = new StreamReader(new FileStream(App.Preferences.DriveLetter + @":\ServerUpdates",FileMode.Open, FileAccess.Read)); //placeholder
-                            //HViewModel.UpdateText = File.ReadAllText(App.Preferences.ServerAddress + @"\ServerUpdates");
+                            updatesFile = new StreamReader(new FileStream(App.Preferences.DriveLetter + @":\ServerUpdates",FileMode.Open, FileAccess.Read));
                             break;
 
                         case "Unix":
-                            updatesFile = new(AssetLoader.Open(new Uri($"~/mnt/{App.Preferences.DriveLetter}/ServerUpdates"))); //placeholder - this probably won't work as well.
-                            //HViewModel.UpdateText = File.ReadAllText($"~/mnt/{App.Preferences.ServerAddress}/ServerUpdates");
+                            updatesFile = new(AssetLoader.Open(new Uri($"~/mnt/{App.Preferences.DriveLetter}/ServerUpdates")));
                             break;
                     }
                 }
@@ -174,7 +164,7 @@ namespace SceneryStream.src.ViewModel
                     string[] lineSplit = line.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                     SceneryCard entry = new(new Uri(lineSplit[1]), lineSplit[2], lineSplit[3], string.Join(" ",lineSplit[4..^0]));
                     HViewModel.ScenerySpotlightEntries.Add(entry); 
-                    //indexing starts at 1 because when the split by new line is applied, the trailing \n from the revision split or data split is left at the beginning of the following datam, meaning an empty line sits at index 0
+                    //indexing starts at 1 because when the split by new line is applied, the trailing \n from the revision split or data split is left at the beginning of the following data, meaning an empty line sits at index 0
                 }
             } catch (Exception ex)
             {

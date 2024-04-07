@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Input;
-using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SceneryStream.src.Model;
