@@ -411,7 +411,15 @@ namespace SceneryStream.src.Model
         {
             foreach (string path in SessionGeneratedShellLinksLocal)
             {
-                File.Delete(path);
+                try
+                {
+                    File.Delete(path);
+                } 
+                catch (Exception)
+                {
+                    Debug.WriteLine("[!] Couldn't delete shortcut.");
+                }
+                
             }
         }
 

@@ -17,6 +17,7 @@ namespace SceneryStream.src.ViewModel
                 try
                 {
                     NetworkDrive.RemoveDriveByConsole(App.Preferences.DriveLetter);
+                    Debug.WriteLine(RegionHandling.SelectedSceneryItems.Count.ToString());
                     RegionHandling.Regions.RemoveShellLinks();
                 }
                 catch (Exception)

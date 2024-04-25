@@ -264,7 +264,7 @@
 										<ItemsControl ItemsSource="{Binding Path=DataContext.Format.SceneryLoaded,ElementName=LoadedXMLBox}" Padding="5">
 											<ItemsControl.ItemTemplate>
 												<DataTemplate>
-													<Border BorderBrush="Black" CornerRadius="15" Margin="0 5 0 5" Background="{DynamicResource RegionColourLight}" BoxShadow="inset 1 1 6 2 #d8dae3" Padding="5">
+													<Border BorderBrush="Black" CornerRadius="15" Margin="0 5 0 5" Background="{DynamicResource RegionColourLight}" BoxShadow="inset 1 1 6 2 #d8dae3" Padding="5" ClipToBounds="True">
 														<StackPanel Orientation="Vertical">
 															<Label FontSize="24" Margin="15 15 0 0" ZIndex="3">
 																<Label.Content>
@@ -276,7 +276,7 @@
 																</Label.Content>
 															</Label>
 															<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
-															<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3"/>
+															<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3" TextWrapping="Wrap" MaxWidth="350" HorizontalAlignment="Left"/>
 														</StackPanel>
 													</Border>
 												</DataTemplate>

@@ -396,7 +396,7 @@ namespace Utility
                         case "airport":
                             file.Save(Path.Combine(link_location, $"Airport - XSS - {link_name}.lnk"), false);
                             Debug.WriteLine("\t=> Made airport shortcut");
-                            return Path.Combine(link_location, $"Airport - XSS-{link_name}.lnk");
+                            return Path.Combine(link_location, $"Airport - XSS - {link_name}.lnk");
 
                         case "l":
                         case "library":
