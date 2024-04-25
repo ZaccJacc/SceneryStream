@@ -98,7 +98,7 @@
 		
 		<ToggleButton ZIndex="3" CornerRadius="5" Background="Transparent" Margin="15 585 0 0" Width="250" Padding="10" IsChecked="{Binding CreditsSelected}" VerticalAlignment="Top" HorizontalAlignment="Left">
 			<Panel>
-				<ic:SymbolIcon Symbol="ClipboardTextLtr" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
+				<ic:SymbolIcon Symbol="ClipboardText" FontSize="54" HorizontalAlignment="Left" VerticalAlignment="Center" IsFilled="{Binding RelativeSource=
 	{RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}, 
 	Path=IsChecked}"/>
 				<Label Content="Credits" HorizontalAlignment="Right" FontFamily="Urbanist" FontWeight="Regular" FontSize="34" VerticalAlignment="Center" />
