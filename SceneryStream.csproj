@@ -19,6 +19,7 @@
   <ItemGroup>
     <None Remove=".gitignore" />
     <None Remove="Assets\Aircraft.png" />
+    <None Remove="Assets\BG-Pattern.png" />
     <None Remove="Assets\Chain.png" />
     <None Remove="Assets\Data\Scenery.xml" />
     <None Remove="Assets\Folder.png" />
@@ -94,6 +95,7 @@
     <None Remove="Assets\WhiteGradient.png" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Include="Assets\BG-Pattern.png" />
     <AvaloniaResource Include="Assets\Chain.png" />
     <AvaloniaResource Include="Assets\Data\Scenery.xml" />
     <AvaloniaResource Include="Assets\Folder.png" />
