@@ -63,11 +63,84 @@
 		</Style>
 	</UserControl.Styles>
 	
-	<!--Top bar-->
-		<Grid HorizontalAlignment="Left" VerticalAlignment="Top" ZIndex="3">
-			<Panel HorizontalAlignment="Center" VerticalAlignment="Top" MinWidth="595" Height="85" ZIndex="3">
-				<Border Margin="0 15 0 0" CornerRadius="10" Background="#ff2d4d7a" BoxShadow="3 3 8 0 #ffaab2cc" ZIndex="3">
-					<Panel>	
+	
+	<Panel>
+		<!--Help Popup-->
+		<Border Classes="Help" Classes.Open="{Binding HelpOpen}" CornerRadius="5" BorderBrush="Black" Background="#d8dae3" BoxShadow="3 3 8 0 #d8dae3" ZIndex="3" Width="500">
+			<Panel HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Label Content="Need Help?" Margin="15" FontSize="28" FontWeight="SemiBold" FontStyle="Italic"/>
+				<TextBlock TextWrapping="Wrap" Margin="15 75 15 15" FontSize="18">
+					Use the maps to focus on different regions and select scenery.
+				</TextBlock>
+				<TextBlock TextWrapping="Wrap" Margin="15 120 15 15" FontSize="18">
+					In some regions (like the USA) double clicking will allow you to select / deselect states, whilst right clicking will provide you with a list of smaller scenery items such as airports to choose from in each of the marked areas.
+				</TextBlock>
+				<TextBlock TextWrapping="Wrap" Margin="15 235 15 15" FontSize="18">
+					When you select a new region or scenery item, it will be automatically attached to your simulator. Deselecting scenery items will not take effect until you restart the application.
+				</TextBlock>
+				<TextBlock TextWrapping="Wrap" Margin="15 330 15 15" FontSize="18">
+					Some regions will not have further scenery offerings beyond their orthographic imagery, and some may not have any offerings at all. Keep an eye out on the scenery spotlight for new releases and updates.
+				</TextBlock>
+				<Button x:Name="CloseHelpButton" Command="{Binding ToggleHelpCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 15 0" Background="Transparent" IsVisible="{Binding HelpOpen}">
+					<Panel>
+						<ic:SymbolIcon Symbol="DismissSquare" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Panel>
+				</Button>
+			</Panel>
+		</Border>
+
+		<!--Extra Scenery Selection Dialog-->
+		<Border Classes="SceneryDialog" Classes.Open="{Binding SViewModel.SelectSceneryDialogOpen}" CornerRadius="5" BorderBrush="Black" Background="#d8dae3" BoxShadow="3 3 8 0 #d8dae3" ZIndex="3" Width="800">
+			<Panel>
+				<Label Margin="15" FontSize="28">
+					<Label.Content>
+						<MultiBinding StringFormat="{}Extra Scenery Available for {0}-{1}">
+							<Binding Path="SViewModel.SelectSceneryDialogRegion.ParentID"/>
+							<Binding Path="SViewModel.SelectSceneryDialogRegion.ID"/>
+						</MultiBinding>
+					</Label.Content>
+				</Label>
+				<TextBlock Text="Primary Ortho Available" IsVisible="{Binding SViewModel.SelectSceneryDialogRegion.PrimaryOrthoAvailable}" FontSize="18" FontStyle="Italic" Margin="0 25 95 0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip.Tip="This region has primary ortho enabled. Double-clicking this region to select it (highlighted in blue) will automatically load the server provider's suggested ortho photos for this region."/>
+				<Border CornerRadius="15" ClipToBounds="True" Margin="15 65 0 15">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto">
+						<ItemsControl ItemsSource="{Binding SViewModel.SelectSceneryDialogRegion.SceneryItems}" Padding="5" HorizontalAlignment="Center">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Border Classes="SceneryDialogItem" Classes.Selected="{Binding Path=IsChecked,ElementName=UseSceneryCheck}" CornerRadius="15" Margin="0 5 0 5" Background="{DynamicResource RegionColourLight}" Padding="10" Width="750" HorizontalAlignment="Center">
+										<Panel>
+											<StackPanel Orientation="Vertical">
+												<Label FontSize="24" Margin="15 15 0 0" ZIndex="3">
+													<Label.Content>
+														<MultiBinding StringFormat="{}{0} | Type: {1}">
+															<Binding Path="Title"/>
+															<Binding Path="Type"/>
+														</MultiBinding>
+													</Label.Content>
+												</Label>
+												<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
+												<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3" TextWrapping="Wrap"/>
+											</StackPanel>
+											<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{model:RegionLocator {Binding RegionID}, {Binding ParentID}}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" Margin="0 45 15 0"/>
+										</Panel>
+									</Border>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Border>
+				<Button Command="{Binding DismissSceneryDialogCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 15 0" Background="Transparent" IsVisible="{Binding SViewModel.SelectSceneryDialogOpen}">
+					<Panel>
+						<ic:SymbolIcon Symbol="DismissSquare" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Panel>
+				</Button>
+			</Panel>
+		</Border>
+		<!--Main Controls Display Area-->
+		<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" ZIndex="2" Width="{Binding $parent[Panel].Bounds.Width}">
+			<!--Top bar-->
+			<Panel HorizontalAlignment="Center" VerticalAlignment="Top" MinWidth="595" Height="85" ZIndex="2">
+				<Border Margin="0 15 0 0" CornerRadius="10" Background="#ff2d4d7a" BoxShadow="3 3 8 0 #ffaab2cc" ZIndex="2">
+					<Panel>
 						<Label Content="Scenery Selection" Foreground="{StaticResource RegionColourLight}" FontSize="32" FontWeight="Bold" VerticalAlignment="Top" Margin="15 11"/>
 						<Button Command="{Binding ResetMap}" Width="110" ZIndex="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 68 0">
 							<Panel>
@@ -92,241 +165,17 @@
 					</Panel>
 				</Border>
 			</Panel>
-			
-			<!--Help Popup-->
-			<Border Classes="Help" Classes.Open="{Binding HelpOpen}" CornerRadius="5" BorderBrush="Black" Background="#d8dae3" BoxShadow="3 3 8 0 #d8dae3" ZIndex="2" Width="500">
-				<Panel HorizontalAlignment="Left" VerticalAlignment="Top">
-					<Label Content="Need Help?" Margin="15" FontSize="28" FontWeight="SemiBold" FontStyle="Italic"/>
-					<TextBlock TextWrapping="Wrap" Margin="15 75 15 15" FontSize="18">
-						Use the maps to focus on different regions and select scenery.
-					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Margin="15 120 15 15" FontSize="18">
-						In some regions (like the USA) double clicking will allow you to select / deselect states, whilst right clicking will provide you with a list of smaller scenery items such as airports to choose from in each of the marked areas.
-					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Margin="15 235 15 15" FontSize="18">
-						When you select a new region or scenery item, it will be automatically attached to your simulator. Deselecting scenery items will not take effect until you restart the application.
-					</TextBlock>
-					<TextBlock TextWrapping="Wrap" Margin="15 330 15 15" FontSize="18">
-						Some regions will not have further scenery offerings beyond their orthographic imagery, and some may not have any offerings at all. Keep an eye out on the scenery spotlight for new releases and updates.
-					</TextBlock>
-					<Button x:Name="CloseHelpButton" Command="{Binding ToggleHelpCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 15 0" Background="Transparent" IsVisible="{Binding HelpOpen}">
-						<Panel>
-							<ic:SymbolIcon Symbol="DismissSquare" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-						</Panel>
-					</Button>
-				</Panel>
-			</Border>
 
-			<!--Extra Scenery Selection Dialog-->
-			<Border Classes="SceneryDialog" Classes.Open="{Binding SViewModel.SelectSceneryDialogOpen}" CornerRadius="5" BorderBrush="Black" Background="#d8dae3" BoxShadow="3 3 8 0 #d8dae3" ZIndex="2" Width="800">
-				<Panel>
-					<Label Margin="15" FontSize="28">
-						<Label.Content>
-							<MultiBinding StringFormat="{}Extra Scenery Available for {0}-{1}">
-								<Binding Path="SViewModel.SelectSceneryDialogRegion.ParentID"/>
-								<Binding Path="SViewModel.SelectSceneryDialogRegion.ID"/>
-							</MultiBinding>
-						</Label.Content>
-					</Label>
-					<TextBlock Text="Primary Ortho Available" IsVisible="{Binding SViewModel.SelectSceneryDialogRegion.PrimaryOrthoAvailable}" FontSize="18" FontStyle="Italic" Margin="0 25 95 0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip.Tip="This region has primary ortho enabled. Double-clicking this region to select it (highlighted in blue) will automatically load the server provider's suggested ortho photos for this region."/>
-					<Border CornerRadius="15" ClipToBounds="True" Margin="15 65 0 15">
-						<ScrollViewer HorizontalScrollBarVisibility="Auto">
-							<ItemsControl ItemsSource="{Binding SViewModel.SelectSceneryDialogRegion.SceneryItems}" Padding="5" HorizontalAlignment="Center">
-								<ItemsControl.ItemTemplate>
-									<DataTemplate>
-										<Border Classes="SceneryDialogItem" Classes.Selected="{Binding Path=IsChecked,ElementName=UseSceneryCheck}" CornerRadius="15" Margin="0 5 0 5" Background="{DynamicResource RegionColourLight}" Padding="10" Width="750" HorizontalAlignment="Center">
-											<Panel>
-												<StackPanel Orientation="Vertical">
-													<Label FontSize="24" Margin="15 15 0 0" ZIndex="3">
-														<Label.Content>
-															<MultiBinding StringFormat="{}{0} | Type: {1}">
-																<Binding Path="Title"/>
-																<Binding Path="Type"/>
-															</MultiBinding>
-														</Label.Content>
-													</Label>
-													<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
-													<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3" TextWrapping="Wrap"/>
-												</StackPanel>
-												<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{model:RegionLocator {Binding RegionID}, {Binding ParentID}}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" Margin="0 45 15 0"/>
-											</Panel>
-										</Border>
-									</DataTemplate>
-								</ItemsControl.ItemTemplate>
-							</ItemsControl>
-						</ScrollViewer>
-					</Border>
-					<Button Command="{Binding DismissSceneryDialogCommand}" ZIndex="2" Height="48" Width="48" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 11 15 0" Background="Transparent" IsVisible="{Binding SViewModel.SelectSceneryDialogOpen}">
-						<Panel>
-							<ic:SymbolIcon Symbol="DismissSquare" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-						</Panel>
-					</Button>
-				</Panel>
-			</Border>
-			
+
+
+
 			<!--Map Display Area-->
-			<ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 50 0 0">
-				<Panel>
-					<Image x:Name="Map" Source="{Binding SViewModel.DisplayedRegion.Map}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-					<!--USA States BG-->
-					<Panel x:Name="StatesPanel">
-						<Panel.DataContext>
-							<model:RegionHandling/>
-						</Panel.DataContext>
-						<Image x:Name="Washington_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_WA.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator WA, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Oregon_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_OR.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator OR, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="California_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_CA.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator CA, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Nevada_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NV.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator NV, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Idaho_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_ID.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator ID, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Utah_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_UT.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator UT, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Alaska_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_AK.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator AK, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Hawaii_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_HI.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator HI, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Arizona_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_AZ.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator AZ, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Colorado_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_CO.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator CO, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="NewMexico_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NM.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator NM, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Wyoming_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_WY.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator WY, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Montana_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_MT.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator MT, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="NorthDakota_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_ND.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator ND, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="SouthDakota_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_SD.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator SD, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Nebraska_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NE.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator NE, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Kansas_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_KS.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator KS, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Oklahoma_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_OK.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator OK, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-						<Image x:Name="Texas_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_TX.png" IsHitTestVisible="False">
-							<Image.IsVisible>
-								<MultiBinding Converter="{x:Static BoolConverters.And}">
-									<Binding Path="DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
-									<Binding Path="Selected" Source="{model:RegionLocator TX, USA}"/>
-								</MultiBinding>
-							</Image.IsVisible>
-						</Image>
-					</Panel>
-				</Panel>
-			</ScrollViewer>
-		</Grid>
+			<!--ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 50 0 0"-->
+			<Panel>
+				<ContentControl x:Name="DisplayControl" Content="{Binding SViewModel.DisplayedRegion.RegionDisplay}"/>
+			</Panel>
+			<!--/ScrollViewer-->
+		</StackPanel>
+	</Panel>
+		
 </UserControl>

@@ -1,0 +1,177 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SceneryStream.src.View.SceneryRegions.USARegion"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model"
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia">
+
+	<UserControl.Resources>
+		<model:DisplayedRegionValidator x:Key="DisplayedRegionValidator"/>
+	</UserControl.Resources>
+	<UserControl.DataContext>
+		<Binding Path="$parent[UserControl].DataContext"/>
+	</UserControl.DataContext>
+	<Panel x:Name="StatesPanel">
+		<Image x:Name="Map" Source="avares://SceneryStream/Assets/Map/USA/USAmap.png" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Panel.DataContext>
+			<model:RegionHandling/>
+		</Panel.DataContext>
+		<Image x:Name="Washington_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_WA.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator WA, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Oregon_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_OR.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator OR, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="California_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_CA.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator CA, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Nevada_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NV.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator NV, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Idaho_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_ID.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator ID, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Utah_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_UT.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator UT, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Alaska_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_AK.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator AK, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Hawaii_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_HI.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator HI, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Arizona_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_AZ.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator AZ, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Colorado_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_CO.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator CO, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="NewMexico_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NM.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator NM, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Wyoming_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_WY.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator WY, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Montana_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_MT.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator MT, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="NorthDakota_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_ND.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator ND, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="SouthDakota_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_SD.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator SD, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Nebraska_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_NE.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator NE, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Kansas_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_KS.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator KS, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Oklahoma_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_OK.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator OK, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+		<Image x:Name="Texas_Selected" Source="avares://SceneryStream/Assets/Map/USA/Selected/USA_TX.png" IsHitTestVisible="False">
+			<Image.IsVisible>
+				<MultiBinding Converter="{x:Static BoolConverters.And}">
+					<Binding Path="$parent[UserControl].DataContext.SViewModel.DisplayedRegion.ID" ElementName="SceneryControl" Converter="{StaticResource DisplayedRegionValidator}" ConverterParameter="USA"/>
+					<Binding Path="Selected" Source="{model:RegionLocator TX, USA}"/>
+				</MultiBinding>
+			</Image.IsVisible>
+		</Image>
+	</Panel>
+</UserControl>

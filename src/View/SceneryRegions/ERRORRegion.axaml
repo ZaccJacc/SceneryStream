@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SceneryStream.src.View.SceneryRegions.ERRORRegion"
+			 xmlns:local="clr-namespace:SceneryStream.src.View"
+			 xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
+			 xmlns:model="clr-namespace:SceneryStream.src.Model"
+			 xmlns:app="clr-namespace:SceneryStream"
+			 xmlns:ic="using:FluentIcons.Avalonia">
+	<UserControl.Resources>
+		<model:DisplayedRegionValidator x:Key="DisplayedRegionValidator"/>
+	</UserControl.Resources>
+	<UserControl.DataContext>
+		<Binding Path="$parent[UserControl].DataContext"/>
+	</UserControl.DataContext>
+	<Panel>
+		<StackPanel Margin="450 450">
+			<Label Content="Error"  FontSize="34"/>
+			<TextBlock Margin="15" HorizontalAlignment="Center" FontFamily="Consolas" FontSize="15" VerticalAlignment="Bottom" TextWrapping="Wrap" xml:space="preserve">
+Something didn't work...
+
+This region may not have been implemented yet. Check the changelog and server updates in the future for more information.
+		</TextBlock>
+		</StackPanel>
+	</Panel>
+</UserControl>

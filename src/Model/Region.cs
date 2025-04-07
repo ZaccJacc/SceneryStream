@@ -14,12 +14,25 @@ using System.Text;
 using System.Xml.Linq;
 using static SceneryStream.src.Model.ChildRegion;
 using static SceneryStream.src.Model.Region;
+using SceneryStream.src.View;
 
 namespace SceneryStream.src.Model
 {
     internal class Region : ObservableObject
     {
-        private Bitmap _map;
+
+        private object? _map;
+        internal object? Map
+        {
+            get => _map;
+            set
+            {
+                _map = value;
+                NotifyPropertyChanged(nameof(Map));
+            }
+        }
+
+        /*private Bitmap _map;
         internal Bitmap Map
         {
             get => _map;
@@ -28,6 +41,12 @@ namespace SceneryStream.src.Model
                 _map = value;
                 NotifyPropertyChanged(nameof(Map));
             }
+        }*/
+
+        private object? _regionDisplay;
+        public object? RegionDisplay
+        {
+            get => _regionDisplay;
         }
 
         private RegionID _ID;
@@ -41,10 +60,12 @@ namespace SceneryStream.src.Model
             }
         }
 
-        internal Region(string MapURI, RegionID regionID)
+        internal Region(string MapURI, RegionID regionID, object? regionDisplay)
         {
-            Map = new(AssetLoader.Open(new Uri(MapURI)));
+            Map = string.IsNullOrEmpty(MapURI) ? "" : new Bitmap(AssetLoader.Open(new Uri(MapURI)));
+            //Map = new Bitmap(AssetLoader.Open(new Uri(MapURI)));
             ID = regionID;
+            _regionDisplay = regionDisplay;
         }
 
         internal enum RegionID
@@ -57,7 +78,8 @@ namespace SceneryStream.src.Model
             AFR = 5,
             ASI = 6,
             OCE = 7,
-            DEV = 8
+            DEV = 8,
+            ERROR = 9
         }
     }
 
@@ -121,11 +143,14 @@ namespace SceneryStream.src.Model
         {
             if (value is RegionID displayedRegionID && parameter is string targetRegion)
             {
-                
                 switch (targetRegion)
                 {
                     case "USA":
                         return displayedRegionID == RegionID.USA;
+                    case "EUR":
+                        return displayedRegionID == RegionID.EUR;
+                    default:
+                        return false;
                 }
             }
             return new BindingNotification(new InvalidCastException(), BindingErrorType.Error);
@@ -213,11 +238,13 @@ namespace SceneryStream.src.Model
         //--Parent Regions--//
         internal static ObservableCollection<Region> ParentRegions = new()
         {
-            new($@"avares://SceneryStream/Assets/Map/worldmap.png", RegionID.GLOBE),
-            new($@"avares://SceneryStream/Assets/Map/worldmaplined.png", RegionID.DEV),
-            new($@"avares://SceneryStream/Assets/Map/USAmap.png", RegionID.USA)
+            new($@"avares://SceneryStream/Assets/Map/worldmap.png", RegionID.GLOBE, new View.SceneryRegions.GLOBERegion()),
+            new($@"avares://SceneryStream/Assets/Map/worldmaplined.png", RegionID.DEV, new View.SceneryRegions.GLOBERegion()), //disabled dev world map for now
+            new($@"avares://SceneryStream/Assets/Map/USA/USAmap.png", RegionID.USA, new View.SceneryRegions.USARegion()),
+            new("", RegionID.EUR, new View.SceneryRegions.EURRegion()),
+            new("",RegionID.ERROR, new View.SceneryRegions.ERRORRegion())
         };
-
+        
         //--//
 
         internal ChildRegion? GetRegionByID(ChildRegionID childID, RegionID parentID)

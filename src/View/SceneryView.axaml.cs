@@ -7,7 +7,7 @@ namespace SceneryStream.src.View
         public SceneryView()
         {
             InitializeComponent();
-            Map.AddHandler(PointerPressedEvent, ViewModel.SceneryViewModel.SViewModel.FocusRegion, Avalonia.Interactivity.RoutingStrategies.Bubble);
+            DisplayControl.AddHandler(PointerPressedEvent, ViewModel.SceneryViewModel.SViewModel.FocusRegion, Avalonia.Interactivity.RoutingStrategies.Bubble);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SceneryStream.src.ViewModel;
 
 internal partial class SceneryViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject
 {
-
+    
 
     [ObservableProperty]
     private bool _helpOpen = false;
@@ -58,35 +58,40 @@ internal partial class SceneryViewModel : CommunityToolkit.Mvvm.ComponentModel.O
                     {
                         if (x < 530 && y > 404)
                         {
-                            Debug.WriteLine("LATAM region");
+                            //DisplayRegion(Regions.GetRegionByID(Region.RegionID.LATAM));
+                            DisplayRegion(Regions.GetRegionByID(Region.RegionID.ERROR));
                         }
                         else
                         {
                             if (x > 192 && x < 530 && y < 228)
                             {
-                                Debug.WriteLine("CAN region");
+                                //DisplayRegion(Regions.GetRegionByID(Region.RegionID.CAN));
+                                DisplayRegion(Regions.GetRegionByID(Region.RegionID.ERROR));
                             }
                             else
                             {
                                 if (x > 530 && x < 833 && y < 284)
                                 {
-                                    Debug.WriteLine("EUR region");
+                                    DisplayRegion(Regions.GetRegionByID(Region.RegionID.EUR));
                                 }
                                 else
                                 {
                                     if (x > 530 && x < 833 && y > 284)
                                     {
-                                        Debug.WriteLine("AFR region");
+                                        //DisplayRegion(Regions.GetRegionByID(Region.RegionID.AFR));
+                                        DisplayRegion(Regions.GetRegionByID(Region.RegionID.ERROR));
                                     }
                                     else
                                     {
                                         if (x > 833 && y < 465)
                                         {
-                                            Debug.WriteLine("ASI region");
+                                            //DisplayRegion(Regions.GetRegionByID(Region.RegionID.ASI));
+                                            DisplayRegion(Regions.GetRegionByID(Region.RegionID.ERROR));
                                         }
                                         else
                                         {
-                                            Debug.WriteLine("OCE region");
+                                            //DisplayRegion(Regions.GetRegionByID(Region.RegionID.OCE));
+                                            DisplayRegion(Regions.GetRegionByID(Region.RegionID.ERROR));
                                         }
                                     }
                                 }
