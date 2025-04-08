@@ -120,7 +120,7 @@
 												<Label Content="{Binding Developer}" FontSize="18" FontStyle="Italic" Margin="15 0 0 10" ZIndex="3"/>
 												<TextBlock Text="{Binding Description}" FontSize="16" Margin="20 0 0 15" ZIndex="3" TextWrapping="Wrap"/>
 											</StackPanel>
-											<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{model:RegionLocator {Binding RegionID}, {Binding ParentID}}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" Margin="0 45 15 0"/>
+											<CheckBox x:Name="UseSceneryCheck" Command="{Binding Path=DataContext.SelectSceneryItem,ElementName=SceneryControl}" CommandParameter="{Binding $parent[ItemsControl].DataContext.SViewModel.SelectSceneryDialogRegion}" IsChecked="{Binding Selected}" Content="Use Scenery" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="18" Margin="0 45 15 0"/>
 										</Panel>
 									</Border>
 								</DataTemplate>
@@ -165,10 +165,6 @@
 					</Panel>
 				</Border>
 			</Panel>
-
-
-
-
 			<!--Map Display Area-->
 			<!--ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15 50 0 0"-->
 			<Panel>

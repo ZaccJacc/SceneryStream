@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using static SceneryStream.src.Model.ChildRegion;
 using static SceneryStream.src.Model.Region;
 using SceneryStream.src.View;
+using ExCSS;
 
 namespace SceneryStream.src.Model
 {
@@ -175,12 +176,12 @@ namespace SceneryStream.src.Model
             region = RegionHandling.Regions.GetRegionByID((RegionID)Enum.Parse(typeof(RegionID), _Id));
         }
 
-        public RegionLocator(BindingBase _childId, BindingBase _parentId)
+        public RegionLocator(Binding _childId, Binding _parentId)
         {
             region = new MultiBinding()
             {
                 Bindings = new[] { _childId, _parentId },
-                Converter = new FuncMultiValueConverter<object, object>(IDs => IDs.Aggregate((childId, parentID) => RegionHandling.Regions.GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), childId.ToString()), (RegionID)Enum.Parse(typeof(RegionID), parentID.ToString()))))
+                Converter = new FuncMultiValueConverter<object, object>(IDs => IDs.Aggregate((childId, parentID) => RegionHandling.Regions.GetRegionByID((ChildRegionID)Enum.Parse(typeof(ChildRegionID), childId.ToString()), (RegionID)Enum.Parse(typeof(RegionID), parentID.ToString())))) //The binding value isn't coming through any more. When you print it, it just says "avalonia.data.binding", which is why it can't then find it from the region enums.
             };
         }
 
@@ -375,6 +376,9 @@ namespace SceneryStream.src.Model
                         SessionGeneratedShellLinksRemote.Add(item.Path);
                         break;
                 }
+            } else
+            {
+                Debug.WriteLine("[*] Non-server shell uri registered.");
             }
         }
 

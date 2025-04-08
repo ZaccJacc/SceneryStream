@@ -542,7 +542,7 @@ namespace Utility
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"{ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
                 process.Dispose();
             }
 
