@@ -26,6 +26,8 @@
     <None Remove="Assets\Fonts\Dosis-Variable.ttf" />
     <None Remove="Assets\Fonts\Urbanist-Italic-Variable.ttf" />
     <None Remove="Assets\Fonts\Urbanist-Variable.ttf" />
+    <None Remove="Assets\icon_v3.ico" />
+    <None Remove="Assets\icon_v3.png" />
     <None Remove="Assets\Map\USAmap.png" />
     <None Remove="Assets\Map\USA\Selected\USA_MT.png" />
     <None Remove="Assets\Map\USA\USA_AK.png" />
@@ -103,6 +105,8 @@
     <AvaloniaResource Include="Assets\Fonts\Urbanist-Italic-Variable.ttf" />
     <AvaloniaResource Include="Assets\Fonts\Urbanist-Variable.ttf" />
     <AvaloniaResource Include="Assets\Aircraft.png" />
+    <AvaloniaResource Include="Assets\icon_v3.ico" />
+    <AvaloniaResource Include="Assets\icon_v3.png" />
     <AvaloniaResource Include="Assets\Map\USA\USAmap.png" />
     <AvaloniaResource Include="Assets\Map\USA\Selected\USA_AK.png" />
     <AvaloniaResource Include="Assets\Map\USA\Selected\USA_AL.png" />

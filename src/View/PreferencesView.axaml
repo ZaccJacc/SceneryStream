@@ -20,109 +20,121 @@
 		<!--Scenery installation settings-->
 		<Border CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3" Background="#d8dae3" Grid.Column="0" Grid.Row="0" Grid.RowSpan="1" Grid.ColumnSpan="1" Margin="15" Padding="15">
 			<Panel>
-				<Label Content="Installation Settings" FontSize="32" FontWeight="Medium" Margin="5 5"/>
-				<Label Content="Simulator Installation Directory" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 75"/>
-				<TextBox x:Name="SimDirectory" FontFamily="Dosis" FontSize="16" Watermark="X-Plane Directory" Margin="8 115 0 0" Width="240" Height="35" Text="{Binding Preferences.SimDirectory}" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<TextBox.DataContext>
-						<app:App/>
-					</TextBox.DataContext>
-				</TextBox>
-				<Button x:Name="Browse" Margin="250,115,0,0" Command="{Binding SelectSimDirectory}" CommandParameter="PrimarySim" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
-					<Panel>
-						<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-						<Label Content="Browse" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
-					</Panel>
-				</Button>
-				<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 157 0 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
-					Point this to the root directory of your X-Plane Installation. This will be used to locate your custom scenery folder for the server sceneries.
-				</TextBlock>
-				<Label Content="Mounting Drive" Margin="0 75 240 0" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" HorizontalAlignment="Right"/>
-				<ComboBox x:Name="TargetDrive" Margin="0 115 330 0" SelectedIndex="{Binding Preferences.DriveIndex}" FontFamily="Abadi" HorizontalAlignment="Right">
-					<ComboBoxItem Content="A:"/>
-					<ComboBoxItem Content="B:"/>
-					<ComboBoxItem Content="C:"/>
-					<ComboBoxItem Content="D:"/>
-					<ComboBoxItem Content="E:"/>
-					<ComboBoxItem Content="F:"/>
-					<ComboBoxItem Content="G:"/>
-					<ComboBoxItem Content="H:"/>
-					<ComboBoxItem Content="I:"/>
-					<ComboBoxItem Content="J:"/>
-					<ComboBoxItem Content="K:"/>
-					<ComboBoxItem Content="L:"/>
-					<ComboBoxItem Content="M:"/>
-					<ComboBoxItem Content="N:"/>
-					<ComboBoxItem Content="O:"/>
-					<ComboBoxItem Content="P:"/>
-					<ComboBoxItem Content="Q:"/>
-					<ComboBoxItem Content="R:"/>
-					<ComboBoxItem Content="S:"/>
-					<ComboBoxItem Content="T:"/>
-					<ComboBoxItem Content="U:"/>
-					<ComboBoxItem Content="V:"/>
-					<ComboBoxItem Content="W:"/>
-					<ComboBoxItem Content="X:"/>
-					<ComboBoxItem Content="Y:"/>
-					<ComboBoxItem Content="Z:"/>
-					<ComboBox.DataContext>
-						<app:App/>
-					</ComboBox.DataContext>
-				</ComboBox>
-				<TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 114 60 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
-					This is the drive letter to which your selected scenery server will be mounted.
-				</TextBlock>
-				<!--Extra Sim Installations-->
-				<Label Content="Extra Simulator Configuration" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 270 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-				<CheckBox x:Name="OtherInstallationCheck" IsChecked="{Binding Preferences.MultipleSims}" IsDefault="False" Margin="5,310,0,0" Content="Using multiple simulator installations" Tag="0" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<CheckBox.DataContext>
-						<app:App/>
-					</CheckBox.DataContext>
-				</CheckBox>
-				<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32 340 60 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
-					If you want to install scenery to more than one simulator installation, check this option.
-				</TextBlock>
-				<Label Content="Extra Directories" Foreground="{DynamicResource ChromeAltLow}" Opacity="0.8" FontStyle="Italic" FontSize="18" FontWeight="Medium" Margin="345 276 0 0" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-				<TextBox x:Name="OtherInstallationField" FontFamily="Dosis" FontSize="16" Watermark="Other Installation Directories" MinWidth="240" Margin="345,310,0,0" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Text="{Binding InstallationToAdd}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
-				<Button x:Name="BrowseCustom" Margin="590,310,0,0" CornerRadius="5" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Command="{Binding SelectSimDirectory}" CommandParameter="ExtraSim" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
-					<Panel>
-						<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-						<Label Content="Browse" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
-					</Panel>
-				</Button>
-				<TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 310 05 0" TextWrapping="Wrap" Width="210" FontStyle="Italic" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}">
-					Point this to the root directory of any other simulators that you wish to have scenery installed to. You can add as many as you want. Right click to remove an item from the list
-				</TextBlock>
-				<ListBox x:Name="OtherInstallationList" Margin="345,344,0,0" Background="Transparent" BorderBrush="{DynamicResource ChromeAltLow}" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" SelectionChanged="RecallPathSelection" MaxHeight="200" SelectedItem="{Binding PViewModel.SelectedExtraInstallationItem}" ItemsSource="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.InstallationPathsCollection}" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<ListBox.IsVisible>
-						<MultiBinding Converter="{x:Static BoolConverters.And}">
-							<Binding ElementName="OtherInstallationCheck" Path="DataContext.Preferences.MultipleSims"/>
-							<Binding ElementName="OtherInstallationCheck" Path="!!DataContext.Preferences.InstallationPathsCollection.Count"/>
-						</MultiBinding>
-					</ListBox.IsVisible>
-					<ListBox.Styles>
-						<Style Selector="ListBoxItem">
-							<Setter Property="ContextMenu">
-								<Setter.Value>
-									<ContextMenu>
-										<ContextMenu.DataContext>
-											<viewModel:PreferencesViewModel/>
-										</ContextMenu.DataContext>
-										<MenuItem Command="{Binding RemoveExtraInstallation}" CommandParameter="{Binding $parent[ListBox].SelectedItem}">
-											<MenuItem.Header>
-												<ic:SymbolIcon Symbol="Delete"/>
-											</MenuItem.Header>
-										</MenuItem>
-									</ContextMenu>
-								</Setter.Value>
-							</Setter>
-						</Style>
-					</ListBox.Styles>
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding}"/>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<Label Content="Installation Settings" FontSize="32" FontWeight="Medium"/>
+				<ScrollViewer Margin="5 45 0 0">
+					<WrapPanel>
+						<Panel Margin="20">
+							<Label Content="Simulator Installation Directory" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 0"/>
+							<TextBox x:Name="SimDirectory" FontFamily="Dosis" FontSize="16" Watermark="X-Plane Directory" Margin="8 35 0 0" Width="240" Height="35" Text="{Binding Preferences.SimDirectory}" HorizontalAlignment="Left" VerticalAlignment="Top">
+								<TextBox.DataContext>
+									<app:App/>
+								</TextBox.DataContext>
+							</TextBox>
+							<Button x:Name="Browse" Margin="250,35,0,0" Command="{Binding SelectSimDirectory}" CommandParameter="PrimarySim" CornerRadius="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+								<Panel>
+									<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+									<Label Content="Browse" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+								</Panel>
+							</Button>
+							<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 77 0 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
+								Point this to the root directory of your X-Plane Installation. This will be used to locate your custom scenery folder for the server sceneries.
+							</TextBlock>
+						</Panel>
+						<Panel Margin="20">
+							<Label Content="Mounting Drive" Margin="0 0 240 0" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" HorizontalAlignment="Right"/>
+							<ComboBox x:Name="TargetDrive" Margin="0 35 330 0" SelectedIndex="{Binding Preferences.DriveIndex}" FontFamily="Abadi" HorizontalAlignment="Right">
+								<ComboBoxItem Content="A:"/>
+								<ComboBoxItem Content="B:"/>
+								<ComboBoxItem Content="C:"/>
+								<ComboBoxItem Content="D:"/>
+								<ComboBoxItem Content="E:"/>
+								<ComboBoxItem Content="F:"/>
+								<ComboBoxItem Content="G:"/>
+								<ComboBoxItem Content="H:"/>
+								<ComboBoxItem Content="I:"/>
+								<ComboBoxItem Content="J:"/>
+								<ComboBoxItem Content="K:"/>
+								<ComboBoxItem Content="L:"/>
+								<ComboBoxItem Content="M:"/>
+								<ComboBoxItem Content="N:"/>
+								<ComboBoxItem Content="O:"/>
+								<ComboBoxItem Content="P:"/>
+								<ComboBoxItem Content="Q:"/>
+								<ComboBoxItem Content="R:"/>
+								<ComboBoxItem Content="S:"/>
+								<ComboBoxItem Content="T:"/>
+								<ComboBoxItem Content="U:"/>
+								<ComboBoxItem Content="V:"/>
+								<ComboBoxItem Content="W:"/>
+								<ComboBoxItem Content="X:"/>
+								<ComboBoxItem Content="Y:"/>
+								<ComboBoxItem Content="Z:"/>
+								<ComboBox.DataContext>
+									<app:App/>
+								</ComboBox.DataContext>
+							</ComboBox>
+							<TextBlock VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 35 60 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
+								This is the drive letter to which your selected scenery server will be mounted.
+							</TextBlock>
+						</Panel>
+						<!--Extra Sim Installations-->
+						<Panel Margin="20">
+							<Label Content="Extra Simulator Configuration" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+							<CheckBox x:Name="OtherInstallationCheck" IsChecked="{Binding Preferences.MultipleSims}" IsDefault="False" Margin="5,40,0,0" Content="Using multiple simulator installations" Tag="0" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top">
+								<CheckBox.DataContext>
+									<app:App/>
+								</CheckBox.DataContext>
+							</CheckBox>
+							<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32 70 60 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
+								If you want to install scenery to more than one simulator installation, check this option.
+							</TextBlock>
+						</Panel>
+						<Panel Margin="20">
+							<Label Content="Extra Directories" Foreground="{DynamicResource ChromeAltLow}" Opacity="0.8" FontStyle="Italic" FontSize="18" FontWeight="Medium" Margin="0 6 0 0" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+							<TextBox x:Name="OtherInstallationField" FontFamily="Dosis" FontSize="16" Watermark="Other Installation Directories" MinWidth="240" Margin="0,40,0,0" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Text="{Binding InstallationToAdd}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35"/>
+							<Button x:Name="BrowseCustom" Margin="245,40,0,0" CornerRadius="5" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}" Command="{Binding SelectSimDirectory}" CommandParameter="ExtraSim" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35">
+								<Panel>
+									<ic:SymbolIcon Symbol="FolderOpen" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+									<Label Content="Browse" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+								</Panel>
+							</Button>
+							<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="145 0 0 0" TextWrapping="Wrap" Width="300" FontStyle="Italic" IsVisible="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.MultipleSims}">
+								Select the root directory of any other simulators that you wish to have scenery installed to. Right click to remove.
+							</TextBlock>
+							<ListBox x:Name="OtherInstallationList" Margin="0,74,0,0" Background="Transparent" BorderBrush="{DynamicResource ChromeAltLow}" BorderThickness="1" FontSize="11" CornerRadius="5" MinWidth="240" SelectionChanged="RecallPathSelection" MaxHeight="200" SelectedItem="{Binding PViewModel.SelectedExtraInstallationItem}" ItemsSource="{Binding ElementName=OtherInstallationCheck,Path=DataContext.Preferences.InstallationPathsCollection}" HorizontalAlignment="Left" VerticalAlignment="Top">
+								<ListBox.IsVisible>
+									<MultiBinding Converter="{x:Static BoolConverters.And}">
+										<Binding ElementName="OtherInstallationCheck" Path="DataContext.Preferences.MultipleSims"/>
+										<Binding ElementName="OtherInstallationCheck" Path="!!DataContext.Preferences.InstallationPathsCollection.Count"/>
+									</MultiBinding>
+								</ListBox.IsVisible>
+								<ListBox.Styles>
+									<Style Selector="ListBoxItem">
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<ContextMenu.DataContext>
+														<viewModel:PreferencesViewModel/>
+													</ContextMenu.DataContext>
+													<MenuItem Command="{Binding RemoveExtraInstallation}" CommandParameter="{Binding $parent[ListBox].SelectedItem}" Width="40">
+														<MenuItem.Icon>
+															<ic:SymbolIcon Symbol="Delete"/>
+														</MenuItem.Icon>
+													</MenuItem>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</ListBox.Styles>
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+						</Panel>
+					</WrapPanel>
+				</ScrollViewer>
 			</Panel>
 		</Border>
 		<!--Scenery scanning settings-->
@@ -151,35 +163,35 @@
 			<!--Controller config-->
 			<Panel>
 				<Label Content="Application Settings" FontSize="32" FontWeight="Medium" Margin="5 5" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-				<StackPanel Orientation="Vertical" Margin="10 85 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<Button x:Name="LoadConfigFile" Width="240" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<WrapPanel Margin="10 85 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+					<Button x:Name="LoadConfigFile" Width="240" CornerRadius="5" Command="{Binding LoadPreferences}" Margin="15">
 						<Panel>
 							<ic:SymbolIcon Symbol="FolderOpenVertical" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 							<Label Content="Select Preferences File" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="35 0 0 0"/>
 						</Panel>
 					</Button>
-					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="270 -65 0 0">
+					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="0 10 0 0">
 						Select the file from which you want to load your application preferences. It is not advised to change this from the default location.
 					</TextBlock>
-					<Button x:Name="ResetConfigFile" Width="240" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top">
+					<Button x:Name="ResetConfigFile" Width="240" FontSize="16" CornerRadius="5" Command="{Binding ResetPreferences}" Margin="15">
 						<Panel>
 							<ic:SymbolIcon Symbol="ArrowReset" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 							<Label Content="Reset Preferences File" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="35 0 0 0"/>
 						</Panel>
 					</Button>
-					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="270 -65 0 0">
+					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="0 10 0 0">
 						Reset all application preferences with this. This will not impact your stored scenery selections, only the internal application settings.
 					</TextBlock>
-					<Button x:Name="SavePreferences" Width="240" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top">
+					<Button x:Name="SavePreferences" Width="240" FontSize="16" CornerRadius="5" Command="{Binding SavePreferences}" Margin="15" >
 						<Panel>
 							<ic:SymbolIcon Symbol="Save" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 							<Label Content="Save Preferences File" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="35 0 0 0"/>
 						</Panel>
 					</Button>
-					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="270 -65 0 0">
+					<TextBlock FontFamily="Dosis" TextWrapping="Wrap" Width="300" Margin="0 10 0 0">
 						Save the application preferences to the default location. If you have loaded from a custom location, it will save to this file, but you will need to re-open that file each time.
 					</TextBlock>
-				</StackPanel>
+				</WrapPanel>
 			</Panel>
 		</Border>
 	</Grid>

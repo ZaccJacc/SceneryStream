@@ -11,7 +11,7 @@
 		xmlns:viewModel="clr-namespace:SceneryStream.src.ViewModel"
 		xmlns:model="clr-namespace:SceneryStream.src.Model"
 		xmlns:ic="using:FluentIcons.Avalonia"
-		Icon="avares://SceneryStream/Assets/Aircraft.png"
+		Icon="avares://SceneryStream/Assets/icon_v3.ico"
 		SystemDecorations="None"
 		IsHitTestVisible="True"
 		ExtendClientAreaToDecorationsHint="True"
