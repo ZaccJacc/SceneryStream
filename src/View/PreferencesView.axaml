@@ -141,21 +141,23 @@
 		<Border Grid.Column="0" Grid.Row="1" CornerRadius="15" BoxShadow="3 3 8 0 #d8dae3" Background="#d8dae3" Margin="15" Padding="15">
 			<Panel>
 				<Label Content="Server Settings" FontSize="32" FontWeight="Medium" Margin="5 5"/>
-				<Label Content="Scenery Server Address" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 75"/>
-				<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" FontFamily="Dosis" FontSize="16" Height="35" Width="240" HorizontalAlignment="Left" Margin="8 115 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}">
-					<TextBox.DataContext>
-						<app:App/>
-					</TextBox.DataContext>
-				</TextBox>
-				<Button x:Name="Connect" Margin="250 115 0 0" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ToggleConnection}">
-					<Panel>
-						<ic:SymbolIcon Symbol="Link" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-						<Label Content="Connect" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
-					</Panel>
-				</Button>
-				<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 157 0 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
-					Enter the fully qualified address of your target scenery server. For some servers, this may mean \\ Address \ Directory, for others it may just be a URL.
-				</TextBlock>
+				<Panel Margin="20">
+					<Label Content="Scenery Server Address" Foreground="{DynamicResource ChromeAltLow}" FontStyle="Italic" FontSize="24" FontWeight="Medium" Margin="5 75"/>
+					<TextBox x:Name="AddressBox_Connection" Watermark="Target server address" FontFamily="Dosis" FontSize="16" Height="35" Width="240" HorizontalAlignment="Left" Margin="8 115 0 0" VerticalAlignment="Top" Text="{Binding Preferences.ServerAddress}">
+						<TextBox.DataContext>
+							<app:App/>
+						</TextBox.DataContext>
+					</TextBox>
+					<Button x:Name="Connect" Margin="250 115 0 0" CornerRadius="5" VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ToggleConnection}">
+						<Panel>
+							<ic:SymbolIcon Symbol="Link" FontSize="19" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+							<Label Content="Connect" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="25 0 0 0"/>
+						</Panel>
+					</Button>
+					<TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 157 0 0" TextWrapping="Wrap" Width="250" FontStyle="Italic">
+						Enter the fully qualified address of your target scenery server. For some servers, this may mean \\ Address \ Directory, for others it may just be a URL.
+					</TextBlock>
+				</Panel>
 			</Panel>
 		</Border>
 		<!--Integration settings-->
@@ -192,6 +194,12 @@
 						Save the application preferences to the default location. If you have loaded from a custom location, it will save to this file, but you will need to re-open that file each time.
 					</TextBlock>
 				</WrapPanel>
+				<!--VERSION NUMBER-->
+				<Label Content="{Binding VERSION}" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontFamily="Consolas" Foreground="Gray">
+					<Label.DataContext>
+						<app:App/>
+					</Label.DataContext>
+				</Label>
 			</Panel>
 		</Border>
 	</Grid>

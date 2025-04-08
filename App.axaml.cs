@@ -42,7 +42,11 @@ namespace SceneryStream
             get => _storage;
         }
 
-
+        private const string _VERSION = "v1.0.0-rc2";
+        public string VERSION
+        {
+            get => _VERSION;
+        }
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
