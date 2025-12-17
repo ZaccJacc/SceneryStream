@@ -35,16 +35,30 @@
 								</ItemsControl.ItemsPanel>
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
-										<Border Margin="10" Padding="9" CornerRadius="5" Background="{StaticResource RegionColourLight}" BoxShadow="3 3 6 0 #fff6f7ff" Width="364">
+										<Border Margin="10" CornerRadius="5" Background="{StaticResource RegionColourLight}" BoxShadow="3 3 6 0 #fff6f7ff" Width="364">
 											<Panel>
-												<Label Content="{Binding Title}" Margin="15 15 5 0" FontSize="28" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
-												<TextBlock Margin="18 54 5 0" Text="{Binding Creator}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="18" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
-												<TextBlock Margin="15 365 5 0" Text="{Binding Description}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="2"/>
+												<Rectangle ZIndex="3" Height="160" VerticalAlignment="Top" RadiusX="5" RadiusY="5" Opacity="0.55">
+													<Rectangle.Fill>
+														<LinearGradientBrush StartPoint="50%,50%" EndPoint="50%,100%">
+															<GradientStop Color="#AAB2CC" Offset="0.0"/>
+															<GradientStop Color="#00AAB2CC" Offset="0.5"/>
+														</LinearGradientBrush>
+													</Rectangle.Fill>
+												</Rectangle>
+												<Label Content="{Binding Title}" Margin="15 15 5 0" FontSize="28" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="4" Foreground="#FF192b45"/>
+												<TextBlock Margin="18 54 5 0" Text="{Binding Creator}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="18" FontStyle="Italic" VerticalAlignment="Top" HorizontalAlignment="Left" ZIndex="4" Foreground="#DD192b45"/>
 												<Border Background="Transparent" CornerRadius="3" Height="350" MinWidth="350" VerticalAlignment="Top" HorizontalAlignment="Center" ClipToBounds="True">
-													<Panel>
-														<Image Source="avares://SceneryStream/Assets/WhiteGradient.png" Stretch="Fill" Height="160" ZIndex="3" VerticalAlignment="Top"/>
-														<Image Source="{Binding Image}" Stretch="UniformToFill"/>
+													<Panel Margin="10">
+														<!--Image Source="avares://SceneryStream/Assets/WhiteGradient.png" Stretch="Fill" Height="160" ZIndex="3" VerticalAlignment="Top"/-->
+														<Image Source="{Binding Image}" Stretch="UniformToFill" ZIndex="2"/>
 													</Panel>
+												</Border>
+												<Border Margin="15 365 15 15" Padding="5" CornerRadius="5" Background="#ebecf5" BoxShadow="inset 3 3 4 0 #d8dae3" VerticalAlignment="Bottom" HorizontalAlignment="Center" MaxHeight="90">
+													<Grid>
+														<ScrollViewer>
+															<TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontFamily="Dosis" FontSize="16" ZIndex="2" Margin="5 5 10 8"/>
+														</ScrollViewer>
+													</Grid>
 												</Border>
 											</Panel>
 										</Border>

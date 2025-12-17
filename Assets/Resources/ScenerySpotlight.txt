@@ -1,11 +1,7 @@
 ﻿
-avares://SceneryStream/Assets/Chain.png
-Test Scenery
+avares://SceneryStream/Assets/icon_v3.png
+Scenery Spotlight
 XSS Group
-This is a test entry for the automatic data processing
-within the scenery spotlight.//br//
-avares://SceneryStream/Assets/Plus.png
-Test Scenery 2
-XSS Group
-This is a test entry for the automatic data processing
-within the scenery spotlight.
+Welcome to the XSS Scenery Spotlight!
+
+Advertised and promoted sceneries will appear here based on your server provider's configuration.

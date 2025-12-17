@@ -1,2 +1,1 @@
-﻿Error Connecting to Server//d//Server updates could not be loaded.//br//
-Another one//d//Test values.
+﻿Error Connecting to Server//d//Server updates could not be loaded.
